@@ -1,17 +1,34 @@
 import asyncio
-from shlex import shlex
-
-READ_WEBSOCKET_DElAY = 1
-MAX_MESSAGE_LENGTH = 1000
+from lib.async import async_wrapper
+from lib.object import Object
+from lib.message import Message
 
 class Slack(object):
     class SlackError(Exception):
         pass
 
-    async def _user_by_id(self, uid):
-        resp = await self.slack_client.api_call('users.list')
+    def __init__(self):
+        self._listeners = {}
+        self._transforms = {}
+        self._loop = None
 
-        if(!api['ok']):
+        self.transform('message', self._transform_message)
+
+    ########################################
+    # BUILT-IN TRANSFORMATIONS
+    ########################################
+
+    def _transform_message(self, message):
+        return Message(this._loop, this._client, message)
+
+    ########################################
+    # UTILITY FUNCTIONS
+    ########################################
+
+    async def user_by_id(self, uid):
+        resp = await async_wrapper(self._loop, self._client.api_call, 'users.list')
+
+        if not api['ok']:
             raise SlackError('Unable to get user with ID {}.'.format(uid))
         
         for user in resp['users']:
@@ -20,50 +37,38 @@ class Slack(object):
         
         return None
 
+    ########################################
+    # UTILITY FUNCTIONS
+    ########################################
+
     async def _read(self):
-        AT_BOT = '<@' + self.UID + '>'
+        while True: 
+            rtm_output = await async_wrapper(self._loop, self._client.rtm_read)
         
-        rtm_output = await self.slack_client.rtm_read()
-    
-        if not rtm_output or len(rtm_output) == 0:
-            return
+            if not rtm_output or len(rtm_output) == 0:
+                continue
 
-        for output in rtm_output:
-            if output and 'text' in output and AT_BOT in output['text']:
-                yield output
+            yield [Object(line) for line in rtm_output]
 
-    def _parse(line):
-        '''
-        Tokenizes a string _line_ and returns a list of tokens.
-        Tokens are whitespace delimited.
-        '''
-        tokens = shlex(line, posix=True)
-        tokens.whitespace_split = True
+    def on(self, evt, fn):
+        if evt in self._listeners:
+            self._listeners[evt].append(fn)
+        else:
+            self._listeners[evt] = [fn]
 
-        ret = []
-        token = tokens.get_token()
-        
-        while token is not None:
-            ret.append(token)
-            token = tokens.get_token()
-
-        return ret
+    def transform(self, evt, fn):
+        self._transforms[evt] = fn
 
     async def listen(self):
-        if !slack_client.rtm_connect():
-            print('Connection failed. Invalid Slack token or bot ID?')
+        if not self._client.rtm_connect():
+            print('Failed to connect to Slack RTM.')
             return
 
-        print('Slack bot is now running.')
-
-        while True:
-            output = self._read()
-
+        async for output in self._read():
             for line in output:
-                if len(line['text']) > MAX_MESSAGE_LENGTH:
-                    continue
+                if line.type in self._listeners:
+                    if line.type in self._transforms:
+                        line = self._transforms[line.type](line)
 
-                command = self._parse(line)
-                await self._commands.apply(command)
-
-            asyncio.sleep(READ_WEBSOCKET_DELAY)
+                    for fn in self._listeners:
+                        await fn(line)
