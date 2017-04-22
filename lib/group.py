@@ -1,12 +1,14 @@
+import asyncio
+from .object import Object
 from .async import async_wrapper
 
-class Message(object):
-    def __init__(self, loop, client, message):
-        self.__dict__.update(message.__dict__)
+class Group(object):
+    def __init__(self, loop, client, channel):
+        self.__dict__.update(channel.__dict__)
         self._loop = loop
         self._client = client
 
-    async def reply(self, text=None, file=None):
+    async def write(self, text=None, file=None):
         if file is None:
             if text is None:
                 return
@@ -15,7 +17,7 @@ class Message(object):
                 self._loop,
                 self._client.api_call,
                 'chat.postMessage',
-                channel=self.channel,
+                channel=self.id,
                 text=text
             )
         else:
@@ -23,17 +25,7 @@ class Message(object):
                 self._loop,
                 self._client.api_call,
                 'files.upload',
-                channels=self.channel,
+                channels=self.id,
                 initial_comment=text,
                 **file
             )
-
-    async def addReaction(self, name):
-        await async_wrapper(
-            self._loop,
-            self._client.api_call,
-            'reactions.add',
-            channel=self.channel,
-            timestamp=self.ts,
-            name=name
-        )

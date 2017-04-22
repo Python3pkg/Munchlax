@@ -1,9 +1,10 @@
+import asyncio
 from .object import Object
 from .async import async_wrapper
 
-class Channel(Object):
-    def __init__(loop, client, channel):
-        Object.__init__(self, message)
+class Channel(object):
+    def __init__(self, loop, client, channel):
+        self.__dict__.update(channel.__dict__)
         self._loop = loop
         self._client = client
 
@@ -27,4 +28,4 @@ class Channel(Object):
                 channels=self.id,
                 initial_comment=text,
                 **file
-            ))
+            )
