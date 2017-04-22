@@ -6,9 +6,9 @@ class Command(object):
         self.requires = requires
         self.func = func
 
-class Bot(object):
+class Bot(Slack):
     def __init__(self):
-        self._slack = None
+        Slack.__init__(self)
         self._commands = {}
 
     ########################################
@@ -25,21 +25,36 @@ class Bot(object):
         return dec
 
     ########################################
-    # EVENT HANDLERS
+    # EVENT HANDLERS (ASYNC)
     ########################################
 
-    def _handle_message(self, message):
+    def _check_prefix(self, message):
+        if message.text.startswith(self._prefix):
+            return True
+        return False
+
+    ########################################
+    # EVENT HANDLERS (ASYNC)
+    ########################################
+
+    async def _handle_message(self, message):
         if not self._check_prefix(message.text):
             return
+
+        message.text = message.text.replace(self._prefix, '', 1)
+
+        command = message.text.split(' ')[0]
+
+        if command in self._commands:
+            self._commands[command](message)
 
     ########################################
     # EXPOSED FUNCTiONS
     ########################################
 
     def start(self, token):
-        self._slack = Slack()
-        self._slack.set_token(token)
-        self._slack.on('message', self._handle_message)
+        self.set_token(token)
+        self.on('message', self._handle_message)
 
         loop = asyncio.get_event_loop()
         loop.run_until_complete(self._slack.listen())
