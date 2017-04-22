@@ -6,6 +6,13 @@ class Command(object):
         self.requires = requires
         self.func = func
 
+    async def try_run(self):
+        if len(self.requires) > 0:
+            if not all([x() for x in self.requires()]):
+                return
+
+        await self.func()
+
 class Bot(Slack):
     def __init__(self):
         Slack.__init__(self)
@@ -46,7 +53,7 @@ class Bot(Slack):
         command = message.text.split(' ')[0]
 
         if command in self._commands:
-            self._commands[command](message)
+            await self._commands[command].try_run(message)
 
     ########################################
     # EXPOSED FUNCTiONS

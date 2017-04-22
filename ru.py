@@ -4,21 +4,17 @@ import validators
 ru = Bot()
 
 @ru.command(requires=[validators.is_mentor])
-def active(message):
+async def active(message):
     pass
 
 @ru.command(requires=[validators.is_mentor])
-def inactive(message):
+async def inactive(message):
     pass
 
 @ru.command(requires=[validators.is_mentor])
-def busy(message):
+async def busy(message):
     pass
 
 @ru.command(requires=[validators.is_mentor])
-def unbusy(message):
-    pass
-
-@ru.command(requires=[validators.is_staff])
-def status(message):
+async def unbusy(message):
     pass
