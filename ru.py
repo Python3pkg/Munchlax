@@ -8,35 +8,35 @@ ru = Bot()
 
 @ru.command(requires=[validators.is_mentor])
 async def active(message):
-    if not User.set_active(message.user, True):
-        message.reply('Unable to set your active status.')
+    if not User.set_active(message.user.name, True):
+        await message.reply('Unable to set your active status.')
         return
 
-    message.reply('Your status has been set to inactive.')
+    await message.reply('Your status has been set to inactive.')
 
 @ru.command(requires=[validators.is_mentor])
 async def inactive(message):
-    if not User.set_active(message.user, False):
-        message.reply('Unable to set your active status.')
+    if not User.set_active(message.user.name, False):
+        await message.reply('Unable to set your active status.')
         return
 
-    message.reply('Your status has been set to inactive.')
+    await message.reply('Your status has been set to inactive.')
 
 @ru.command(requires=[validators.is_mentor])
 async def busy(message):
-    if not User.set_busy(message.user, True):
-        message.reply('Unable to set your busy status.')
+    if not User.set_busy(message.user.name, True):
+        await message.reply('Unable to set your busy status.')
         return
 
-    message.reply('Your status has been set to busy.')
+    await message.reply('Your status has been set to busy.')
 
 @ru.command(requires=[validators.is_mentor])
 async def unbusy(message):
-    if not User.set_busy(message.user, False):
-        message.reply('Unable to set your busy status.')
+    if not User.set_busy(message.user.name, False):
+        await message.reply('Unable to set your busy status.')
         return
 
-    message.reply('Your status has been set to unbusy')
+    await message.reply('Your status has been set to unbusy')
 
 @ru.command()
 async def mentors(message):

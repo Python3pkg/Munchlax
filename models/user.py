@@ -13,11 +13,11 @@ class User(BaseModel, Model):
     is_busy = Column(Boolean)
 
     @staticmethod
-    def set_active(id, active):
+    def set_active(name, active):
         with session_factory() as sess:
             try:
                 user = sess.query(User).filter(
-                    User.slack==id
+                    User.slack==name
                 ).one()
                 user.is_active = active
                 user.save()
@@ -26,14 +26,25 @@ class User(BaseModel, Model):
                 return False
 
     @staticmethod
-    def set_busy(id, busy):
+    def set_busy(name, busy):
         with session_factory() as sess:
             try:
                 user = sess.query(User).filter(
-                    User.slack==id
+                    User.slack==name
                 ).one()
                 user.is_busy = busy
                 user.save()
+                return True
+            except NoResultFound:
+                return False
+
+    @staticmethod
+    def is_mentor(name):
+        with session_factory() as sess:
+            try:
+                sess.query(User).filter(
+                    User.slack==name,
+                ).one()
                 return True
             except NoResultFound:
                 return False

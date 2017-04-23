@@ -10,7 +10,7 @@ class Command(object):
 
     async def try_run(self, message):
         if len(self.requires) > 0:
-            if not all([x() for x in self.requires()]):
+            if not all([x() for x in self.requires]):
                 return
 
         try:

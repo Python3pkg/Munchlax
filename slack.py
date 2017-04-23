@@ -7,6 +7,7 @@ from lib.object import Object
 from lib.message import Message
 from lib.channel import Channel
 from lib.group import Group
+from lib.user import User
 
 class Slack(object):
     class SlackError(Exception):
@@ -24,8 +25,20 @@ class Slack(object):
     # BUILT-IN TRANSFORMATIONS
     ########################################
 
-    def _transform_message(self, message):
-        return Message(self._loop, self._client, message)
+    async def _transform_message(self, message):
+        message = Message(self._loop, self._client, message)
+
+        if getattr(message, 'user', None) is not None:
+            message.user = await self.user_from_id(message.user)
+        elif getattr(message, 'bot_id', None) is not None:
+            message.bot = await self.bot_from_id(message.bot_id)
+        
+        # If a message does not contain a user or bot_id then
+        # it is probably an edit or something. We should avoid
+        # transforming any message sub-types for now until
+        # we feel like really fleshing out the library...
+
+        return message
 
     ########################################
     # UTILITY FUNCTIONS
@@ -39,8 +52,8 @@ class Slack(object):
             channel=id
         )
 
-        if channel['ok']:
-            return Channel(self._loop, self._client, Object(channel))
+        if channel is not None and channel['ok']:
+            return Channel(self._loop, self._client, Object(channel['channel']))
 
         return None
 
@@ -49,24 +62,37 @@ class Slack(object):
             self._loop,
             self._client.api_call,
             'groups.info',
-            channel
+            group=id
         )
 
-        if group['ok']:
-            return Group(self._loop, self._client, Object(channel))
+        if group is not None and group['ok']:
+            return Group(self._loop, self._client, Object(group['group']))
 
         return None
 
     async def user_from_id(self, uid):
-        resp = await async_wrapper(
+        user = await async_wrapper(
             self._loop,
             self._client.api_call,
             'users.info',
             user=uid
         )
 
-        if api['ok']:
-            return User(self._loop, self._client, Object(user))
+        if user is not None and user['ok']:
+            return User(self._loop, self._client, Object(user['user']))
+        
+        return None
+
+    async def bot_from_id(self, bid):
+        bot = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'bot.info',
+            bot=bid
+        )
+
+        if bot is not None and bot['ok']:
+            return User(self._loop, self._client, Object(user['bot']))
         
         return None
 
@@ -78,9 +104,9 @@ class Slack(object):
         epoch = datetime(1970, 1, 1)
         return epoch + timedelta(seconds=ms)
 
-    def _read(self):
+    async def _read(self):
         while True: 
-            rtm_output = self._client.rtm_read()
+            rtm_output = await async_wrapper(self._loop, self._client.rtm_read)
 
             if len(rtm_output) == 0:
                 continue
@@ -107,7 +133,7 @@ class Slack(object):
 
         startup = datetime.utcnow()
 
-        for output in self._read():
+        async for output in self._read():
             for line in output:
                 # Convert Slack timestamps to datetime objects.
                 if getattr(line, 'ts', None) is not None:
@@ -119,7 +145,7 @@ class Slack(object):
 
                 if line.type in self._listeners:
                     if line.type in self._transforms:
-                        line = self._transforms[line.type](line)
+                        line = await self._transforms[line.type](line)
 
                     for fn in self._listeners[line.type]:
                         await fn(line)
