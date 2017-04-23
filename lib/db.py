@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from contextlib import contextmanager
 from .secrets import secrets
 
-eng = 'msqlite+pysqlite:///{path}'.format(**secrets.db.__dict__)
+eng = 'sqlite:///{path}'.format(**secrets.db.__dict__)
 engine = create_engine(eng)
 
 factory = sessionmaker(bind=engine)

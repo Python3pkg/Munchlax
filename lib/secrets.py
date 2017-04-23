@@ -1,7 +1,7 @@
 import json
 
 from .object import Object
-from .common import HOSTS_PATH, INSTANCE_PATH, KEYRING_PATH, SECRETS_PATH
+from .common import SECRETS_PATH
 
 def load_obj(p, o):
     """Sets an Object's properties to mirror a given JSON file.
@@ -25,8 +25,10 @@ def config(p):
     Raises:
         Any and all errors raised by json.loads when applicable.
     """
-    o = Object()
-    load_obj(p, o)
-    return o
+    with open(p) as f:
+        lines = ''.join(f.readlines())
+        s = json.loads(lines)
+        o = Object(s)
+        return o
 
 secrets = config(SECRETS_PATH)

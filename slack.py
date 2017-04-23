@@ -1,4 +1,5 @@
 import asyncio
+from datetime import datetime, timedelta
 import json
 from slackclient import SlackClient
 from lib.async import async_wrapper
@@ -73,6 +74,10 @@ class Slack(object):
     # UTILITY FUNCTIONS
     ########################################
 
+    def _format_timestamp(self, ms):
+        epoch = datetime(1970, 1, 1)
+        return epoch + timedelta(seconds=ms)
+
     def _read(self):
         while True: 
             rtm_output = self._client.rtm_read()
@@ -100,8 +105,18 @@ class Slack(object):
 
         print('Connected to Slack RTM.')
 
+        startup = datetime.utcnow()
+
         for output in self._read():
             for line in output:
+                # Convert Slack timestamps to datetime objects.
+                if getattr(line, 'ts', None) is not None:
+                    line.ts = self._format_timestamp(float(line.ts))
+
+                    # ignore messages from the past.
+                    if line.ts < startup:
+                        continue
+
                 if line.type in self._listeners:
                     if line.type in self._transforms:
                         line = self._transforms[line.type](line)

@@ -1,3 +1,5 @@
+import asyncio  
+import traceback
 from slack import Slack
 
 class Command(object):
@@ -6,17 +8,21 @@ class Command(object):
         self.requires = requires
         self.func = func
 
-    async def try_run(self):
+    async def try_run(self, message):
         if len(self.requires) > 0:
             if not all([x() for x in self.requires()]):
                 return
 
-        await self.func()
+        try:
+            await self.func(message)
+        except:
+            traceback.print_exc()
 
 class Bot(Slack):
     def __init__(self):
         Slack.__init__(self)
         self._commands = {}
+        self._prefix = None
 
     ########################################
     # COMMAND REGISTRATION DECORATOR
@@ -24,6 +30,8 @@ class Bot(Slack):
 
     def command(self, cmd=None, requires=[]):
         def dec(func):
+            nonlocal cmd
+
             if cmd is None:
                 cmd = func.__name__
 
@@ -36,7 +44,7 @@ class Bot(Slack):
     ########################################
 
     def _check_prefix(self, message):
-        if message.text.startswith(self._prefix):
+        if message.startswith(self._prefix):
             return True
         return False
 
@@ -59,9 +67,11 @@ class Bot(Slack):
     # EXPOSED FUNCTiONS
     ########################################
 
-    def start(self, token):
+    def start(self, token, prefix):
         self.set_token(token)
         self.on('message', self._handle_message)
 
+        self._prefix = prefix
+
         loop = asyncio.get_event_loop()
-        loop.run_until_complete(self._slack.listen())
+        loop.run_until_complete(self.listen())
