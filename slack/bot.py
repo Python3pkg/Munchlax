@@ -3,12 +3,16 @@ import traceback
 from .slack import Slack
 
 class Command(object):
-    def __init__(self, cmd, func, requires):
+    def __init__(self, cmd, func, requires, transforms):
         self.cmd = cmd
         self.requires = requires
+        self.transforms = transforms
         self.func = func
 
     async def try_run(self, message):
+        for transform in self.transforms:
+            message = transform(message)
+            
         if len(self.requires) > 0:
             if not all([x(message) for x in self.requires]):
                 return
@@ -28,14 +32,14 @@ class Bot(Slack):
     # COMMAND REGISTRATION DECORATOR
     ########################################
 
-    def command(self, cmd=None, requires=[]):
+    def command(self, cmd=None, requires=[], transforms=[]):
         def dec(func):
             nonlocal cmd
 
             if cmd is None:
                 cmd = func.__name__
 
-            self._commands[cmd] = Command(cmd, func, requires)
+            self._commands[cmd] = Command(cmd, func, requires, transforms)
             return func
         return dec
 
