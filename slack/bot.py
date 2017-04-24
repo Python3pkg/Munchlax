@@ -1,6 +1,6 @@
 import asyncio  
 import traceback
-from slack import Slack
+from .slack import Slack
 
 class Command(object):
     def __init__(self, cmd, func, requires):

@@ -2,12 +2,12 @@ import asyncio
 from datetime import datetime, timedelta
 import json
 from slackclient import SlackClient
-from lib.async import async_wrapper
-from lib.object import Object
-from lib.message import Message
-from lib.channel import Channel
-from lib.group import Group
-from lib.user import User
+from .lib.async import async_wrapper
+from .lib.object import Object
+from .lib.message import Message
+from .lib.channel import Channel
+from .lib.group import Group
+from .lib.user import User
 
 class Slack(object):
     class SlackError(Exception):
