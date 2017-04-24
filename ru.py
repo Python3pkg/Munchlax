@@ -1,6 +1,6 @@
 from datetime import datetime
 from slackru import SlackRU
-import validators
+from lib import validators
 from models.user import User
 from models.request import Request
 
