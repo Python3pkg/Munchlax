@@ -15,7 +15,7 @@ class Message(object):
                 self._loop,
                 self._client.api_call,
                 'chat.postMessage',
-                channel=self.channel,
+                channel=self.channel.id,
                 text=text
             )
         else:
@@ -23,7 +23,7 @@ class Message(object):
                 self._loop,
                 self._client.api_call,
                 'files.upload',
-                channels=self.channel,
+                channels=self.channel.id,
                 initial_comment=text,
                 **file
             )
@@ -33,7 +33,7 @@ class Message(object):
             self._loop,
             self._client.api_call,
             'reactions.add',
-            channel=self.channel,
+            channel=self.channel.id,
             timestamp=self.ts,
             name=name
         )

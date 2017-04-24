@@ -1,7 +1,7 @@
 import json
 
-from .object import Object
 from .common import SECRETS_PATH
+from .object import Object
 
 def load_obj(p, o):
     """Sets an Object's properties to mirror a given JSON file.

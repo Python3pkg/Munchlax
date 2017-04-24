@@ -8,24 +8,20 @@ class Channel(object):
         self._loop = loop
         self._client = client
 
-    async def write(self, text=None, file=None):
-        if file is None:
-            if text is None:
-                return
+    async def write(self, **kwargs):
+        await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'chat.postMessage',
+            channel=self.id,
+            **kwargs
+        )
 
-            await async_wrapper(
-                self._loop,
-                self._client.api_call,
-                'chat.postMessage',
-                channel=self.id,
-                text=text
-            )
-        else:
-            await async_wrapper(
-                self._loop,
-                self._client.api_call,
-                'files.upload',
-                channels=self.id,
-                initial_comment=text,
-                **file
-            )
+    async def file(self, **kwargs):
+        await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'files.upload',
+            channels=self.id,
+            **kwargs
+        )

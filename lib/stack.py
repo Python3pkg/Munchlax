@@ -1,9 +1,9 @@
 import inspect
 
 def get_internal(name):
-    '''
+    """
     Returns the value of a bot internal variable.
-    '''
+    """
     stack = inspect.stack()
 
     try:

@@ -33,10 +33,11 @@ class Slack(object):
         elif getattr(message, 'bot_id', None) is not None:
             message.bot = await self.bot_from_id(message.bot_id)
         
-        # If a message does not contain a user or bot_id then
-        # it is probably an edit or something. We should avoid
-        # transforming any message sub-types for now until
-        # we feel like really fleshing out the library...
+        if getattr(message, 'channel', None) is not None:
+            message.channel = await self.channel_from_id(message.channel)
+
+        if getattr(message, 'group', None) is not None:
+            message.group = await self.channel_from_id(message.group)
 
         return message
 
@@ -44,7 +45,7 @@ class Slack(object):
     # UTILITY FUNCTIONS
     ########################################
 
-    async def channel_from_id(id):
+    async def channel_from_id(self, id):
         channel = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -57,7 +58,7 @@ class Slack(object):
 
         return None
 
-    async def group_from_id(id):
+    async def group_from_id(self, id):
         group = await async_wrapper(
             self._loop,
             self._client.api_call,

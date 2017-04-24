@@ -7,10 +7,21 @@ class User(BaseModel, Model):
 
     id = Column(Integer, primary_key=True)
     email = Column(String)
-    password = Column(String)
     slack = Column(String)
     is_active = Column(Boolean)
     is_busy = Column(Boolean)
+
+    @staticmethod
+    def from_name(name):
+        with session_factory() as sess:
+            try:
+                user = sess.query(User).filter(
+                    User.slack==name
+                ).one()
+                sess.expunge(user)
+                return user
+            except NoResultFound:
+                return None
 
     @staticmethod
     def set_active(name, active):
