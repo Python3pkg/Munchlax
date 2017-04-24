@@ -17,7 +17,7 @@ class Channel(object):
             **kwargs
         )
 
-    async def file(self, **kwargs):
+    async def upload_file(self, **kwargs):
         await async_wrapper(
             self._loop,
             self._client.api_call,
