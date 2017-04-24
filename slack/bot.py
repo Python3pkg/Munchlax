@@ -12,7 +12,7 @@ class Command(object):
     async def try_run(self, message):
         for transform in self.transforms:
             message = transform(message)
-            
+
         if len(self.requires) > 0:
             if not all([x(message) for x in self.requires]):
                 return
@@ -70,6 +70,9 @@ class Bot(Slack):
     ########################################
     # EXPOSED FUNCTiONS
     ########################################
+
+    def set_prefix(self, prefix):
+        self._prefix = prefix
 
     def start(self, token, prefix):
         self.set_token(token)
