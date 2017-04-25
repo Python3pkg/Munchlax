@@ -22,3 +22,15 @@ class Message(object):
             'timestamp': self.ts,
             'thread_ts': self.ts
         })
+
+    async def get_author(self):
+        if getattr(self, 'user', None) is not None:
+            return await self._client.user_from_id(self.user)
+        elif getattr(self, 'bot_id', None) is not None:
+            return await self._client.bot_from_id(self.bot_id)
+
+    async def get_channel(self):        
+        if getattr(self, 'channel', None) is not None:
+            return await self._client.channel_from_id(self.channel)
+        elif getattr(self, 'group', None) is not None:
+            return await self._client.channel_from_id(self.group)

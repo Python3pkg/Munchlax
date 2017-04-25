@@ -25,3 +25,8 @@ class Group(object):
             'channel': self.id,
             'channels': self.id
         })
+
+    async def list_members(self):
+        all_users = await self._client.list_users()
+        all_users = [User(x) for x in all_users]
+        return [x for x in all_users if x.id in self.members]

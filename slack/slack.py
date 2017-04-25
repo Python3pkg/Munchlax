@@ -26,20 +26,7 @@ class Slack(object):
     ########################################
 
     async def _transform_message(self, message):
-        message = Message(self._loop, self._client, message)
-
-        if getattr(message, 'user', None) is not None:
-            message.user = await self.user_from_id(message.user)
-        elif getattr(message, 'bot_id', None) is not None:
-            message.bot = await self.bot_from_id(message.bot_id)
-        
-        if getattr(message, 'channel', None) is not None:
-            message.channel = await self.channel_from_id(message.channel)
-
-        if getattr(message, 'group', None) is not None:
-            message.group = await self.channel_from_id(message.group)
-
-        return message
+        return Message(self._loop, self._client, message)
 
     ########################################
     # UTILITY FUNCTIONS
@@ -131,13 +118,20 @@ class Slack(object):
             exclude_archived=exclude_archived
         )]
 
-    async def list_users(self, exclude_archived=False):
+    async def list_users(self, presence=True):
         return await [User(x) for x in async_wrapper(
             self._loop,
             self._client.api_call,
-            'groups.list',
-            exclude_archived=exclude_archived
+            'users.list',
+            presence=presence
         )]
+
+    async def whoami(self):
+        return Object(await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'auth.test'
+        ))
 
 
     ########################################
@@ -168,6 +162,11 @@ class Slack(object):
 
     async def listen(self):
         self._loop = asyncio.get_event_loop()
+
+        me = await self.whoami()
+        self.uid = me.id
+
+        print('Using user "{}" with ID {}.'.format(me.user, me.user_id))
 
         if not self._client.rtm_connect():
             print('Failed to connect to Slack RTM.')

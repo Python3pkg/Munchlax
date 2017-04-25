@@ -46,7 +46,7 @@ async def status(message):
         await message.reply(text='You are not in the mentor database.')
         return
 
-    await message.channel.write(
+    await message.reply(
         attachments=[
             {
                 'fallback': 'Active: {} / Busy: {}.'.format(user.is_active, user.is_busy),
