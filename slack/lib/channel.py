@@ -1,27 +1,27 @@
-import asyncio
-from .object import Object
-from .async import async_wrapper
+from .method import build_methods
 
 class Channel(object):
+    methods = {
+        'archive': 'channels.archive',
+        'get_history': 'channels.history', # Replace with hand-written code.
+        'invite': 'channels.invite',
+        'kick_user': 'channels.kick',
+        'join': 'channels.join',
+        'leave': 'channels.leave',
+        'rename': 'channels.rename',
+        'set_purpose': 'channels.setPurpose',
+        'set_topic': 'channels.setTopic',
+        'unarchive': 'channels.unarchive',
+        'invite': 'channels.invite',
+        'upload': 'files.upload'
+    }
+
     def __init__(self, loop, client, channel):
         self.__dict__.update(channel.__dict__)
         self._loop = loop
         self._client = client
 
-    async def write(self, **kwargs):
-        await async_wrapper(
-            self._loop,
-            self._client.api_call,
-            'chat.postMessage',
-            channel=self.id,
-            **kwargs
-        )
-
-    async def upload_file(self, **kwargs):
-        await async_wrapper(
-            self._loop,
-            self._client.api_call,
-            'files.upload',
-            channels=self.id,
-            **kwargs
-        )
+        build_methods(self, {
+            'channel': self.id,
+            'channels': self.id
+        })

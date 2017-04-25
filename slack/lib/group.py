@@ -1,31 +1,27 @@
-import asyncio
-from .object import Object
-from .async import async_wrapper
+from .method import build_methods
 
 class Group(object):
-    def __init__(self, loop, client, channel):
-        self.__dict__.update(channel.__dict__)
+    methods = {
+        'close': 'groups.close',
+        'create': 'groups.create',
+        'createChild': 'groups.createChild',
+        'get_history': 'groups.history', # Replace with hand-written code.
+        'invite': 'groups.invite',
+        'kick': 'groups.kick',
+        'leave': 'groups.leave',
+        'rename': 'groups.rename',
+        'set_purpose': 'groups.setPurpose',
+        'set_topic': 'groups.setTopic',
+        'unarchive': 'groups.unarchive',
+        'upload': 'files.upload'
+    }
+
+    def __init__(self, loop, client, group):
+        self.__dict__.update(group.__dict__)
         self._loop = loop
         self._client = client
 
-    async def write(self, text=None, file=None):
-        if file is None:
-            if text is None:
-                return
-
-            await async_wrapper(
-                self._loop,
-                self._client.api_call,
-                'chat.postMessage',
-                channel=self.id,
-                text=text
-            )
-        else:
-            await async_wrapper(
-                self._loop,
-                self._client.api_call,
-                'files.upload',
-                channels=self.id,
-                initial_comment=text,
-                **file
-            )
+        build_methods(self, {
+            'channel': self.id,
+            'channels': self.id
+        })

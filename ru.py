@@ -9,41 +9,41 @@ ru = SlackRU()
 @ru.command(requires=[validators.is_mentor])
 async def active(message):
     if not User.set_active(message.user.name, True):
-        await message.reply('Unable to set your active status.')
+        await message.reply(text='Unable to set your active status.')
         return
 
-    await message.reply('Your status has been set to active.')
+    await message.reply(text='Your status has been set to active.')
 
 @ru.command(requires=[validators.is_mentor])
 async def inactive(message):
     if not User.set_active(message.user.name, False):
-        await message.reply('Unable to set your active status.')
+        await message.reply(text='Unable to set your active status.')
         return
 
-    await message.reply('Your status has been set to inactive.')
+    await message.reply(text='Your status has been set to inactive.')
 
 @ru.command(requires=[validators.is_mentor])
 async def busy(message):
     if not User.set_busy(message.user.name, True):
-        await message.reply('Unable to set your busy status.')
+        await message.reply(text='Unable to set your busy status.')
         return
 
-    await message.reply('Your status has been set to busy.')
+    await message.reply(text='Your status has been set to busy.')
 
 @ru.command(requires=[validators.is_mentor])
 async def unbusy(message):
     if not User.set_busy(message.user.name, False):
-        await message.reply('Unable to set your busy status.')
+        await message.reply(text='Unable to set your busy status.')
         return
 
-    await message.reply('Your status has been set to unbusy.')
+    await message.reply(text='Your status has been set to unbusy.')
 
 @ru.command(requires=[validators.is_mentor])
 async def status(message):
     user = User.from_name(message.user.name)
 
     if user is None:
-        await message.reply('You are not in the mentor database.')
+        await message.reply(text='You are not in the mentor database.')
         return
 
     await message.channel.write(

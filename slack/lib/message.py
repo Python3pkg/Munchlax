@@ -1,39 +1,24 @@
-from .async import async_wrapper
+from .method import build_methods
 
 class Message(object):
+    methods = {
+        'reply': 'chat.postMessage',
+        'upload_reply': 'files.upload',
+        'delete': 'chat.delete',
+        'add_reaction': 'reactions.add',
+        'get_reactions': 'reactions.get', # Replace with hand-written code.
+        'remove_reaction': 'reactions.remove',
+        'get_channel_replies': 'channels.replies', # Replace with hand-written code.
+        'get_group_replies': 'groups.replies' # Replace with hand-written code.
+    }
+
     def __init__(self, loop, client, message):
         self.__dict__.update(message.__dict__)
         self._loop = loop
         self._client = client
 
-    async def reply(self, text=None, file=None):
-        if file is None:
-            if text is None:
-                return
-
-            await async_wrapper(
-                self._loop,
-                self._client.api_call,
-                'chat.postMessage',
-                channel=self.channel.id,
-                text=text
-            )
-        else:
-            await async_wrapper(
-                self._loop,
-                self._client.api_call,
-                'files.upload',
-                channels=self.channel.id,
-                initial_comment=text,
-                **file
-            )
-
-    async def addReaction(self, name):
-        await async_wrapper(
-            self._loop,
-            self._client.api_call,
-            'reactions.add',
-            channel=self.channel.id,
-            timestamp=self.ts,
-            name=name
-        )
+        build_methods(self, {
+            'channel': self.channel,
+            'timestamp': self.ts,
+            'thread_ts': self.ts
+        })

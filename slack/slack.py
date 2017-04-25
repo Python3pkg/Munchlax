@@ -97,6 +97,49 @@ class Slack(object):
         
         return None
 
+    async def create_channel(self, name, validate=False):
+        return await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'channels.create',
+            name=name,
+            validate=validate
+        )
+
+    async def create_group(self, name, validate=False):
+        return await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'groups.create',
+            name=name,
+            validate=validate
+        )
+
+    async def list_channels(self, exclude_archived=False):
+        return [Channel(x) for x in await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'channels.list',
+            exclude_archived=exclude_archived
+        )]
+
+    async def list_groups(self, exclude_archived=False):
+        return await [Group(x) for x in async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'groups.list',
+            exclude_archived=exclude_archived
+        )]
+
+    async def list_users(self, exclude_archived=False):
+        return await [User(x) for x in async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'groups.list',
+            exclude_archived=exclude_archived
+        )]
+
+
     ########################################
     # UTILITY FUNCTIONS
     ########################################
@@ -136,17 +179,17 @@ class Slack(object):
 
         async for output in self._read():
             for line in output:
-                # Convert Slack timestamps to datetime objects.
-                if getattr(line, 'ts', None) is not None:
-                    line.ts = self._format_timestamp(float(line.ts))
-
-                    # ignore messages from the past.
-                    if line.ts < startup:
-                        continue
-
                 if line.type in self._listeners:
                     if line.type in self._transforms:
                         line = await self._transforms[line.type](line)
+
+                    # Convert Slack timestamps to datetime objects.
+                    if getattr(line, 'ts', None) is not None:
+                        line.ts = self._format_timestamp(float(line.ts))
+
+                        # ignore messages from the past.
+                        if line.ts < startup:
+                            continue
 
                     for fn in self._listeners[line.type]:
                         await fn(line)
