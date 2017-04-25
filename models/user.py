@@ -24,6 +24,13 @@ class User(BaseModel, Model):
                 return None
 
     @staticmethod
+    def list():
+        with session_factory() as sess:
+            users = sess.query(User).all()
+            sess.expunge_all()
+            return users
+
+    @staticmethod
     def set_active(name, active):
         with session_factory() as sess:
             try:
