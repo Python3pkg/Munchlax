@@ -6,7 +6,13 @@ A Python-based Slack bot written with concurrency in mind.
 
 - Easily extensible through an easy to use `command` decorator
 
-# Method List
+## Install
+
+```
+pip install munchlax
+```
+
+## Method List
 
 - [ ] API
 - [ ] Auth
