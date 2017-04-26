@@ -4,11 +4,15 @@ import json
 from slackclient import SlackClient
 from .lib.async import async_wrapper
 from .lib.object import Object
-from .lib.message import Message
+
+from .lib.slackerror import SlackError
+
 from .lib.channel import Channel
 from .lib.group import Group
+from .lib.im import IM
+from .lib.message import Message
+from .lib.mpim import MPIM
 from .lib.user import User
-from .lib.slackerror import SlackError
 
 class Slack(object):
     def __init__(self):
@@ -129,6 +133,30 @@ class Slack(object):
             self._client.api_call,
             'groups.list',
             exclude_archived=exclude_archived
+        )
+
+        if groups['ok']:
+            return [Group(self, x) for x in groups['groups']]
+
+        raise SlackError(groups['error'])
+
+    async def list_ims(self):
+        ims = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'im.list'
+        )
+
+        if ims['ok']:
+            return [IM(self, x) for x in ims['ims']]
+
+        raise SlackError(ims['error'])
+
+    async def list_mpims(self):
+        groups = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'mpim.list',
         )
 
         if groups['ok']:
@@ -542,6 +570,142 @@ class Slack(object):
 
         if not resp['ok']:
             raise SlackError(resp['error'])
+
+    async def close_im(self, im):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'im.close',
+            channel=im.id
+        )
+
+        if not resp['ok']:
+            raise SlackError(resp['error'])
+
+    async def get_im_history(self, im, **kwargs):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'im.history',
+            channel=im.id,
+            **kwrags
+        )
+
+        if resp['ok']:
+            del resp['ok']
+            resp['messages'] = [Message(self, x) for x in resp['messages']]
+            return Object(resp)
+
+        raise SlackError(resp['error'])
+
+    async def mark_im(self, im, ts):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'im.mark',
+            channel=im.id,
+            ts=ts
+        )
+
+        if not resp['ok']:
+            raise SlackError(resp['error'])
+
+    async def open_im(self, user):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'im.open',
+            user=user.id
+        )
+
+        if resp['ok']:
+            return IM(self, resp['channel'])
+
+        raise SlackError(resp['error'])
+
+    async def get_im_replies(self, im, ts):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'im.replies',
+            channel=im.id,
+            thread_ts=ts
+        )
+
+        if resp['ok']:
+            del resp['ok']
+            resp['messages'] = [Message(self, x) for x in resp['messages']]
+            return Object(resp)
+
+        raise SlackError(resp['error'])
+
+    async def close_mpim(self, mpim):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'mpim.close',
+            channel=mpim.id,
+        )
+
+        if not resp['ok']:
+            raise SlackError(resp['error'])
+
+    async def get_mpim_history(self, mpim, **kwargs):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'mpim.history',
+            channel=mpim.id,
+            **kwrags
+        )
+
+        if resp['ok']:
+            del resp['ok']
+            resp['messages'] = [Message(self, x) for x in resp['messages']]
+            return Object(resp)
+
+        raise SlackError(resp['error'])
+
+    async def mark_mpim(self, mpim, ts):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'mpim.mark',
+            channel=mpim.id,
+            ts=ts
+        )
+
+        if not resp['ok']:
+            raise SlackError(resp['error'])
+
+    async def open_mpim(self, user):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'mpim.open',
+            user=user.id
+        )
+
+        if resp['ok']:
+            return MPIM(self, resp['channel'])
+
+        raise SlackError(resp['error'])
+
+    async def get_mpim_replies(self, mpim, ts):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'mpim.replies',
+            channel=mpim.id,
+            thread_ts=ts
+        )
+
+        if resp['ok']:
+            del resp['ok']
+            resp['messages'] = [Message(self, x) for x in resp['messages']]
+            return Object(resp)
+
+        raise SlackError(resp['error'])
 
     ########################################
     # UTILITY FUNCTIONS

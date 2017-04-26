@@ -20,8 +20,8 @@ A Python-based Slack bot written with concurrency in mind.
 - [ ] Files.Comments
 - [ ] Files
 - [X] Groups
-- [ ] IM
-- [ ] MPIM
+- [X] IM
+- [X] MPIM
 - [ ] Oauth
 - [ ] Pins
 - [ ] Reactions
