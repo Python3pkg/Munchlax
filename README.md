@@ -39,3 +39,7 @@ pip install munchlax
 - [ ] Usergroups.Users
 - [ ] Users
 - [ ] Users.Profile
+
+## Tips
+
+- Anything that modifies Slack object state will cause library objects to become stale. You should remember to update any modified objects by calling `<Object>#update`.

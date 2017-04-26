@@ -847,6 +847,11 @@ class Slack(object):
         """
         Changes the purpose of a channel.
 
+        Because `channels.setPurpose` does not return the updated
+        channel, you should refresh your `Channel` object by calling
+        either `Channel#update` or replacing it with the result of
+        `Slack#channel_by_id`.
+
         Args:
             channel (Channel): The channel to change the purpose for.
             purpose (str): The new purpose for the channel as a string.
@@ -873,6 +878,11 @@ class Slack(object):
     async def set_channel_topic(self, channel, topic):
         """
         Changes the topic of a channel.
+
+        Because `channels.setTopic` does not return the updated
+        channel, you should refresh your `Channel` object by calling
+        either `Channel#update` or replacing it with the result of
+        `Slack#channel_by_id`.
 
         Args:
             channel (Channel): The channel to change the topic for.

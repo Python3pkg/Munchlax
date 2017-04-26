@@ -47,7 +47,7 @@ class Channel(Object):
     async def set_purpose(self, purpose):
         """
         Sets the purpose for a channel.
-        This causes the _Channel_ object being worked on
+        This causes the `Channel` object being worked on
         to become stale.
 
         Args:
@@ -72,9 +72,9 @@ class Channel(Object):
 
     async def update(self):
         """
-        Updates the current _Channel_ object.
+        Updates the current `Channel` object.
         There isn't much benefit to using this and it's here
-        if you don't want to replace your current _Channel_ object
+        if you don't want to replace your current `Channel` object
         or can't.
 
         Raises:
