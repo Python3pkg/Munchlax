@@ -14,7 +14,7 @@ A Python-based Slack bot written with concurrency in mind.
 - [ ] Auth
 - [ ] Bots
 - [x] Channels
-- [-] Chat (missing **me** and **unfurl**)
+- [x] Chat (missing **me** and **unfurl**)
 - [ ] DND
 - [ ] Emoji
 - [ ] Files.Comments
@@ -26,7 +26,7 @@ A Python-based Slack bot written with concurrency in mind.
 - [ ] Pins
 - [ ] Reactions
 - [ ] Reminders
-- [-] RTM (Will not Implement)
+- [x] RTM (Will not Implement)
 - [ ] Search
 - [ ] Stars
 - [ ] Team
