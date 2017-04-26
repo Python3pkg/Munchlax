@@ -8,11 +8,9 @@ from .lib.message import Message
 from .lib.channel import Channel
 from .lib.group import Group
 from .lib.user import User
+from .lib.slackerror import SlackError
 
 class Slack(object):
-    class SlackError(Exception):
-        pass
-
     def __init__(self):
         self._listeners = {}
         self._transforms = {}
@@ -26,10 +24,10 @@ class Slack(object):
     ########################################
 
     async def _transform_message(self, message):
-        return Message(self._loop, self._client, message)
+        return Message(self, message)
 
     ########################################
-    # UTILITY FUNCTIONS
+    # SLACK METHODS
     ########################################
 
     async def channel_from_id(self, id):
@@ -40,10 +38,10 @@ class Slack(object):
             channel=id
         )
 
-        if channel is not None and channel['ok']:
-            return Channel(self._loop, self._client, Object(channel['channel']))
+        if channel['ok']:
+            return Channel(self, channel['channel'])
 
-        return None
+        raise SlackError(channel['error'])
 
     async def group_from_id(self, id):
         group = await async_wrapper(
@@ -53,10 +51,10 @@ class Slack(object):
             group=id
         )
 
-        if group is not None and group['ok']:
-            return Group(self._loop, self._client, Object(group['group']))
+        if group['ok']:
+            return Group(self, group['group'])
 
-        return None
+        raise SlackError(channel['error'])
 
     async def user_from_id(self, uid):
         user = await async_wrapper(
@@ -66,10 +64,10 @@ class Slack(object):
             user=uid
         )
 
-        if user is not None and user['ok']:
-            return User(self._loop, self._client, Object(user['user']))
+        if user['ok']:
+            return User(self, user['user'])
         
-        return None
+        raise SlackError(user['error'])
 
     async def bot_from_id(self, bid):
         bot = await async_wrapper(
@@ -79,13 +77,13 @@ class Slack(object):
             bot=bid
         )
 
-        if bot is not None and bot['ok']:
-            return User(self._loop, self._client, Object(user['bot']))
+        if bot['ok']:
+            return Bot(self, bot['bot'])
         
-        return None
+        raise SlackError(bot['error'])
 
     async def create_channel(self, name, validate=False):
-        return await async_wrapper(
+        channel = await async_wrapper(
             self._loop,
             self._client.api_call,
             'channels.create',
@@ -93,8 +91,13 @@ class Slack(object):
             validate=validate
         )
 
+        if channel['ok']:
+            return Channel(self, channel['channel'])
+        
+        raise SlackError(channel['error'])
+
     async def create_group(self, name, validate=False):
-        return await async_wrapper(
+        group = await async_wrapper(
             self._loop,
             self._client.api_call,
             'groups.create',
@@ -102,36 +105,74 @@ class Slack(object):
             validate=validate
         )
 
+        if group['ok']:
+            return Channel(self, group['group'])
+
+        raise SlackError(group['error'])
+
     async def list_channels(self, exclude_archived=False):
-        return [Channel(x) for x in await async_wrapper(
+        channels = await async_wrapper(
             self._loop,
             self._client.api_call,
             'channels.list',
             exclude_archived=exclude_archived
-        )]
+        )
+
+        if channels['ok']:
+            return [Channel(self, x) for x in channels['channels']]
+
+        raise SlackError(channels['error'])
 
     async def list_groups(self, exclude_archived=False):
-        return await [Group(x) for x in async_wrapper(
+        groups = await async_wrapper(
             self._loop,
             self._client.api_call,
             'groups.list',
             exclude_archived=exclude_archived
-        )]
+        )
+
+        if groups['ok']:
+            return [Group(self, x) for x in groups['groups']]
+
+        raise SlackError(groups['error'])
 
     async def list_users(self, presence=True):
-        return await [User(x) for x in async_wrapper(
+        users = await async_wrapper(
             self._loop,
             self._client.api_call,
             'users.list',
             presence=presence
-        )]
+        )
+        
+        if users['ok']:
+            return [User(self, x) for x in users['members']]
+        
+        raise SlackError(users.users)
 
     async def whoami(self):
-        return Object(await async_wrapper(
+        me = await async_wrapper(
             self._loop,
             self._client.api_call,
             'auth.test'
-        ))
+        )
+
+        if me['ok']:
+            return Object(me)
+        
+        raise SlackError(me['error'])
+
+    async def write(self, **kwargs):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'chat.postMessage',
+            **kwargs
+        )
+
+        if resp['ok']:
+            return Message(self, resp['message'])
+        
+        raise SlackError(resp['error'])
 
 
     ########################################
@@ -149,7 +190,7 @@ class Slack(object):
             if len(rtm_output) == 0:
                 continue
 
-            yield [Object(line) for line in rtm_output]
+            yield [line for line in rtm_output]
 
     def on(self, evt, fn):
         if evt in self._listeners:
@@ -164,7 +205,7 @@ class Slack(object):
         self._loop = asyncio.get_event_loop()
 
         me = await self.whoami()
-        self.uid = me.id
+        self.uid = me.user_id
 
         print('Using user "{}" with ID {}.'.format(me.user, me.user_id))
 
@@ -178,9 +219,11 @@ class Slack(object):
 
         async for output in self._read():
             for line in output:
-                if line.type in self._listeners:
-                    if line.type in self._transforms:
-                        line = await self._transforms[line.type](line)
+                if line['type'] in self._listeners:
+                    if line['type'] in self._transforms:
+                        line = await self._transforms[line['type']](line)
+                    else:
+                        line = Object(line)
 
                     # Convert Slack timestamps to datetime objects.
                     if getattr(line, 'ts', None) is not None:

@@ -1,7 +1,6 @@
-from .async import async_wrapper
+from .object import Object
 
-class User(object):
-    def __init__(self, loop, client, user):
-        self.__dict__.update(user.__dict__)
-        self._loop = loop
-        self._client = client
+class User(Object):
+    def __init__(self, slack, user):
+        Object.__init__(self, user)
+        self._slack = slack

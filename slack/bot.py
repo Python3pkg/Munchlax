@@ -14,7 +14,7 @@ class Command(object):
             message = transform(message)
 
         if len(self.requires) > 0:
-            if not all([x(message) for x in self.requires]):
+            if not all([await x(message) for x in self.requires]):
                 return
 
         try:

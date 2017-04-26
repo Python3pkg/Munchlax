@@ -1,32 +1,6 @@
-from .method import build_methods
+from .object import Object
 
-class Channel(object):
-    methods = {
-        'archive': 'channels.archive',
-        'get_history': 'channels.history', # Replace with hand-written code.
-        'invite': 'channels.invite',
-        'kick_user': 'channels.kick',
-        'join': 'channels.join',
-        'leave': 'channels.leave',
-        'rename': 'channels.rename',
-        'set_purpose': 'channels.setPurpose',
-        'set_topic': 'channels.setTopic',
-        'unarchive': 'channels.unarchive',
-        'invite': 'channels.invite',
-        'upload': 'files.upload'
-    }
-
-    def __init__(self, loop, client, channel):
-        self.__dict__.update(channel.__dict__)
-        self._loop = loop
-        self._client = client
-
-        build_methods(self, {
-            'channel': self.id,
-            'channels': self.id
-        })
-
-    async def list_members(self):
-        all_users = await self._client.list_users()
-        all_users = [x for x in all_users if x['id'] in self.members]
-        return [User(x) for x in all_users]
+class Channel(Object):
+    def __init__(self, slack, channel):
+        Object.__init__(self, channel)
+        self._slack = slack

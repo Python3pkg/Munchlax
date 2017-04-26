@@ -8,7 +8,9 @@ ru = SlackRU()
 
 @ru.command(requires=[validators.is_mentor])
 async def active(message):
-    if not User.set_active(message.user.name, True):
+    user = await message.get_author()
+
+    if not User.set_active(user.name, True):
         await message.reply(text='Unable to set your active status.')
         return
 
@@ -16,7 +18,9 @@ async def active(message):
 
 @ru.command(requires=[validators.is_mentor])
 async def inactive(message):
-    if not User.set_active(message.user.name, False):
+    user = await message.get_author()
+
+    if not User.set_active(user.name, False):
         await message.reply(text='Unable to set your active status.')
         return
 
@@ -24,7 +28,9 @@ async def inactive(message):
 
 @ru.command(requires=[validators.is_mentor])
 async def busy(message):
-    if not User.set_busy(message.user.name, True):
+    user = await message.get_author()
+
+    if not User.set_busy(user.name, True):
         await message.reply(text='Unable to set your busy status.')
         return
 
@@ -32,7 +38,7 @@ async def busy(message):
 
 @ru.command(requires=[validators.is_mentor])
 async def unbusy(message):
-    if not User.set_busy(message.user.name, False):
+    if not User.set_busy(await message.get_author().name, False):
         await message.reply(text='Unable to set your busy status.')
         return
 
@@ -40,7 +46,8 @@ async def unbusy(message):
 
 @ru.command(requires=[validators.is_mentor])
 async def status(message):
-    user = User.from_name(message.user.name)
+    user = await message.get_author()
+    user = User.from_name(user.name)
 
     if user is None:
         await message.reply(text='You are not in the mentor database.')
@@ -69,7 +76,8 @@ async def status(message):
 
 @ru.command()
 async def mentors(message):
-    Request.create(message.user, datetime.utcnow(), message.text)
+    user = await message.get_author()
+    Request.create(user.name, datetime.utcnow(), message.text)
     
     # Write an interactive message to Slack where "Yes" posts to a hook
     # to remove the request and pair. "No" does nothing.
@@ -77,5 +85,5 @@ async def mentors(message):
 
 @ru.command(cmd='setchannel', requires=[validators.is_mentor])
 async def set_mentor_channel(message):
-    ru.mentor_channel = message.channel.id
+    ru.mentor_channel = message.channel
     await message.reply('Mentor messages have been set to be posted in this channel.')
