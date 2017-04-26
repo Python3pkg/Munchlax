@@ -15,7 +15,7 @@ pip install munchlax
 ## Method List
 
 - [ ] API
-- [ ] Auth
+- [x] Auth
 - [ ] Bots
 - [x] Channels
 - [x] Chat (missing **me** and **unfurl**)
