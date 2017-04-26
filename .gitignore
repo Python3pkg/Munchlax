@@ -3,3 +3,5 @@ tags
 *.pyc
 config.json
 __pycache__
+dist/*
+munchlax.egg-info/*
