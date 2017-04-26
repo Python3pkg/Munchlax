@@ -56,6 +56,11 @@ class Channel(Object):
     async def set_topic(self, topic):
         return await self._slack.set_channel_topic(self, topic)
 
+    async def list_members(self):
+        all_users = await self._client.list_users()
+        all_users = [User(x) for x in all_users]
+        return [x for x in all_users if x.id in self.members] 
+
     async def update(self):
         """
         Updates the current _Channel_ object.
