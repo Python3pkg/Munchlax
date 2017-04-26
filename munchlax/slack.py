@@ -1738,7 +1738,7 @@ class Slack(object):
 
     async def get_file_reactions(self, file):
         """
-        Fetches and returns a list of all emoji for a file.
+        Fetches and returns a list of all reactions for a file.
 
         Args:
             file (File): The file to get reactions for.
@@ -1890,7 +1890,11 @@ class Slack(object):
         Args:
             file (File): The file to fetch comments for.
             count (int): The number of comments per page to return.
+
+                Defaults to 100.
             page (int): The comments page number to use.
+
+                Defaults to 1
 
         Returns:
             list<Comment>: A list of `Comment` objects for the query.
@@ -2007,6 +2011,13 @@ class Slack(object):
             yield [line for line in rtm_output]
 
     def handle(self, evt):
+        """
+        Decorator for setting a function as an event
+        handler for a Slack event.
+
+        Args:
+            evt (str): The event name to hook.
+        """
         def dec(fn):
             nonlocal evt
             if evt in self._listeners:
@@ -2017,6 +2028,19 @@ class Slack(object):
         return dec
 
     def on(self, evt, fn):
+        """
+        Adds a function to the list of event handlers for a
+        particular event.
+
+        Args:
+            evt (str): The event to hook.
+            fn (Function): The function to execute when the specified
+                event is received.
+
+        Returns:
+            int: The index of the added handler in the list of handlers.
+                This is used when removing event handlers.
+        """
         if evt in self._listeners:
             self._listeners[evt].append(fn)
         else:
@@ -2025,10 +2049,28 @@ class Slack(object):
         return len(self._listeners[evt])
 
     def off(self, evt, index):
+        """
+        Removes a function from the list of event handlers for a
+        particular event.
+
+        Args:
+            evt (str): The event to remove the listener from.
+            index (int): The index number of the event handler
+                in the list of event handlers.
+        """
         if evt in self._listeners:
             self._listeners.pop(index)
 
     def transform(self, evt, fn):
+        """
+        Sets the transformation function for an event.
+        This **should not** be used unless you know what you are doing.
+
+        Args:
+            evt (str): The name of the event to set the transformation
+                function for.
+            fn (Function): The transformation function to use.
+        """
         self._transforms[evt] = fn
 
     async def listen(self):

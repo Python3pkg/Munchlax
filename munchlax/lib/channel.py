@@ -243,6 +243,7 @@ class Channel(Object):
     async def update(self):
         """
         Updates the current `Channel` object.
+        
         There isn't much benefit to using this and it's here
         if you don't want to replace your current `Channel` object
         or can't.
