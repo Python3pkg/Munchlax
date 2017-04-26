@@ -6,7 +6,7 @@ class Message(Object):
         self._slack = slack
 
     async def reply(self, text, **kwargs):
-        return await self._slack.write(text, channel=self.channel, **kwargs)
+        return await self._slack.write(self.channel, text, **kwargs)
 
     async def delete(self):
         return await self._slack.delete(self.channel, self.ts)

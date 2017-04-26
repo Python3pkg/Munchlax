@@ -5,6 +5,12 @@ class Channel(Object):
         Object.__init__(self, channel)
         self._slack = slack
 
+    async def write(self, text, **kwargs):
+        return await self._slack.write(self, text, **kwargs)
+
+    async def upload(self, **kwargs):
+        return await self._slack.upload_file(self, **kwargs)
+
     async def get_history(self, **kwargs):
         return await self._slack.get_channel_history(self, **kwargs)
 

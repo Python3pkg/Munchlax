@@ -8,6 +8,7 @@ from .lib.object import Object
 from .lib.slackerror import SlackError
 
 from .lib.channel import Channel
+from .lib.comment import Comment
 from .lib.group import Group
 from .lib.im import IM
 from .lib.message import Message
@@ -85,6 +86,19 @@ class Slack(object):
             return User(self, bot['bot'])
         
         raise SlackError(bot['error'])
+
+    async def file_by_id(self, fid):
+        f = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'files.info',
+            file=fid
+        )
+
+        if f['ok']:
+            return File(self, f['file'])
+        
+        raise SlackError(f['error'])
 
     async def create_channel(self, name, validate=False):
         channel = await async_wrapper(
@@ -175,7 +189,22 @@ class Slack(object):
         if users['ok']:
             return [User(self, x) for x in users['members']]
         
-        raise SlackError(users.users)
+        raise SlackError(users['error'])
+
+    async def list_files(self, **kwargs):
+        # Note that this does not return just a list
+        # like all the other list functions.
+        files = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'files.list',
+            **kwargs
+        )
+
+        if files['ok']:
+            return [File(self, x) for x in files['files']], Object(files['paging'])
+        
+        raise SlackError(files['error'])
 
     async def whoami(self):
         me = await async_wrapper(
@@ -189,11 +218,13 @@ class Slack(object):
         
         raise SlackError(me['error'])
 
-    async def write(self, **kwargs):
+    async def write(self, channel, text, **kwargs):
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
             'chat.postMessage',
+            channel=channel.id,
+            text=text,
             **kwargs
         )
 
@@ -239,12 +270,7 @@ class Slack(object):
         )
 
         if resp['ok']:
-            # If we reached here then everything is ok.
-            # User should not need to check for "ok" so
-            # we are deleting this for them.
-            del resp['ok']
-            resp['messages'] = [Message(self, x) for x in resp['messages']]
-            return Object(resp)
+            return [Message(self, x) for x in resp['messages']], resp['has_more']
 
         raise SlackError(resp['error'])
 
@@ -346,9 +372,7 @@ class Slack(object):
         )
 
         if resp['ok']:
-            del resp['ok']
-            resp['messages'] = [Message(self, x) for x in resp['messages']]
-            return Object(resp)
+            return [Message(self, x) for x in resp['messages']]
 
         raise SlackError(resp['error'])
 
@@ -434,12 +458,7 @@ class Slack(object):
         )
 
         if resp['ok']:
-            # If we reached here then everything is ok.
-            # User should not need to check for "ok" so
-            # we are deleting this for them.
-            del resp['ok']
-            resp['messages'] = [Message(self, x) for x in resp['messages']]
-            return Object(resp)
+            return [Message(self, x) for x in resp['messages']], resp['has_more']
 
         raise SlackError(resp['error'])
 
@@ -528,9 +547,7 @@ class Slack(object):
         )
 
         if resp['ok']:
-            del resp['ok']
-            resp['messages'] = [Message(self, x) for x in resp['messages']]
-            return Object(resp)
+            return [Message(self, x) for x in resp['messages']]
 
         raise SlackError(resp['error'])
 
@@ -594,9 +611,7 @@ class Slack(object):
         )
 
         if resp['ok']:
-            del resp['ok']
-            resp['messages'] = [Message(self, x) for x in resp['messages']]
-            return Object(resp)
+            return [Message(self, x) for x in resp['messages']], resp['has_more']
 
         raise SlackError(resp['error'])
 
@@ -617,7 +632,8 @@ class Slack(object):
             self._loop,
             self._client.api_call,
             'im.open',
-            user=user.id
+            user=user.id,
+            return_im=True
         )
 
         if resp['ok']:
@@ -635,9 +651,7 @@ class Slack(object):
         )
 
         if resp['ok']:
-            del resp['ok']
-            resp['messages'] = [Message(self, x) for x in resp['messages']]
-            return Object(resp)
+            return [Message(self, x) for x in resp['messages']]
 
         raise SlackError(resp['error'])
 
@@ -662,9 +676,7 @@ class Slack(object):
         )
 
         if resp['ok']:
-            del resp['ok']
-            resp['messages'] = [Message(self, x) for x in resp['messages']]
-            return Object(resp)
+            return [Message(self, x) for x in resp['messages']], resp['has_more']
 
         raise SlackError(resp['error'])
 
@@ -680,12 +692,12 @@ class Slack(object):
         if not resp['ok']:
             raise SlackError(resp['error'])
 
-    async def open_mpim(self, user):
+    async def open_mpim(self, users*):
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
             'mpim.open',
-            user=user.id
+            users=','.join(x.id for x in users)
         )
 
         if resp['ok']:
@@ -703,9 +715,7 @@ class Slack(object):
         )
 
         if resp['ok']:
-            del resp['ok']
-            resp['messages'] = [Message(self, x) for x in resp['messages']]
-            return Object(resp)
+            return [Message(self, x) for x in resp['messages']]
 
         raise SlackError(resp['error'])
 
@@ -733,9 +743,7 @@ class Slack(object):
         )
 
         if resp['ok']:
-            del resp['ok']
-            resp['message'] = Message(self, resp['message'])
-            return Object(resp)
+            return [Object(x) for x in resp['message']['reactions']]            
 
         raise SlackError(resp['error'])
 
@@ -773,9 +781,7 @@ class Slack(object):
         )
 
         if resp['ok']:
-            del resp['ok']
-            resp['file'] = File(self, resp['file'])
-            return Object(resp)
+            return [Object(x) for x in resp['file']['reactions']]
 
         raise SlackError(resp['error'])
 
@@ -789,6 +795,114 @@ class Slack(object):
 
         if not resp['ok']:
             raise SlackError(resp['error'])
+
+    async def delete_file(self, file):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'files.delete',
+            file=file.id
+        )
+
+        if not resp['ok']:
+            raise SlackError(resp['error'])
+
+    async def revoke_file(self, file):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'files.revokePublicURL',
+            file=file.id
+        )
+
+        if resp['ok']:
+            return File(self, resp['file'])
+        
+        raise SlackError(resp['error'])
+
+    async def share_file(self, file):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'files.sharedPublicURL',
+            file=file.id
+        )
+
+        if resp['ok']:
+            return File(self, resp['file'])
+        
+        raise SlackError(resp['error'])
+
+    async def upload_file(self, filename, *channels, **kwargs):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'files.upload',
+            filename=filename,
+            channels=','.join([x.id for x in channels]),
+            **kwargs
+        )
+
+        if resp['ok']:
+            return File(self, resp['file'])
+
+        raise SlackError(resp['error'])
+
+    async def get_file_comments(self, file, count=100, page=1):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'files.info',
+            file=file.id,
+            count=count,
+            page=page
+        )
+
+        if resp['ok']:
+            return [Comment(self, x, file) for x in resp['comments']], Object(resp['paging'])
+
+        raise SlackError(resp['error'])
+
+    async def add_file_comment(self, file, comment):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'files.comments.add',
+            file=file.id,
+            comment=comment
+        )
+
+        if resp['ok']:
+            return File(resp['file'])
+
+        raise SlackError(resp['error'])
+
+    async def delete_file_comment(self, file, comment):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'files.comments.delete',
+            file=file.id,
+            comment=comment.id
+        )
+
+        if not resp['ok']:
+            raise SlackError(resp['error'])
+
+    async def edit_file_comment(self, file, comment, text):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'files.comments.edit',
+            file=file.id,
+            id=comment.id,
+            comment=text
+        )
+
+        if resp['ok']:
+            return Comment(self, resp, file)
+        
+        raise SlackError(resp['error'])
 
     ########################################
     # UTILITY FUNCTIONS
@@ -807,11 +921,27 @@ class Slack(object):
 
             yield [line for line in rtm_output]
 
+    def handle(self, evt):
+        def dec(fn):
+            nonlocal evt
+            if evt in self._listeners:
+                self._listeners[evt].append(fn)
+            else:
+                self._listeners[evt] = [fn]
+            return fn
+        return dec
+
     def on(self, evt, fn):
         if evt in self._listeners:
             self._listeners[evt].append(fn)
         else:
             self._listeners[evt] = [fn]
+        
+        return len(self._listeners[evt])
+
+    def off(self, evt, index):
+        if evt in self._listeners:
+            self._listeners.pop(index)
 
     def transform(self, evt, fn):
         self._transforms[evt] = fn
