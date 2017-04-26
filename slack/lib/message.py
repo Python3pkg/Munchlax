@@ -10,8 +10,8 @@ class Message(Object):
 
     async def get_author(self):
         if getattr(self, 'user', None) is not None:
-            return await self._slack.user_from_id(self.user)
+            return await self._slack.user_by_id(self.user)
         elif getattr(self, 'bot', None) is not None:
-            return await self._slack.bot_from_id(self.bot)
+            return await self._slack.bot_by_id(self.bot)
         else:
             return None
