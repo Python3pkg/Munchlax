@@ -174,16 +174,36 @@ class Slack(object):
         
         raise SlackError(resp['error'])
 
-    async def get_history(self, channel, **kwargs):
-        method = 'channels.history'
-
-        if isinstance(channel, Group):
-            method = 'groups.history'
-
+    async def delete(self, channel, ts, as_user=True):
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
-            method,
+            'chat.delete',
+            channel=channel.id,
+            ts=ts,
+            as_user=as_user
+        )
+
+        raise SlackError(resp['error'])
+
+    async def edit(self, **kwargs):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'chat.update',
+            **kwargs
+        )
+
+        if resp['ok']:
+            del resp['ok']
+
+        raise SlackError(resp['error'])
+
+    async def get_channel_history(self, channel, **kwargs):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'channels.history',
             channel=channel.id,
             **kwrags
         )
@@ -198,39 +218,141 @@ class Slack(object):
 
         raise SlackError(resp['error'])
 
-    async def archive(self, channel):
-        method = 'channels.archive'
-
-        if isinstance(channel, Group):
-            method = 'groups.archive'
-
+    async def archive_channel(self, channel):
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
-            method,
+            'channels.archive',
             channel=channel.id
         )
 
-        if resp['ok']:
-            return Object(resp)
-
         raise SlackError(resp['error'])
 
-    async def invite_user(self, channel, user):
-        method = 'channels.invite'
-
-        if isinstance(channel, Group):
-            method = 'groups.invite'
-
+    async def channel_invite_user(self, channel, user):
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
-            method,
+            'channels.invite',
             channel=channel.id
         )
 
         if resp['ok']:
             return Channel(self, resp['channel'])
+
+        raise SlackError(resp['error'])
+
+    async def join_channel(self, channel, validate=False):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'channels.join',
+            name=channel.name,
+            validate=validate
+        )
+
+        if resp['ok']:
+            return Channel(self, resp['channel'])
+        
+        raise SlackError(resp['error'])
+
+    async def kick_user(self, channel, user):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'channels.kick',
+            channel=channel.id,
+            user=user.id
+        )
+
+        raise SlackError(resp['error'])
+
+    async def leave_channel(self, channel):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'channels.leave',
+            channel=channel.id
+        )
+
+        raise SlackError(resp['error'])
+
+    async def mark_channel(self, channel, ts):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'channels.mark',
+            channel=channel.id,
+            ts=ts
+        )
+
+        raise SlackError(resp['error'])
+
+    async def rename_channel(self, channel, name, validate=False):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'channels.rename',
+            channel=channel.id,
+            name=name,
+            validate=validate
+        )
+
+        if resp['ok']:
+            return Channel(self, resp['channel'])
+
+        raise SlackError(resp['error'])
+
+    async def get_replies(self, channel, ts):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'channels.replies',
+            channel=channel.id,
+            thread_ts=ts
+        )
+
+        if resp['ok']:
+            del resp['ok']
+            resp['messages'] = [Message(self, x) for x in resp['messages']]
+            return Object(resp)
+
+        raise SlackError(resp['error'])
+
+    async def set_channel_purpose(self, channel, purpose):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'channels.setPurpose',
+            channel=channel.id,
+            purpose=purpose
+        )
+
+        if resp['ok']:
+            return purpose
+        
+        raise SlackError(resp['error'])
+
+    async def set_channel_topic(self, channel, topic):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'channels.setTopic',
+            channel=channel.id,
+            topic=topic
+        )
+
+        if resp['ok']:
+            return topic
+
+        raise SlackError(resp['error'])
+
+    async def unarchive_channel(self, channel):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'channels.unarchive',
+            channel=channel.id
+        )
 
         raise SlackError(resp['error'])
 
