@@ -4,7 +4,6 @@ class Channel(Object):
     def __init__(self, slack, channel):
         Object.__init__(self, channel)
         self._slack = slack
-        self.
 
     async def get_history(self, **kwargs):
         return await self._slack.get_channel_history(self, **kwargs)
