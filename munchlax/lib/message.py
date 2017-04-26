@@ -26,3 +26,7 @@ class Message(Object):
 
     async def get_channel(self):
         return await self._slack.channel_by_id(self.id)
+
+    async def get_replies(self):
+        channel = await self.get_channel()
+        return await self._slack.get_channel_replies(channel, self.ts)

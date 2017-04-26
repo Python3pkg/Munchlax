@@ -17,6 +17,9 @@ class Channel(Object):
     async def archive(self):
         return await self._slack.archive_channel(self)
 
+    async def unarchive(self):
+        return await self._slack.unarchive_channel(self)
+
     async def invite_user(self, user):
         return await self._slack.archive_channel(self, user)
 

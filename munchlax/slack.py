@@ -363,10 +363,10 @@ class Slack(object):
                 will be returned.
             channel (Channel): If this is passed then only files shared
                 to this channel will be returned.
-            ts_from (int): All filters before this timestamp will be filtered out.
+            ts_from (float): All filters before this timestamp will be filtered out.
 
                 Defaults to 0.
-            ts_to (int | "now"): All filters after this timestamp will be filtered out.
+            ts_to (float | "now"): All filters after this timestamp will be filtered out.
                 It should be noted that "now" can be specified to fetch all files
                 up to the current time.
 
@@ -592,13 +592,40 @@ class Slack(object):
 
         raise SlackError(resp['error'])
 
-    async def get_channel_history(self, channel, **kwargs):
+    async def get_channel_history(self, channel, latest='now', oldest=0, inclusive=True, count=100):
+        """
+        Fetches and returns the message history for a channel.
+
+        Args:
+            channel (Channel): The channel to fetch the message history for.
+            latest (float | "now"): The end of time range of messages to include.
+                This can be a float or "now" If "now" is specified then the current
+                time is used.
+
+                Defaults to "now".
+            oldest (float): The start of time range of messages to include.
+
+                Defaults to 0.
+            inclusive (bool): Whether or not to include messages with latest of
+                oldest timestamps.
+
+                Defaults to True.
+            count (int): The number of messages to return, between 1 and 1000.
+                
+                Defaults to 100.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok"
+        """
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
             'channels.history',
             channel=channel.id,
-            **kwrags
+            latest=latest,
+            oldest=oldest,
+            inclusive=inclusive,
+            count=count
         )
 
         if resp['ok']:
@@ -607,6 +634,15 @@ class Slack(object):
         raise SlackError(resp['error'])
 
     async def archive_channel(self, channel):
+        """
+        Archives a channel.
+
+        Args:
+            channel (Channel): The channel to archive.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok"
+        """
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -618,6 +654,16 @@ class Slack(object):
             raise SlackError(resp['error'])
 
     async def channel_invite_user(self, channel, user):
+        """
+        Invites a user to join a channel.
+
+        Args:
+            channel (Channel): The channel to invite the user to.
+            user (User): The user to invite to the channel.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok"
+        """
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -630,21 +676,54 @@ class Slack(object):
 
         raise SlackError(resp['error'])
 
-    async def join_channel(self, channel, validate=False):
+    async def join_channel(self, channel):
+        """
+        Joins a specific channel.
+
+        In the event that the channel is already joined, then `True`
+        is returned instead of a `Channel` object for the joined
+        channel.
+
+        Args:
+            channel (Channel): The channel to join. This channel
+                must not be private.
+
+        Returns:
+            Channel: If the user has not yet joined this channel
+                then a `Channel` object representing the newly
+                joined channel will be returned.
+
+            If the channel to join has already been joined,
+            then True will be returned instead.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok"
+        """
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
             'channels.join',
-            name=channel.name,
-            validate=validate
+            name=channel.name
         )
 
         if resp['ok']:
+            if resp.get('already_in_channel', default=False):
+                return True
             return Channel(self, resp['channel'])
         
         raise SlackError(resp['error'])
 
     async def channel_kick(self, channel, user):
+        """
+        Kicks a user from a channel.
+
+        Args:
+            channel (Channel): The channel to kick the user from.
+            user (User): The user to kick from the channel.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok"
+        """
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -657,6 +736,15 @@ class Slack(object):
             raise SlackError(resp['error'])
 
     async def leave_channel(self, channel):
+        """
+        Leaves a channel.
+
+        Args:
+            channel (Channel): The channel to leave.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok"
+        """
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -668,6 +756,19 @@ class Slack(object):
             raise SlackError(resp['error'])
 
     async def mark_channel(self, channel, ts):
+        """
+        Changes the last-read indicator in a channel
+        for the current user.
+
+        Args:
+            channel (Channel): The channel to change the last-read
+                indicator for.
+            ts (float): The timestamp to use when changing the
+                last-read indicator.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok"
+        """
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -680,6 +781,25 @@ class Slack(object):
             raise SlackError(resp['error'])
 
     async def rename_channel(self, channel, name, validate=False):
+        """
+        Renames a channel to something else.
+
+        Args:
+            channel (Channel): The channel to rename.
+            name (str): The new name for the channel.
+            validate (bool): Whether or not to return an error instead
+                of changing the new name to be valid.
+
+                Defaults to False.
+
+        Returns:
+            Channel: A new `Channel` object representing the updated channel.
+                This object should be used instead of the old one because
+                the old one is now stale.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok"
+        """
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -695,6 +815,21 @@ class Slack(object):
         raise SlackError(resp['error'])
 
     async def get_channel_replies(self, channel, ts):
+        """
+        Fetches and returns all replies to a message within a certain
+        channel.
+
+        Args:
+            channel (Channel): The channel to look in for the message.
+            ts: The timestamp of the parent message to look for.
+
+        Returns:
+            list<Message>: A list of `Message` objects representing a message
+                thread.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok"
+        """
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -709,6 +844,19 @@ class Slack(object):
         raise SlackError(resp['error'])
 
     async def set_channel_purpose(self, channel, purpose):
+        """
+        Changes the purpose of a channel.
+
+        Args:
+            channel (Channel): The channel to change the purpose for.
+            purpose (str): The new purpose for the channel as a string.
+
+        Returns:
+            str: The new channel purpose.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok"
+        """
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -723,6 +871,19 @@ class Slack(object):
         raise SlackError(resp['error'])
 
     async def set_channel_topic(self, channel, topic):
+        """
+        Changes the topic of a channel.
+
+        Args:
+            channel (Channel): The channel to change the topic for.
+            topic (str): The new topic for the channel as a string.
+
+        Returns:
+            str: The new channel topic.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok"
+        """
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -737,6 +898,15 @@ class Slack(object):
         raise SlackError(resp['error'])
 
     async def unarchive_channel(self, channel):
+        """
+        Unarchives a channel.
+
+        Args:
+            channel (Channel): The channel to unarchive.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok"
+        """
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
