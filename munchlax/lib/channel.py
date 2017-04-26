@@ -23,7 +23,7 @@ class Channel(Object):
         Raise:
             SlackError: Raised in the event that Slack does not return "ok".
         """
-        return await self._slack.raw_write(self.id, text=text, **kwargs)
+        return await self._slack.raw_write(channel=self.id, text=text, **kwargs)
 
     async def upload(self, **kwargs):
         """
@@ -55,44 +55,148 @@ class Channel(Object):
 
             This is mostly a convenience method so you can directly fetch
             a channel's message history.
+
+        Returns:
+            list<Message>: A list of `Message` objects.
+            bool: Whether or not there are more messages in the channel's history.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
         """
         return await self._slack.get_channel_history(self, **kwargs)
 
     async def archive(self):
+        """
+        Archives the channel.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """"
         return await self._slack.archive_channel(self)
 
     async def unarchive(self):
+        """
+        Unarchives the channel.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         return await self._slack.unarchive_channel(self)
 
     async def invite_user(self, user):
+        """
+        Invites a user to the channel.
+        
+        Args:
+            user (User): The user to invite to the channel.
+        
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         return await self._slack.archive_channel(self, user)
 
-    async def join(self, validate=False):
-        return await self._slack.join_channel(self, validate=validate)
+    async def join(self):
+        """
+        Joins the channel.
+
+        In the event that the channel is already joined, then `True`
+        is returned instead of a `Channel` object for the joined
+        channel.
+
+        Args:
+            channel (Channel): The channel to join. This channel
+                must not be private.
+
+        Returns:
+            Channel: If the user has not yet joined this channel
+                then a `Channel` object representing the newly
+                joined channel will be returned.
+
+            If the channel to join has already been joined,
+            then True will be returned instead.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
+        return await self._slack.join_channel(self)
 
     async def kick_user(self, user):
+        """
+        Kicks a user from the channel.
+
+        Args:
+            user (User): The user to kick from the channel.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         return await self._slack.channel_kick(self, user)
 
     async def leave(self):
+        """
+        Leaves the channel.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         return await self._slack.leave_channel(self)
 
     async def mark(self, ts):
+        """
+        Changes the last-read indicator in the channel
+        for the current user.
+
+        Args:
+            ts (float): The timestamp to use when changing the
+                last-read indicator.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         return await self._slack.mark_channel(self, ts)
 
     async def rename(self, name, validate=False):
-        channel = await self._slack.rename_channel(self, name, validate=validate)
-        self.__dict__.update(channel.__dict__)
-        return self
+        """
+        Renames the channel to something else.
+
+        This method causes the current `Channel` object to become stale.
+
+        Args:
+            name (str): The new name for the channel.
+            validate (bool): Whether or not to return an error instead
+                of changing the new name to be valid.
+
+                Defaults to False.
+
+        Returns:
+            str: The new name for the channel.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
+        return await self._slack.rename_channel(self, name, validate=validate)
 
     async def get_replies(self, ts):
-        replies = await self._slack.get_channel_replies(self, ts)
-        return replies
+        """
+        Fetches and returns all replies to a message within the channel.
+
+        Args:
+            ts: The timestamp of the parent message to look for.
+
+        Returns:
+            list<Message>: A list of `Message` objects representing a message
+                thread.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
+        return await self._slack.get_channel_replies(self, ts)
 
     async def set_purpose(self, purpose):
         """
-        Sets the purpose for a channel.
-        This causes the `Channel` object being worked on
-        to become stale.
+        Sets the purpose for the channel.
+
+        This causes the `Channel` object being worked on to become stale.
 
         Args:
             purpose: The purpose to use when updating the channel.
@@ -106,9 +210,32 @@ class Channel(Object):
         return await self._slack.set_channel_purpose(self, purpose)
 
     async def set_topic(self, topic):
+        """
+        Sets the topic for the channel.
+
+        This causes the `Channel` object being worked on to become stale.
+
+        Args:
+            topic: The topic to use when updating the channel.
+
+        Returns:
+            The new topic of the channel.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         return await self._slack.set_channel_topic(self, topic)
 
     async def list_members(self):
+        """
+        Fetches and returns a list of all channel members.
+
+        Returns:
+            list<Member>: All members in the channel.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         all_users = await self._client.list_users()
         all_users = [User(x) for x in all_users]
         return [x for x in all_users if x.id in self.members] 

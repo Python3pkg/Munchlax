@@ -983,7 +983,7 @@ class Slack(object):
 
         Returns:
             Group: A `Group` object that is a clone of the original
-                channel.
+                group.
 
         Raises:
             SlackError: Raised in the event that Slack does not return "ok".
