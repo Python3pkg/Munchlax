@@ -6,13 +6,13 @@ class Message(Object):
         self._slack = slack
 
     async def reply(self, text, **kwargs):
-        return await self._slack.write(self.channel, text, **kwargs)
+        return await self._slack.raw_write(text=text, channel=self.channel, **kwargs)
 
     async def delete(self):
-        return await self._slack.delete(self.channel, self.ts)
+        return await self._slack.delete(self)
 
     async def edit(self, text, **kwargs):
-        msg = await self._slack.edit(text, channel=self.channel, ts=self.ts, **kwargs)
+        msg = await self._slack.edit(text, self, **kwargs)
         self.__dict__.update(msg.__dict__)
         return self
 

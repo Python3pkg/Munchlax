@@ -5,7 +5,7 @@ from slackclient import SlackClient
 from .lib.async import async_wrapper
 from .lib.object import Object
 
-from .lib.slackerror import SlackError
+from slackerror import SlackError
 
 from .lib.channel import Channel
 from .lib.comment import Comment
@@ -36,6 +36,18 @@ class Slack(object):
     ########################################
 
     async def channel_by_id(self, id):
+        """
+        Fetches a Slack channel by its ID and returns a `Channel` object.
+
+        Args:
+            id (str): The ID of the channel to get information for.
+
+        Returns:
+            Channel: A `Channel` object representing the channel requested.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         channel = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -49,6 +61,18 @@ class Slack(object):
         raise SlackError(channel['error'])
 
     async def group_by_id(self, id):
+        """
+        Fetches a Slack group by its ID and returns a `Group` object.
+
+        Args:
+            id (str): The ID of the group to get information for.
+
+        Returns:
+            Group: A `Group` object representing the group requested.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         group = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -62,6 +86,18 @@ class Slack(object):
         raise SlackError(channel['error'])
 
     async def user_by_id(self, uid):
+        """
+        Fetches a Slack use by their ID and returns a `User` object.
+
+        Args:
+            id (str): The ID of the user to get information for.
+
+        Returns:
+            User: A `User` object representing the user requested.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         user = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -75,6 +111,18 @@ class Slack(object):
         raise SlackError(user['error'])
 
     async def bot_by_id(self, bid):
+        """
+        Fetches a Slack bot by its ID and returns a `Bot` object.
+
+        Args:
+            id (str): The ID of the bot to get information for.
+
+        Returns:
+            Bot: A `Bot` object representing the bot requested.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         bot = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -88,6 +136,18 @@ class Slack(object):
         raise SlackError(bot['error'])
 
     async def file_by_id(self, fid):
+        """
+        Fetches a file by its ID and returns a `File` object.
+
+        Args:
+            id (str): The ID of the file to get information for.
+
+        Returns:
+            File: A `File` object representing the File requested.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         f = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -101,6 +161,23 @@ class Slack(object):
         raise SlackError(f['error'])
 
     async def create_channel(self, name, validate=False):
+        """
+        Creates a Slack channel. If the Slack channel already
+        exists this method will still succeed.
+
+        Args:
+            name (str): The name of the new channel.
+            validate (bool): Whether or not Slack should return an error
+                if `name` is invalid instead of modifying it to be valid.
+
+                https://api.slack.com/methods/channels.create
+
+        Returns:
+            Channel: A `Channel` object representing the newly created channel.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         channel = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -115,6 +192,25 @@ class Slack(object):
         raise SlackError(channel['error'])
 
     async def create_group(self, name, validate=False):
+        """
+        Creates a Slack group channel. If the group channel already
+        exists this method will still succeed.
+
+        Args:
+            name (str): The name of the new group channel.
+            validate (bool): Whether or not Slack should return an error
+                if `name` is invalid instead of modifying it to be valid.
+
+                https://api.slack.com/methods/channels.create
+
+                Defaults to False.
+
+        Returns:
+            Group: A `Group` object representing the newly created group.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         group = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -129,6 +225,22 @@ class Slack(object):
         raise SlackError(group['error'])
 
     async def list_channels(self, exclude_archived=False):
+        """
+        Fetches and returns all channels that are not private.
+        To list all private channels use `Slack#list_groups`.
+
+        Args:
+            exclude_archived (bool): Whether or not to exclude
+                archived channels from the list.
+
+                Defaults to False.
+
+        Returns:
+            list<Channel>: A list of `Channel` objects.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         channels = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -142,6 +254,22 @@ class Slack(object):
         raise SlackError(channels['error'])
 
     async def list_groups(self, exclude_archived=False):
+        """
+        Fetchs and returns all private channels that the current
+        user has access to.
+
+        Args:
+            exclude_archived (bool): Whether or not to exclude
+                archived channels from the list.
+
+                Defaults to False.
+
+        Returns:
+            list<Group>: A list of `Group` objects.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         groups = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -155,6 +283,15 @@ class Slack(object):
         raise SlackError(groups['error'])
 
     async def list_ims(self):
+        """
+        Fetches and returns all IM channels that a user has.
+
+        Returns:
+            list<IM>: A list of `IM` objects.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         ims = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -167,6 +304,15 @@ class Slack(object):
         raise SlackError(ims['error'])
 
     async def list_mpims(self):
+        """
+        Fetches and returns all MPIM channels that a user has.
+
+        Returns:
+            list<MPIM>: A list of `MPIM` objects.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         groups = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -179,6 +325,23 @@ class Slack(object):
         raise SlackError(groups['error'])
 
     async def list_users(self, presence=True):
+        """
+        Fetches and returns all users in a team. This list will
+        include deleted and eactivated users.
+
+        Args:
+            presence (bool): Whether or not to include presence
+                data when returning the list of users.
+
+                Defaults to True.
+
+        Returns:
+            list<User>: A list of `User` objects representing all
+                users in a team.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         users = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -191,9 +354,53 @@ class Slack(object):
         
         raise SlackError(users['error'])
 
-    async def list_files(self, **kwargs):
-        # Note that this does not return just a list
-        # like all the other list functions.
+    async def list_files(self, user=None, channel=None, ts_from=0, ts_to='now', types='all', count=100, page=1):
+        """
+        Fetches and returns all files uploaded in a team.
+
+        Args:
+            user (User): If this is passed then only files uploaded by `User`
+                will be returned.
+            channel (Channel): If this is passed then only files shared
+                to this channel will be returned.
+            ts_from (int): All filters before this timestamp will be filtered out.
+
+                Defaults to 0.
+            ts_to (int | "now"): All filters after this timestamp will be filtered out.
+                It should be noted that "now" can be specified to fetch all files
+                up to the current time.
+
+                Defaults to "now".
+            types (string): Specific filetypes to filter by. This should be
+                a comma-delimited string. Alternatively, you can pass "all"
+                to not filter by filetype.
+
+                https://api.slack.com/types/file
+
+                Defaults to "all".
+            count (int): The number of files to return per page.
+            page (int): The page number to show files for.
+
+        Returns:
+            list<File>: A list of `File` objects.
+            object: A generic object containing paging information for the query.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
+        kwargs = {
+            'ts_from': ts_from,
+            'ts_to': ts_to,
+            'types': types,
+            'count': count,
+            'page': page
+        }
+
+        if user is not None:
+            args['user'] = user.id
+        if channel is not None:
+            args['channel'] = channel.id
+
         files = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -207,6 +414,15 @@ class Slack(object):
         raise SlackError(files['error'])
 
     async def whoami(self):
+        """
+        Returns authentication information about the current user.
+
+        Returns:
+            object: A generic object representing the current user.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         me = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -214,17 +430,71 @@ class Slack(object):
         )
 
         if me['ok']:
+            del me['ok']
             return Object(me)
         
         raise SlackError(me['error'])
 
-    async def write(self, channel, text, **kwargs):
+    async def write(self, channel, text):
+        """
+        Writes a message to some channel.
+
+        If you need more fine-grained control over your message,
+        use `Slack#raw_write` instead.
+
+        Args:
+            channel (Channel): The channel to write a message to.
+            text (str): The message to write.
+
+        Returns:
+            Message: A `Message` object representing the newly written
+            message.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
             'chat.postMessage',
             channel=channel.id,
             text=text,
+        )
+
+        if resp['ok']:
+            return Message(self, resp['message'])
+        
+        raise SlackError(resp['error'])
+
+    async def raw_write(self, **kwargs):
+        """
+        Writes a message to some channel.
+        
+        This differs from `Slack#write` in that all arguments
+        to `Slack#raw_write` must be handled by the user.
+        With `Slack#write`, the user is only able to pass in a
+        `Channel` object as well as some text string.
+
+        For a full explanation of all arguments:
+            https://api.slack.com/methods/chat.postMessage
+
+        Args:
+            **kwargs: Arbitrary keyword arguments to be passed
+                to Slack's `chat.postMessage` endpoint. Please refer
+                to https://api.slack.com/methods/chat.postMessage for
+                more information.
+
+        Returns:
+            Message: A `Message` object representing the newly written
+            message.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'chat.postMessage',
             **kwargs
         )
 
@@ -233,7 +503,21 @@ class Slack(object):
         
         raise SlackError(resp['error'])
 
-    async def delete(self, message, as_user=True):
+    async def delete(self, message, as_user=False):
+        """
+        Deletes a Slack message.
+
+        Args:
+            message (Message): The message to delete. This should
+                be a `Message` object.
+            as_user (bool): Whether or no to deleted the message
+                as the currently authenticated user.
+
+                Defaults to False.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -245,12 +529,60 @@ class Slack(object):
 
         raise SlackError(resp['error'])
 
-    async def edit(self, text, **kwargs):
+    async def edit(self, message, text):
+        """
+        Updates a message's contents.
+
+        If you need more fine-grained control over your message,
+        use `Slack#raw_edit` instead.
+
+        Args:
+            message (Message): The message to update. This should
+                be a `Message` object.
+            text (str): The new text to use as the message contents.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok"
+        """
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
             'chat.update',
-            text,
+            ts=message.ts,
+            channel=message.channel,
+            text
+        )
+
+        if resp['ok']:
+            del resp['ok']
+            return Object(resp)
+
+        raise SlackError(resp['error'])
+
+    async def raw_edit(self, **kwargs):
+        """
+        Updates a message's contents.
+
+        This differs from `Slack#edit` in that all arguments
+        to `Slack#raw_edit` must be handled by the user.
+        With `Slack#edit`, the user is only able to pass in a
+        `Message` object as well as some text string.
+
+        For a full explanation of all arguments:
+            https://api.slack.com/methods/chat.update
+
+        Args:
+            **kwargs: Additional options to use when updating the message.
+                Refer to https://api.slack.com/methods/chat.update for
+                more information.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok"
+        """
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'chat.update',
             **kwargs
         )
 

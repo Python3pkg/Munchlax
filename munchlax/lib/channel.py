@@ -6,7 +6,7 @@ class Channel(Object):
         self._slack = slack
 
     async def write(self, text, **kwargs):
-        return await self._slack.write(self, text, **kwargs)
+        return await self._slack.raw_write(self.id, text=text, **kwargs)
 
     async def upload(self, **kwargs):
         return await self._slack.upload_file(self, **kwargs)

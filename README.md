@@ -21,8 +21,8 @@ pip install munchlax
 - [x] Chat (missing **me** and **unfurl**)
 - [ ] DND
 - [ ] Emoji
-- [ ] Files.Comments
-- [ ] Files
+- [x] Files.Comments
+- [x] Files
 - [X] Groups
 - [X] IM
 - [X] MPIM

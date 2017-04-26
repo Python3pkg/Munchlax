@@ -32,3 +32,12 @@ class File(Object):
 
     async def comment(self, comment):
         return await self._slack.add_file_comment(self, comment)
+
+    async def add_reaction(self, name):
+        return await self._slack.add_file_reaction(self, name)
+
+    async def get_reactions(self):
+        return await self._slack.get_file_reactions(self)
+
+    async def remove_reaction(self, name):
+        return await self._slack.remove_file_reaction(self, name)
