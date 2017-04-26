@@ -4,9 +4,7 @@ A Python-based Slack bot written with concurrency in mind.
 
 ## Features
 
-- Help requests via mentions
 - Easily extensible through an easy to use `command` decorator
-- Integration with existing websites through incoming webhooks
 
 # Method List
 
