@@ -819,9 +819,6 @@ class Slack(object):
     async def listen(self):
         self._loop = asyncio.get_event_loop()
 
-        me = await self.whoami()
-        self.uid = me.user_id
-
         print('Using user "{}" with ID {}.'.format(me.user, me.user_id))
 
         if not self._client.rtm_connect():
@@ -853,6 +850,7 @@ class Slack(object):
 
     def set_token(self, token):
         self._client = SlackClient(token)
+        self.me = await self.whoami()        
 
     def start(self):
         loop = asyncio.get_event_loop()
