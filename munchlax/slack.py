@@ -77,7 +77,7 @@ class Slack(object):
             self._loop,
             self._client.api_call,
             'groups.info',
-            group=id
+            channel=id
         )
 
         if group['ok']:
@@ -614,6 +614,10 @@ class Slack(object):
                 
                 Defaults to 100.
 
+        Returns:
+            list<Message>: A list of `Message` objects.
+            bool: Whether or not there are more messages in the channel's history.
+
         Raises:
             SlackError: Raised in the event that Slack does not return "ok".
         """
@@ -1018,6 +1022,10 @@ class Slack(object):
                 
                 Defaults to 100.
 
+        Returns:
+            list<Message>: A list of `Message` objects.
+            bool: Whether or not there are more messages in the group's history.
+
         Raises:
             SlackError: Raised in the event that Slack does not return "ok".
         """
@@ -1025,7 +1033,7 @@ class Slack(object):
             self._loop,
             self._client.api_call,
             'groups.history',
-            group=group.id,
+            channel=group.id,
             latest=latest,
             oldest=oldest,
             inclusive=inclusive,
@@ -1340,6 +1348,10 @@ class Slack(object):
                 
                 Defaults to 100.
 
+        Returns:
+            list<Message>: A list of `Message` objects.
+            bool: Whether or not there are more messages in the IM's history.
+
         Raises:
             SlackError: Raised in the event that Slack does not return "ok".
         """
@@ -1347,7 +1359,7 @@ class Slack(object):
             self._loop,
             self._client.api_call,
             'im.history',
-            im=im.id,
+            channel=im.id,
             latest=latest,
             oldest=oldest,
             inclusive=inclusive,
@@ -1523,6 +1535,51 @@ class Slack(object):
 
         if not resp['ok']:
             raise SlackError(resp['error'])
+
+    async def get_mpim_history(self, mpim, latest='now', oldest=0, inclusive=True, count=100):
+        """
+        Fetches and returns the message history for an MPIM.
+
+        Args:
+            mpim (MPIM): The MPIM to fetch the message history for.
+            latest (float | "now"): The end of time range of messages to include.
+                This can be a float or "now" If "now" is specified then the current
+                time is used.
+
+                Defaults to "now".
+            oldest (float): The start of time range of messages to include.
+
+                Defaults to 0.
+            inclusive (bool): Whether or not to include messages with latest of
+                oldest timestamps.
+
+                Defaults to True.
+            count (int): The number of messages to return, between 1 and 1000.
+                
+                Defaults to 100.
+
+        Returns:
+            list<Message>: A list of `Message` objects.
+            bool: Whether or not there are more messages in the MPIM's history.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'mpim.history',
+            channel=im.id,
+            latest=latest,
+            oldest=oldest,
+            inclusive=inclusive,
+            count=count
+        )
+
+        if resp['ok']:
+            return [Message(self, x) for x in resp['messages']], resp['has_more']
+
+        raise SlackError(resp['error'])
 
     async def open_mpim(self, *users):
         """
