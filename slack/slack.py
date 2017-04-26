@@ -707,6 +707,87 @@ class Slack(object):
 
         raise SlackError(resp['error'])
 
+    async def add_message_reaction(self, message, name):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'reactions.add',
+            channel=message.channel,
+            timestamp=message.ts,
+            name=name
+        )
+
+        if not resp['ok']:
+            raise SlackError(resp['error'])
+
+    async def get_message_reactions(self, message):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'reactions.get',
+            channel=message.channel,
+            timestamp=message.ts,
+            full=True # always get the full list
+        )
+
+        if resp['ok']:
+            del resp['ok']
+            resp['message'] = Message(self, resp['message'])
+            return Object(resp)
+
+        raise SlackError(resp['error'])
+
+    async def remove_message_reaction(self, message):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'reactions.remove',
+            channel=message.channel,
+            timestamp=message.ts
+        )
+
+        if not resp['ok']:
+            raise SlackError(resp['error'])
+
+    async def add_file_reaction(self, file, name):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'reactions.add',
+            file=file.id,
+            name=name
+        )
+
+        if not resp['ok']:
+            raise SlackError(resp['error'])
+
+    async def get_file_reactions(self, file):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'reactions.get',
+            file=file.id,
+            full=True # always get the full list
+        )
+
+        if resp['ok']:
+            del resp['ok']
+            resp['file'] = File(self, resp['file'])
+            return Object(resp)
+
+        raise SlackError(resp['error'])
+
+    async def remove_file_reaction(self, file):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'reactions.remove',
+            file=file.id
+        )
+
+        if not resp['ok']:
+            raise SlackError(resp['error'])
+
     ########################################
     # UTILITY FUNCTIONS
     ########################################

@@ -24,7 +24,7 @@ A Python-based Slack bot written with concurrency in mind.
 - [X] MPIM
 - [ ] Oauth
 - [ ] Pins
-- [ ] Reactions
+- [X] Reactions (missing support for file comments as well as **list**)
 - [ ] Reminders
 - [x] RTM (Will not Implement)
 - [ ] Search
