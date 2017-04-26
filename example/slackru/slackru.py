@@ -1,4 +1,4 @@
-from slack.bot import Bot
+from munchlax.bot import Bot
 
 class SlackRU(Bot):
     def __init__(self):
