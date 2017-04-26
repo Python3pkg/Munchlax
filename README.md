@@ -42,4 +42,4 @@ pip install munchlax
 
 ## Tips
 
-- Anything that modifies Slack object state will cause library objects to become stale. You should remember to update any modified objects by calling `<Object>#update`.
+- Anything that modifies Slack object state will cause library objects to become stale. You should remember to update any modified objects by calling `<Object>#update`. The only exception to this is the method `Message#edit`. This method call will automatically update the associated `Message` object.
