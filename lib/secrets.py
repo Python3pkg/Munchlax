@@ -4,7 +4,8 @@ from .common import SECRETS_PATH
 from .object import Object
 
 def load_obj(p, o):
-    """Sets an Object's properties to mirror a given JSON file.
+    """
+    Sets an Object's properties to mirror a given JSON file.
 
     Args:
         p: The path to the JSON file to use.
@@ -18,7 +19,8 @@ def load_obj(p, o):
         o.update(s)
 
 def config(p):
-    """Returns a new Object with its properties as the contents of some JSON file.
+    """
+    Returns a new Object with its properties as the contents of some JSON file.
 
     Args:
         p: The path to the JSON file to use.

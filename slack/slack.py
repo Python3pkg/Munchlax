@@ -202,28 +202,30 @@ class Slack(object):
         
         raise SlackError(resp['error'])
 
-    async def delete(self, channel, ts, as_user=True):
+    async def delete(self, message, as_user=True):
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
             'chat.delete',
-            channel=channel.id,
-            ts=ts,
+            channel=message.channel,
+            ts=message.ts,
             as_user=as_user
         )
 
         raise SlackError(resp['error'])
 
-    async def edit(self, **kwargs):
+    async def edit(self, text, **kwargs):
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
             'chat.update',
+            text,
             **kwargs
         )
 
         if resp['ok']:
             del resp['ok']
+            return Object(resp)
 
         raise SlackError(resp['error'])
 
