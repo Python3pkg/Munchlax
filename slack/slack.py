@@ -106,7 +106,7 @@ class Slack(object):
         )
 
         if group['ok']:
-            return Channel(self, group['group'])
+            return Group(self, group['group'])
 
         raise SlackError(group['error'])
 
@@ -226,7 +226,8 @@ class Slack(object):
             channel=channel.id
         )
 
-        raise SlackError(resp['error'])
+        if not resp['ok']:
+            raise SlackError(resp['error'])
 
     async def channel_invite_user(self, channel, user):
         resp = await async_wrapper(
@@ -255,7 +256,7 @@ class Slack(object):
         
         raise SlackError(resp['error'])
 
-    async def kick_user(self, channel, user):
+    async def channel_kick(self, channel, user):
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -264,7 +265,8 @@ class Slack(object):
             user=user.id
         )
 
-        raise SlackError(resp['error'])
+        if not resp['ok']:
+            raise SlackError(resp['error'])
 
     async def leave_channel(self, channel):
         resp = await async_wrapper(
@@ -274,7 +276,8 @@ class Slack(object):
             channel=channel.id
         )
 
-        raise SlackError(resp['error'])
+        if not resp['ok']:
+            raise SlackError(resp['error'])
 
     async def mark_channel(self, channel, ts):
         resp = await async_wrapper(
@@ -285,7 +288,8 @@ class Slack(object):
             ts=ts
         )
 
-        raise SlackError(resp['error'])
+        if not resp['ok']:
+            raise SlackError(resp['error'])
 
     async def rename_channel(self, channel, name, validate=False):
         resp = await async_wrapper(
@@ -302,7 +306,7 @@ class Slack(object):
 
         raise SlackError(resp['error'])
 
-    async def get_replies(self, channel, ts):
+    async def get_channel_replies(self, channel, ts):
         resp = await async_wrapper(
             self._loop,
             self._client.api_call,
@@ -354,7 +358,190 @@ class Slack(object):
             channel=channel.id
         )
 
+        if not resp['ok']:
+            raise SlackError(resp['error'])
+    
+    async def archive_group(self, group):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'groups.archive',
+            channel=group.id
+        )
+
+        if not resp['ok']:
+            raise SlackError(resp['error'])
+
+    async def close_group(self, group):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'groups.close',
+            channel=group.id
+        )
+
+        if not resp['ok']:
+            raise SlackError(resp['error'])
+
+    async def create_group_child(self, group):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'groups.createChild',
+            channel=group.id
+        )
+
+        if not resp['ok']:
+            raise SlackError(resp['error'])
+
+    async def get_group_history(self, group, **kwargs):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'groups.history',
+            channel=group.id,
+            **kwrags
+        )
+
+        if resp['ok']:
+            # If we reached here then everything is ok.
+            # User should not need to check for "ok" so
+            # we are deleting this for them.
+            del resp['ok']
+            resp['messages'] = [Message(self, x) for x in resp['messages']]
+            return Object(resp)
+
         raise SlackError(resp['error'])
+
+    async def group_invite_user(self, group, user):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'groups.invite',
+            channel=group.id,
+            user=user.id
+        )
+
+        if resp['ok']:
+            return Group(resp['group'])
+
+        raise SlackError(resp['error'])
+
+    async def group_kick(self, group, user):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'groups.kick',
+            channel=group.id,
+            user=user.id
+        )
+
+        if not resp['ok']:
+            raise SlackError(resp['error'])
+
+    async def leave_group(self, group):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'groups.leave',
+            channel=group.id
+        )
+
+        if not resp['ok']:
+            raise SlackError(resp['error'])
+
+    async def mark_group(self, group, ts):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'groups.mark',
+            channel=group.id,
+            ts=ts
+        )
+
+        if not resp['ok']:
+            raise SlackError(resp['error'])
+
+    async def open_group(self, group):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'groups.open',
+            channel=group.id
+        )
+
+        if not resp['ok']:
+            raise SlackError(resp['error'])
+
+    async def rename_group(self, group, name, validate=False):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'groups.rename',
+            channel=group.id,
+            name=name,
+            validate=validate
+        )
+
+        if resp['ok']:
+            return name
+
+        raise SlackError(resp['error'])
+
+    async def get_group_replies(self, group, ts):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'group.replies',
+            channel=group.id,
+            thread_ts=ts
+        )
+
+        if resp['ok']:
+            del resp['ok']
+            resp['messages'] = [Message(self, x) for x in resp['messages']]
+            return Object(resp)
+
+        raise SlackError(resp['error'])
+
+    async def set_group_purpose(self, group, purpose):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'groups.setPurpose',
+            channel=group.id,
+            purpose=purpose
+        )
+
+        if resp['ok']:
+            return purpose
+
+        raise SlackError(resp['error'])
+
+    async def set_group_topic(self, group, topic):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'groups.setPurpose',
+            channel=group.id,
+            topic=topic
+        )
+
+        if resp['ok']:
+            return topic
+
+        raise SlackError(resp['error'])
+
+    async def unarchive_group(self, group):
+        resp = await async_wrapper(
+            self._loop,
+            self._client.api_call,
+            'groups.unarchive',
+            channel=group.id
+        )
+
+        if not resp['ok']:
+            raise SlackError(resp['error'])
 
     ########################################
     # UTILITY FUNCTIONS
