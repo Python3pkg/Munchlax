@@ -1,6 +1,9 @@
 from .object import Object
 
 class Group(Object):
+    """
+    Represents a Slack private channel or group.
+    """
     def __init__(self, slack, group):
         Object.__init__(self, group)
         self._slack = slack
@@ -12,16 +15,16 @@ class Group(Object):
         Args:
             text (str): The text of the message.
             **kwargs: Additional options to use when sending the
-                message. Refer to `Slack#raw_write` for more information.
+                message. Refer to ``Slack#raw_write`` for more information.
 
-                In most cases, you will only need to specify `text` if you
+                In most cases, you will only need to specify ``text`` if you
                 only want to send a text message.
             
         Returns:
-            Message: A `Message` object representing the newly sent message.
+            Message: A ``Message`` object representing the newly sent message.
 
         Raise:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.raw_write(channel=self.id, text=text, **kwargs)
 
@@ -31,16 +34,16 @@ class Group(Object):
 
         Args:
             **kwargs: Arbitrary options to use when uploading
-                the file. Refer to `Slack#upload_file` for more information.
+                the file. Refer to ``Slack#upload_file`` for more information.
 
                 This is mostly a convenience method so you can directly
-                upload files through a `Group` object.
+                upload files through a ``Group`` object.
 
         Returns:
-            File: A `File` object representing the newly uploaded file.
+            File: A ``File`` object representing the newly uploaded file.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.upload_file(self, **kwargs)
 
@@ -49,19 +52,20 @@ class Group(Object):
         Fetches and returns the message history for the group.
 
         Args:
-            **kwargs: Arbitrary options to use when fetching
-            the group's message history. Refer to `Slack#get_group_history`
-            for more information.
+            **kwargs:
+                Arbitrary options to use when fetching
+                the group's message history. Refer to ``Slack#get_group_history``
+                for more information.
 
-            This is mostly a convenience method so you can directly fetch
-            a group's message history.
+                This is mostly a convenience method so you can directly fetch
+                a group's message history.
 
         Returns:
-            list (Message): A list of `Message` objects.
+            list (Message): A list of ``Message`` objects.
             bool: Whether or not there are more messages in the group's history.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.get_group_history(self, **kwargs)
 
@@ -70,7 +74,7 @@ class Group(Object):
         Archives the group.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.archive_group(self)
 
@@ -79,7 +83,7 @@ class Group(Object):
         Unarchives the group.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.unarchive_group(self)
 
@@ -91,34 +95,9 @@ class Group(Object):
             user (User): The user to invite to the group.
         
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.archive_group(self, user)
-
-    async def join(self):
-        """
-        Joins the group.
-
-        In the event that the group is already joined, then `True`
-        is returned instead of a `Group` object for the joined
-        group.
-
-        Args:
-            group (group): The group to join. This group
-                must not be private.
-
-        Returns:
-            group: If the user has not yet joined this group
-                then a `Group` object representing the newly
-                joined group will be returned.
-
-            If the group to join has already been joined,
-            then True will be returned instead.
-
-        Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
-        """
-        return await self._slack.join_group(self)
 
     async def kick_user(self, user):
         """
@@ -128,7 +107,7 @@ class Group(Object):
             user (User): The user to kick from the group.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.group_kick(self, user)
 
@@ -137,7 +116,7 @@ class Group(Object):
         Leaves the group.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.leave_group(self)
 
@@ -151,7 +130,7 @@ class Group(Object):
                 last-read indicator.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.mark_group(self, ts)
 
@@ -159,20 +138,20 @@ class Group(Object):
         """
         Renames the group to something else.
 
-        This method causes the current `Group` object to become stale.
+        This method causes the current ``Group`` object to become stale.
 
         Args:
             name (str): The new name for the group.
             validate (bool): Whether or not to return an error instead
                 of changing the new name to be valid.
 
-                Defaults to False.
+                Defaults to ``False``.
 
         Returns:
             str: The new name for the group.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.rename_group(self, name, validate=validate)
 
@@ -184,11 +163,11 @@ class Group(Object):
             ts: The timestamp of the parent message to look for.
 
         Returns:
-            list (Message): A list of `Message` objects representing a message
-                thread.
+            list (Message):
+                A list of `Message` objects representing a message thread.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.get_group_replies(self, ts)
 
@@ -196,7 +175,7 @@ class Group(Object):
         """
         Sets the purpose for the group.
 
-        This causes the `Group` object being worked on to become stale.
+        This causes the ``Group`` object being worked on to become stale.
 
         Args:
             purpose: The purpose to use when updating the group.
@@ -205,7 +184,7 @@ class Group(Object):
             The new purpose of the group.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.set_group_purpose(self, purpose)
 
@@ -213,7 +192,7 @@ class Group(Object):
         """
         Sets the topic for the group.
 
-        This causes the `Group` object being worked on to become stale.
+        This causes the ``Group`` object being worked on to become stale.
 
         Args:
             topic: The topic to use when updating the group.
@@ -222,7 +201,7 @@ class Group(Object):
             The new topic of the group.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.set_group_topic(self, topic)
 
@@ -231,7 +210,7 @@ class Group(Object):
         Closes the group.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.close_group(self)
 
@@ -240,11 +219,11 @@ class Group(Object):
         Clones the group and then archives the original.
 
         Returns:
-            Group: A `Group` object that is a clone of the original
-                group.
+            Group:
+                A ``Group`` object that is a clone of the original group.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.create_group_child(self)
 
@@ -253,7 +232,7 @@ class Group(Object):
         Opens the group channel.
 
         Raise:
-            SlackError: Raised in the vent that Slack does not return "ok".
+            SlackError: Raised in the vent that Slack does not return ``ok``.
         """
         return await self._slack.open_group(self)
 
@@ -262,10 +241,10 @@ class Group(Object):
         Fetches and returns a list of all group members.
 
         Returns:
-            list<Member>: All members in the group.
+            list (Member): All members in the group.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         all_users = await self._client.list_users()
         all_users = [User(x) for x in all_users]
@@ -273,13 +252,13 @@ class Group(Object):
 
     async def update(self):
         """
-        Updates the current `Group` object.
+        Updates the current ``Group`` object.
         There isn't much benefit to using this and it's here
-        if you don't want to replace your current `Group` object
+        if you don't want to replace your current ``Group`` object
         or can't.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         updated_copy = self._slack.group_by_id(self.id)
         self.__dict__.update(updated_copy.__dict__)

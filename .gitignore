@@ -6,3 +6,5 @@ __pycache__
 dist/*
 munchlax.egg-info/*
 .vscode/*
+doc/_build
+doc/_source

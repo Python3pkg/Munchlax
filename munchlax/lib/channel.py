@@ -1,6 +1,9 @@
 from .object import Object
 
 class Channel(Object):
+    """
+    Represents a Slack channel.
+    """
     def __init__(self, slack, channel):
         Object.__init__(self, channel)
         self._slack = slack
@@ -11,17 +14,17 @@ class Channel(Object):
 
         Args:
             text (str): The text of the message.
-            **kwargs; Additional options to use when sending the
-                message. Refer to `Slack#raw_write` for more information.
+            **kwargs: Additional options to use when sending the
+                message. Refer to ``Slack#raw_write`` for more information.
 
-                In most cases, you will only need to specify `text` if you
+                In most cases, you will only need to specify ``text`` if you
                 only want to send a text message.
             
         Returns:
-            Message: A `Message` object representing the newly sent message.
+            Message: A ``Message`` object representing the newly sent message.
 
         Raise:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.raw_write(channel=self.id, text=text, **kwargs)
 
@@ -31,16 +34,16 @@ class Channel(Object):
 
         Args:
             **kwargs: Arbitrary options to use when uploading
-                the file. Refer to `Slack#upload_file` for more information.
+                the file. Refer to ``Slack#upload_file`` for more information.
 
                 This is mostly a convenience method so you can directly
-                upload files through a `Channel` object.
+                upload files through a ``Channel`` object.
 
         Returns:
-            File: A `File` object representing the newly uploaded file.
+            File: A ``File`` object representing the newly uploaded file.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.upload_file(self, **kwargs)
 
@@ -50,18 +53,18 @@ class Channel(Object):
 
         Args:
             **kwargs: Arbitrary options to use when fetching
-            the channel's message history. Refer to `Slack#get_channel_history`
-            for more information.
+                the channel's message history. Refer to ``Slack#get_channel_history``
+                for more information.
 
-            This is mostly a convenience method so you can directly fetch
-            a channel's message history.
+                This is mostly a convenience method so you can directly fetch
+                a channel's message history.
 
         Returns:
-            list (Message): A list of `Message` objects.
+            list (Message): A list of ``Message`` objects.
             bool: Whether or not there are more messages in the channel's history.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.get_channel_history(self, **kwargs)
 
@@ -70,7 +73,7 @@ class Channel(Object):
         Archives the channel.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.archive_channel(self)
 
@@ -79,7 +82,7 @@ class Channel(Object):
         Unarchives the channel.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.unarchive_channel(self)
 
@@ -91,7 +94,7 @@ class Channel(Object):
             user (User): The user to invite to the channel.
         
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.archive_channel(self, user)
 
@@ -99,8 +102,8 @@ class Channel(Object):
         """
         Joins the channel.
 
-        In the event that the channel is already joined, then `True`
-        is returned instead of a `Channel` object for the joined
+        In the event that the channel is already joined, then ``True``
+        is returned instead of a ``Channel`` object for the joined
         channel.
 
         Args:
@@ -108,15 +111,16 @@ class Channel(Object):
                 must not be private.
 
         Returns:
-            Channel: If the user has not yet joined this channel
-                then a `Channel` object representing the newly
+            Channel or True: 
+                If the user has not yet joined this channel
+                then a ``Channel`` object representing the newly
                 joined channel will be returned.
 
-            If the channel to join has already been joined,
-            then True will be returned instead.
+                If the channel to join has already been joined,
+                then ``True`` will be returned instead.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.join_channel(self)
 
@@ -128,7 +132,7 @@ class Channel(Object):
             user (User): The user to kick from the channel.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.channel_kick(self, user)
 
@@ -137,7 +141,7 @@ class Channel(Object):
         Leaves the channel.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.leave_channel(self)
 
@@ -151,7 +155,7 @@ class Channel(Object):
                 last-read indicator.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.mark_channel(self, ts)
 
@@ -159,7 +163,7 @@ class Channel(Object):
         """
         Renames the channel to something else.
 
-        This method causes the current `Channel` object to become stale.
+        This method causes the current ``Channel`` object to become stale.
 
         Args:
             name (str): The new name for the channel.
@@ -172,7 +176,7 @@ class Channel(Object):
             str: The new name for the channel.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.rename_channel(self, name, validate=validate)
 
@@ -184,11 +188,12 @@ class Channel(Object):
             ts: The timestamp of the parent message to look for.
 
         Returns:
-            list (Message): A list of `Message` objects representing a message
+            list (Message):
+                A list of ``Message`` objects representing a message
                 thread.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.get_channel_replies(self, ts)
 
@@ -196,7 +201,7 @@ class Channel(Object):
         """
         Sets the purpose for the channel.
 
-        This causes the `Channel` object being worked on to become stale.
+        This causes the ``Channel`` object being worked on to become stale.
 
         Args:
             purpose: The purpose to use when updating the channel.
@@ -205,7 +210,7 @@ class Channel(Object):
             The new purpose of the channel.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.set_channel_purpose(self, purpose)
 
@@ -213,7 +218,7 @@ class Channel(Object):
         """
         Sets the topic for the channel.
 
-        This causes the `Channel` object being worked on to become stale.
+        This causes the ``Channel`` object being worked on to become stale.
 
         Args:
             topic: The topic to use when updating the channel.
@@ -222,7 +227,7 @@ class Channel(Object):
             The new topic of the channel.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.set_channel_topic(self, topic)
 
@@ -231,10 +236,10 @@ class Channel(Object):
         Fetches and returns a list of all channel members.
 
         Returns:
-            list<Member>: All members in the channel.
+            list (Member): All members in the channel.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         all_users = await self._client.list_users()
         all_users = [User(x) for x in all_users]
@@ -242,14 +247,14 @@ class Channel(Object):
 
     async def update(self):
         """
-        Updates the current `Channel` object.
+        Updates the current ``Channel`` object.
 
         There isn't much benefit to using this and it's here
-        if you don't want to replace your current `Channel` object
+        if you don't want to replace your current ``Channel`` object
         or can't.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         updated_copy = self._slack.channel_by_id(self.id)
         self.__dict__.update(updated_copy.__dict__)

@@ -3,17 +3,18 @@ from .async import async_wrapper
 from .object import Object
 
 def build_methods(obj, constants={}):
-    """Binds Slack methods to an object.
+    """
+    Binds Slack methods to an object.
 
     Method builder for adding many methods to an object at once.
     This should not be used for things that return other object types.
 
-    For example, you should not use this with "channels.history" since
-    that method should return a list of _Message_ objects.
+    For example, you should not use this with ``channels.history`` since
+    that method should return a list of ``Message`` objects.
 
     Args:
-        obj (required): The object to create methods on.
-        constants (default={}): A dictionary of constants to use
+        obj: The object to create methods on.
+        constants (dict): A dictionary of constants to use
             when sending Slack API calls.
     """
     constants = deepcopy(constants)

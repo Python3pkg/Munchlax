@@ -1,4 +1,7 @@
 class Object(object):
+    """
+    A class for creating an object representation of a dictionary.
+    """
     def __init__(self, d):
         def bind(x):
             if isinstance(x, dict):

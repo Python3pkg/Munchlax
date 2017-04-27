@@ -1,50 +1,39 @@
-from .list import List
 from .object import Object
 
 class File(Object):
+    """
+    Represents a Slack file.
+    """
     def __init__(self, slack, file):
         Object.__init__(self, file)
         self._slack = slack
 
     async def get_channels(self):
         """
-        Fetches and returns an async iterator of all
-        channels this file has been shared in.
+        Fetches and returns all channels this file has been shared in.
 
-        ```
-        async for channel in file.get_channels():
-            await channel.write('hello, world!')
-        ```
+        This method is a generator.
 
-        Returns:
-            List<Channel>: An async iterator of all channels.
+        Yields:
+            Channel: A channel within which the file has been shared.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
-        i = 0
-
-        async def next():
-            if len(self.channels) <= i:
-                return None
-            channel = await self._slack.channel_by_id(self.channels[i])
-            i += 1
-            return channel
-
-        return List(next)
+        for channel in self.channels:
+            yield await self._slack.channel_by_id(channel)
 
     async def share(self):
         """
         Creates a public URL for the file.
 
-        This will cause the current `File` object to become stale.
+        This will cause the current ``File`` object to become stale.
 
         Returns:
-            File: An updated `File` object with the public URL for
-                the file.
+            File: An updated ``File`` object with the public URL for the file.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.share_file(self)
 
@@ -52,14 +41,13 @@ class File(Object):
         """
         Revokes the file from being shared publicly.
 
-        This will cause the current `File` object o become stale.
+        This will cause the current ``File`` object to become stale.
 
         Returns:
-            File: An updated `File` object without the public URL for
-                the file.
+            File: An updated ``File`` object without the public URL for the file.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.revoke_file(self)
 
@@ -68,7 +56,7 @@ class File(Object):
         Deletes the file.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.delete_file(self)
 
@@ -85,11 +73,11 @@ class File(Object):
                 Defaults to 1
 
         Returns:
-            list<Comment>: A list of `Comment` objects for the query.
+            list (Comment): A list of ``Comment`` objects for the query.
             object: A generic object containing paging information.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.get_file_comments(self, **kwargs)
 
@@ -101,10 +89,10 @@ class File(Object):
             comment (str): The comment string.
 
         Returns:
-            Comment: A `Comment` object representing the new comment.
+            Comment: A ``Comment`` object representing the new comment.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.add_file_comment(self, comment)
 
@@ -119,7 +107,7 @@ class File(Object):
                 https://www.webpagefx.com/tools/emoji-cheat-sheet/
                 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.add_file_reaction(self, name)
 
@@ -128,10 +116,10 @@ class File(Object):
         Fetches and returns a list of all reactions for the file.
 
         Returns:
-            list<Object>: A list of generic objects with reaction data.
+            list (Object): A list of generic objects with reaction data.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.get_file_reactions(self)
 
@@ -143,6 +131,6 @@ class File(Object):
             name (str): The name of the reaction to remove.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.remove_file_reaction(self, name)

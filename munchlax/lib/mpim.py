@@ -1,6 +1,9 @@
 from .object import Object
 
 class MPIM(Object):
+    """
+    Represents a Slack MPIM channel.
+    """
     def __init__(self, slack, MPim):
         Object.__init__(self, MPim)
         self._slack = slack
@@ -10,7 +13,7 @@ class MPIM(Object):
         Closes the MPIM channel.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.close_mpim(self)
 
@@ -19,11 +22,11 @@ class MPIM(Object):
         Fetches and returns the message history for the MPIM.
 
         Args:
-            latest (float | "now"): The end of time range of messages to include.
-                This can be a float or "now" If "now" is specified then the current
+            latest (float | ``now``): The end of time range of messages to include.
+                This can be a float or ``now`` If ``now`` is specified then the current
                 time is used.
 
-                Defaults to "now".
+                Defaults to ``now``.
             oldest (float): The start of time range of messages to include.
 
                 Defaults to 0.
@@ -36,11 +39,11 @@ class MPIM(Object):
                 Defaults to 100.
 
         Returns:
-            list (Message): A list of `Message` objects.
+            list (Message): A list of ``Message`` objects.
             bool: Whether or not there are more messages in the IM's history.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.get_mpim_history(
             self,
@@ -59,7 +62,7 @@ class MPIM(Object):
                 last-read indicator.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         self._slack.mark_mpim(self, ts)
 
@@ -71,10 +74,10 @@ class MPIM(Object):
             ts: The timestamp of the parent message to look for.
 
         Returns:
-            list (Message): A list of `Message` objects representing a message
+            list (Message): A list of ``Message`` objects representing a message
                 thread.
 
         Raises:
-            SlackError: Raised in the event that Slack does not return "ok".
+            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.get_mpim_replies(self, ts)
