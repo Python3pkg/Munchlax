@@ -134,3 +134,17 @@ class File(Object):
             SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.remove_file_reaction(self, name)
+
+    async def update(self):
+        """
+        Updates the current ``File`` object.
+
+        There isn't much benefit to using this and it's here
+        if you don't want to replace your current ``File`` object
+        or can't.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return ``ok``.
+        """
+        updated_copy = self._slack.file_by_id(self.id)
+        self.__dict__.update(updated_copy.__dict__)

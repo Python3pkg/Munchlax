@@ -24,6 +24,9 @@ class Comment(Object):
 
         Args:
             comment (str): The new text string to use for the comment.
+
+        Returns:
+            Comment: An updated version of the comment.
         
         Raises:
             SlackError: Raised in the event that Slack does not return ``ok``.
