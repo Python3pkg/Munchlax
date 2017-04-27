@@ -1,0 +1,300 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>munchlax.lib.mpim &mdash; Munchlax 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="Munchlax 0.1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Munchlax
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Munchlax</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>munchlax.lib.mpim</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for munchlax.lib.mpim</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">.object</span> <span class="k">import</span> <span class="n">Object</span>
+
+<div class="viewcode-block" id="MPIM"><a class="viewcode-back" href="../../../munchlax.lib.mpim.html#munchlax.lib.mpim.MPIM">[docs]</a><span class="k">class</span> <span class="nc">MPIM</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slack</span><span class="p">,</span> <span class="n">MPim</span><span class="p">):</span>
+        <span class="n">Object</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">MPim</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span> <span class="o">=</span> <span class="n">slack</span>
+
+<div class="viewcode-block" id="MPIM.close"><a class="viewcode-back" href="../../../munchlax.lib.mpim.html#munchlax.lib.mpim.MPIM.close">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Closes the MPIM channel.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return &quot;ok&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">close_mpim</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MPIM.get_history"><a class="viewcode-back" href="../../../munchlax.lib.mpim.html#munchlax.lib.mpim.MPIM.get_history">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">get_history</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">latest</span><span class="o">=</span><span class="s1">&#39;now&#39;</span><span class="p">,</span> <span class="n">oldest</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">inclusive</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fetches and returns the message history for the MPIM.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            latest (float | &quot;now&quot;): The end of time range of messages to include.</span>
+<span class="sd">                This can be a float or &quot;now&quot; If &quot;now&quot; is specified then the current</span>
+<span class="sd">                time is used.</span>
+
+<span class="sd">                Defaults to &quot;now&quot;.</span>
+<span class="sd">            oldest (float): The start of time range of messages to include.</span>
+
+<span class="sd">                Defaults to 0.</span>
+<span class="sd">            inclusive (bool): Whether or not to include messages with latest of</span>
+<span class="sd">                oldest timestamps.</span>
+
+<span class="sd">                Defaults to True.</span>
+<span class="sd">            count (int): The number of messages to return, between 1 and 1000.</span>
+<span class="sd">                </span>
+<span class="sd">                Defaults to 100.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list (Message): A list of `Message` objects.</span>
+<span class="sd">            bool: Whether or not there are more messages in the IM&#39;s history.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return &quot;ok&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">get_mpim_history</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">latest</span><span class="o">=</span><span class="n">latest</span><span class="p">,</span>
+            <span class="n">oldest</span><span class="o">=</span><span class="n">oldest</span><span class="p">,</span> 
+            <span class="n">inclusive</span><span class="o">=</span><span class="n">inclusive</span><span class="p">,</span>
+            <span class="n">count</span><span class="o">=</span><span class="n">count</span>
+        <span class="p">)</span></div>
+
+<div class="viewcode-block" id="MPIM.mark"><a class="viewcode-back" href="../../../munchlax.lib.mpim.html#munchlax.lib.mpim.MPIM.mark">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">mark</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ts</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Changes the last-read indicator in the MPIM for the current user.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ts (float): The timestamp to use when changing the</span>
+<span class="sd">                last-read indicator.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return &quot;ok&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">mark_mpim</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ts</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="MPIM.get_replies"><a class="viewcode-back" href="../../../munchlax.lib.mpim.html#munchlax.lib.mpim.MPIM.get_replies">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">get_replies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ts</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fetches and returns all replies to a message within the MPIM.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ts: The timestamp of the parent message to look for.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list (Message): A list of `Message` objects representing a message</span>
+<span class="sd">                thread.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return &quot;ok&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">get_mpim_replies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ts</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Reticence.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

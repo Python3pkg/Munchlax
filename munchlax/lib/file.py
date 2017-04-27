@@ -24,7 +24,7 @@ class File(Object):
         """
         i = 0
 
-        def next():
+        async def next():
             if len(self.channels) <= i:
                 return None
             channel = await self._slack.channel_by_id(self.channels[i])

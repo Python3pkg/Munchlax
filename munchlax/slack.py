@@ -2,11 +2,11 @@ import asyncio
 from datetime import datetime, timedelta
 import json
 from slackclient import SlackClient
+
+from .slackerror import SlackError
+
 from .lib.async import async_wrapper
 from .lib.object import Object
-
-from slackerror import SlackError
-
 from .lib.channel import Channel
 from .lib.comment import Comment
 from .lib.group import Group
@@ -236,7 +236,7 @@ class Slack(object):
                 Defaults to False.
 
         Returns:
-            list<Channel>: A list of `Channel` objects.
+            list (Channel): A list of `Channel` objects.
 
         Raises:
             SlackError: Raised in the event that Slack does not return "ok".
@@ -548,7 +548,7 @@ class Slack(object):
             'chat.update',
             ts=message.ts,
             channel=message.channel,
-            text
+            text=text
         )
 
         if resp['ok']:
@@ -611,7 +611,7 @@ class Slack(object):
                 Defaults to 100.
 
         Returns:
-            list<Message>: A list of `Message` objects.
+            list (Message): A list of `Message` objects.
             bool: Whether or not there are more messages in the channel's history.
 
         Raises:
@@ -827,7 +827,7 @@ class Slack(object):
             ts: The timestamp of the parent message to look for.
 
         Returns:
-            list<Message>: A list of `Message` objects representing a message
+            list (Message): A list of `Message` objects representing a message
                 thread.
 
         Raises:
@@ -1019,7 +1019,7 @@ class Slack(object):
                 Defaults to 100.
 
         Returns:
-            list<Message>: A list of `Message` objects.
+            list (Message): A list of `Message` objects.
             bool: Whether or not there are more messages in the group's history.
 
         Raises:
@@ -1199,7 +1199,7 @@ class Slack(object):
             ts: The timestamp of the parent message to look for.
 
         Returns:
-            list<Message>: A list of `Message` objects representing a message
+            list (Message): A list of `Message` objects representing a message
                 thread.
 
         Raises:
@@ -1345,7 +1345,7 @@ class Slack(object):
                 Defaults to 100.
 
         Returns:
-            list<Message>: A list of `Message` objects.
+            list (Message): A list of `Message` objects.
             bool: Whether or not there are more messages in the IM's history.
 
         Raises:
@@ -1427,7 +1427,7 @@ class Slack(object):
             ts: The timestamp of the parent message to look for.
 
         Returns:
-            list<Message>: A list of `Message` objects representing a message
+            list (Message): A list of `Message` objects representing a message
                 thread.
 
         Raises:
@@ -1555,7 +1555,7 @@ class Slack(object):
                 Defaults to 100.
 
         Returns:
-            list<Message>: A list of `Message` objects.
+            list (Message): A list of `Message` objects.
             bool: Whether or not there are more messages in the MPIM's history.
 
         Raises:
@@ -1612,7 +1612,7 @@ class Slack(object):
             ts: The timestamp of the parent message to look for.
 
         Returns:
-            list<Message>: A list of `Message` objects representing a message
+            list (Message): A list of `Message` objects representing a message
                 thread.
 
         Raises:
@@ -2070,6 +2070,9 @@ class Slack(object):
         self._transforms[evt] = fn
 
     async def listen(self):
+        """
+        Initializes a connection to Slack RTM.
+        """
         self._loop = asyncio.get_event_loop()
 
         print('Using user "{}" with ID {}.'.format(me.user, me.user_id))
@@ -2101,10 +2104,22 @@ class Slack(object):
                     for fn in self._listeners[line.type]:
                         await fn(line)
 
-    def set_token(self, token):
+    async def set_token(self, token):
+        """
+        Sets the current Slack token and updatesvthe current user information.
+
+        Args:
+            token (str): The Slack token to use.
+
+        Raise:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         self._client = SlackClient(token)
         self.me = await self.whoami()        
 
     def start(self):
+        """
+        Initializes a Slack RTM connection and begins listening to it.
+        """
         loop = asyncio.get_event_loop()
         loop.run_until_complete(self.listen())

@@ -1,0 +1,368 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>munchlax.lib.file &mdash; Munchlax 0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../../genindex.html"/>
+        <link rel="search" title="Search" href="../../../search.html"/>
+    <link rel="top" title="Munchlax 0.1 documentation" href="../../../index.html"/>
+        <link rel="up" title="Module code" href="../../index.html"/> 
+
+  
+  <script src="../../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> Munchlax
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">Munchlax</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>munchlax.lib.file</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for munchlax.lib.file</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">.list</span> <span class="k">import</span> <span class="n">List</span>
+<span class="kn">from</span> <span class="nn">.object</span> <span class="k">import</span> <span class="n">Object</span>
+
+<div class="viewcode-block" id="File"><a class="viewcode-back" href="../../../munchlax.lib.file.html#munchlax.lib.file.File">[docs]</a><span class="k">class</span> <span class="nc">File</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slack</span><span class="p">,</span> <span class="n">file</span><span class="p">):</span>
+        <span class="n">Object</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span> <span class="o">=</span> <span class="n">slack</span>
+
+<div class="viewcode-block" id="File.get_channels"><a class="viewcode-back" href="../../../munchlax.lib.file.html#munchlax.lib.file.File.get_channels">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">get_channels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fetches and returns an async iterator of all</span>
+<span class="sd">        channels this file has been shared in.</span>
+
+<span class="sd">        ```</span>
+<span class="sd">        async for channel in file.get_channels():</span>
+<span class="sd">            await channel.write(&#39;hello, world!&#39;)</span>
+<span class="sd">        ```</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List&lt;Channel&gt;: An async iterator of all channels.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return &quot;ok&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+
+        <span class="k">async</span> <span class="k">def</span> <span class="nf">next</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">i</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+            <span class="n">channel</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">channel_by_id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+            <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">return</span> <span class="n">channel</span>
+
+        <span class="k">return</span> <span class="n">List</span><span class="p">(</span><span class="nb">next</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.share"><a class="viewcode-back" href="../../../munchlax.lib.file.html#munchlax.lib.file.File.share">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">share</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates a public URL for the file.</span>
+
+<span class="sd">        This will cause the current `File` object to become stale.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            File: An updated `File` object with the public URL for</span>
+<span class="sd">                the file.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return &quot;ok&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">share_file</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.revoke"><a class="viewcode-back" href="../../../munchlax.lib.file.html#munchlax.lib.file.File.revoke">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">revoke</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Revokes the file from being shared publicly.</span>
+
+<span class="sd">        This will cause the current `File` object o become stale.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            File: An updated `File` object without the public URL for</span>
+<span class="sd">                the file.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return &quot;ok&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">revoke_file</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.delete"><a class="viewcode-back" href="../../../munchlax.lib.file.html#munchlax.lib.file.File.delete">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Deletes the file.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return &quot;ok&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">delete_file</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.get_comments"><a class="viewcode-back" href="../../../munchlax.lib.file.html#munchlax.lib.file.File.get_comments">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">get_comments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">page</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fetches and returns the comments for the file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            count (int): The number of comments per page to return.</span>
+
+<span class="sd">                Defaults to 100.</span>
+<span class="sd">            page (int): The comments page number to use.</span>
+
+<span class="sd">                Defaults to 1</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list&lt;Comment&gt;: A list of `Comment` objects for the query.</span>
+<span class="sd">            object: A generic object containing paging information.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return &quot;ok&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">get_file_comments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.comment"><a class="viewcode-back" href="../../../munchlax.lib.file.html#munchlax.lib.file.File.comment">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">comment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comment</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a comment to the file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            comment (str): The comment string.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Comment: A `Comment` object representing the new comment.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return &quot;ok&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">add_file_comment</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">comment</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.add_reaction"><a class="viewcode-back" href="../../../munchlax.lib.file.html#munchlax.lib.file.File.add_reaction">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">add_reaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Adds a reaction to the file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): The name of the reaction to add.</span>
+
+<span class="sd">                A list of standard Slack reactions/emoji can be found at</span>
+<span class="sd">                https://www.webpagefx.com/tools/emoji-cheat-sheet/</span>
+<span class="sd">                </span>
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return &quot;ok&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">add_file_reaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.get_reactions"><a class="viewcode-back" href="../../../munchlax.lib.file.html#munchlax.lib.file.File.get_reactions">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">get_reactions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fetches and returns a list of all reactions for the file.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list&lt;Object&gt;: A list of generic objects with reaction data.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return &quot;ok&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">get_file_reactions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="File.remove_reaction"><a class="viewcode-back" href="../../../munchlax.lib.file.html#munchlax.lib.file.File.remove_reaction">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">remove_reaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Removes a reaction from the file.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): The name of the reaction to remove.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return &quot;ok&quot;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">remove_file_reaction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span></div></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, Reticence.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../../',
+            VERSION:'0.1',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

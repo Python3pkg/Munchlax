@@ -8,7 +8,7 @@ class List(object):
     async def __anext__(self):
         next = await self._next()
 
-        if is None:
+        if next is None:
             raise StopAsyncIteration
         
         return next

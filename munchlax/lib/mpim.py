@@ -36,7 +36,7 @@ class MPIM(Object):
                 Defaults to 100.
 
         Returns:
-            list<Message>: A list of `Message` objects.
+            list (Message): A list of `Message` objects.
             bool: Whether or not there are more messages in the IM's history.
 
         Raises:
@@ -71,7 +71,7 @@ class MPIM(Object):
             ts: The timestamp of the parent message to look for.
 
         Returns:
-            list<Message>: A list of `Message` objects representing a message
+            list (Message): A list of `Message` objects representing a message
                 thread.
 
         Raises:

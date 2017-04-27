@@ -57,7 +57,7 @@ class Group(Object):
             a group's message history.
 
         Returns:
-            list<Message>: A list of `Message` objects.
+            list (Message): A list of `Message` objects.
             bool: Whether or not there are more messages in the group's history.
 
         Raises:
@@ -71,7 +71,7 @@ class Group(Object):
 
         Raises:
             SlackError: Raised in the event that Slack does not return "ok".
-        """"
+        """
         return await self._slack.archive_group(self)
 
     async def unarchive(self):
@@ -184,7 +184,7 @@ class Group(Object):
             ts: The timestamp of the parent message to look for.
 
         Returns:
-            list<Message>: A list of `Message` objects representing a message
+            list (Message): A list of `Message` objects representing a message
                 thread.
 
         Raises:

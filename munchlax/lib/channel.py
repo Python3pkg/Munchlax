@@ -57,7 +57,7 @@ class Channel(Object):
             a channel's message history.
 
         Returns:
-            list<Message>: A list of `Message` objects.
+            list (Message): A list of `Message` objects.
             bool: Whether or not there are more messages in the channel's history.
 
         Raises:
@@ -71,7 +71,7 @@ class Channel(Object):
 
         Raises:
             SlackError: Raised in the event that Slack does not return "ok".
-        """"
+        """
         return await self._slack.archive_channel(self)
 
     async def unarchive(self):
@@ -184,7 +184,7 @@ class Channel(Object):
             ts: The timestamp of the parent message to look for.
 
         Returns:
-            list<Message>: A list of `Message` objects representing a message
+            list (Message): A list of `Message` objects representing a message
                 thread.
 
         Raises:
