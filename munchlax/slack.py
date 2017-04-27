@@ -480,9 +480,7 @@ class Slack(object):
 
         Args:
             **kwargs: Arbitrary keyword arguments to be passed
-                to Slack's `chat.postMessage` endpoint. Please refer
-                to https://api.slack.com/methods/chat.postMessage for
-                more information.
+                to Slack's `chat.postMessage` endpoint.
 
         Returns:
             Message: A `Message` object representing the newly written
@@ -573,8 +571,6 @@ class Slack(object):
 
         Args:
             **kwargs: Additional options to use when updating the message.
-                Refer to https://api.slack.com/methods/chat.update for
-                more information.
 
         Raises:
             SlackError: Raised in the event that Slack does not return "ok".
@@ -1470,7 +1466,7 @@ class Slack(object):
         if not resp['ok']:
             raise SlackError(resp['error'])
 
-    async def get_im_history(self, im, latest='now', oldest=0, inclusive=True, count=100):
+    async def get_mpim_history(self, im, latest='now', oldest=0, inclusive=True, count=100):
         """
         Fetches and returns the message history for a MPIM.
 
@@ -1863,7 +1859,7 @@ class Slack(object):
             filename (str): The name of the file.
             channels (*Channels): A variadic list containing `Channel` objects.
                 The uploaded file will be shared to all these channels.
-            **kwargs: Arbitrary arguments to pass to Slack's `files.upload` endpoint.
+            **kwargs: Additonal arguments to pass to Slack's `files.upload` endpoint.
                 Refer to https://api.slack.com/methods/files.upload for more information.
 
         Raises:

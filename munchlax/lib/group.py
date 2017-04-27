@@ -11,7 +11,7 @@ class Group(Object):
 
         Args:
             text (str): The text of the message.
-            **kwargs; Arbitrary options to use when sending the
+            **kwargs: Additional options to use when sending the
                 message. Refer to `Slack#raw_write` for more information.
 
                 In most cases, you will only need to specify `text` if you

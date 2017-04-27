@@ -13,6 +13,7 @@ class File(Object):
 
         ```
         async for channel in file.get_channels():
+            await channel.write('hello, world!')
         ```
 
         Returns:

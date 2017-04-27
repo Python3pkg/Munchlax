@@ -11,7 +11,7 @@ class Channel(Object):
 
         Args:
             text (str): The text of the message.
-            **kwargs; Arbitrary options to use when sending the
+            **kwargs; Additional options to use when sending the
                 message. Refer to `Slack#raw_write` for more information.
 
                 In most cases, you will only need to specify `text` if you
@@ -243,7 +243,7 @@ class Channel(Object):
     async def update(self):
         """
         Updates the current `Channel` object.
-        
+
         There isn't much benefit to using this and it's here
         if you don't want to replace your current `Channel` object
         or can't.

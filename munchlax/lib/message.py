@@ -6,13 +6,53 @@ class Message(Object):
         self._slack = slack
 
     async def reply(self, text, **kwargs):
+        """
+        Writes a reply to the message.
+
+        This is basically a convenience function for:
+        
+        ```
+        slack.raw_write(text=text, channel=message.channel)
+        ```
+
+        Args:
+            text (str): The text of the message.
+            **kwargs; Additional options to use when sending the
+                message. Refer to `Slack#raw_write` for more information.
+
+                In most cases, you will only need to specify `text` if you
+                only want to send a text message.
+            
+        Returns:
+            Message: A `Message` object representing the newly sent message.
+
+        Raise:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         return await self._slack.raw_write(text=text, channel=self.channel, **kwargs)
 
     async def delete(self):
+        """
+        Deletes the message.
+
+        Raise:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
         return await self._slack.delete(self)
 
     async def edit(self, text, **kwargs):
-        msg = await self._slack.edit(text, self, **kwargs)
+        """
+        Updates the message's contents.
+
+        Args:
+            text (str): The new message contents. 
+            **kwargs: Additional options to use when updating the message.
+                Refer to `Slack#raw_edit` for more information.
+
+        Raises:
+            SlackError: Raised in the event that Slack does not return "ok".
+        """
+        msg = await self._slack.edit(self, text=text, **kwargs)
         self.__dict__.update(msg.__dict__)
         return self
 
