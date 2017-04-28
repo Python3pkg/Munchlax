@@ -5,8 +5,9 @@
 SPHINXOPTS    =
 SPHINXBUILD   = sphinx-build
 SPHINXPROJ    = Munchlax
-SOURCEDIR     = docs/_source
-BUILDDIR      = docs/_build
+SOURCEDIR     = docs/
+BUILDDIR      = ../munchlax-docs
+GH_PAGES_SOURCES = source code libuv Makefile
 
 # Put it first so that "make" without argument is like "make help".
 help:
