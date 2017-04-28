@@ -3,9 +3,9 @@
    :caption: Contents:
 
 Munchlax Tutorial
-==============
+=================
 Using Munchlax is fairly straightfoward. First you'll need to get a Slack token. Once
-you have one, you'll need to decide on a command prefix. A command prefix is basically something
+you have one you'll need to decide on a command prefix. A command prefix is basically something
 that designates a Slack message as a possible command for your bot. For example, using ``~`` as
 your prefix means all messages prefixed with ``~`` will be processed as a possible command.
 
@@ -25,6 +25,15 @@ Now we can add some bot commands. Bot commands are functions with decorators ove
 .. code-block:: python
 
     @bot.command()
+    async def hello(message):
+        await message.reply('hi!')
+
+Bot commands use the same names as their methods by default. If you want to specify a
+specific command for a method you can pass ``cmd`` to ``Bot#command``.
+
+.. code-block:: python
+
+    @bot.command(cmd='alternative')
     async def hello(message):
         await message.reply('hi!')
 
@@ -53,7 +62,7 @@ is passed.
         number = float(message.text.split(' ')[1])
         await message.reply(str(number / 2))
 
-Once you have some commands specified, you can start your bot with ``bot#start``.
+Once you have some commands specified you can start your bot with ``bot#start``.
 
 Complete Tutorial Code
 ----------------------

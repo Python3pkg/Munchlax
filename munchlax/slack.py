@@ -1958,7 +1958,17 @@ class Slack(object):
     # UTILITY FUNCTIONS
     ########################################
 
-    def _format_timestamp(self, ms):
+    def format_timestamp(self, ms):
+        """
+        Formats a Slack timestamp and returns a
+        ``datetime`` object.
+
+        Args:
+            ms (str|int|float): A Slack timestamp to format.
+
+        Returns:
+            datetime: A datetime representation of the provided timestamp.
+        """
         epoch = datetime(1970, 1, 1)
         return epoch + timedelta(seconds=ms)
 
@@ -2061,10 +2071,10 @@ class Slack(object):
 
                     # Convert Slack timestamps to datetime objects.
                     if getattr(line, 'ts', None) is not None:
-                        line.ts = self._format_timestamp(float(line.ts))
+                        ts = self._format_timestamp(float(line.ts))
 
                         # ignore messages from the past.
-                        if line.ts < startup:
+                        if ts < startup:
                             continue
 
                     for fn in self._listeners[line.type]:
