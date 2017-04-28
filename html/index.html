@@ -62,7 +62,7 @@ that designates a Slack message as a possible command for your bot. For example,
 your prefix means all messages prefixed with <code class="docutils literal"><span class="pre">~</span></code> will be processed as a possible command.</p>
 <p>For simplicity, let&#8217;s use <code class="docutils literal"><span class="pre">~</span></code> as our bot prefix.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">munchlax</span> <span class="kn">import</span> <span class="n">Bot</span>
+<span class="kn">from</span> <span class="nn">munchlax.bot</span> <span class="kn">import</span> <span class="n">Bot</span>
 
 <span class="n">bot</span> <span class="o">=</span> <span class="n">Bot</span><span class="p">()</span>
 <span class="n">bot</span><span class="o">.</span><span class="n">set_token</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;SLACK_TOKEN&#39;</span><span class="p">])</span>
@@ -101,7 +101,7 @@ is passed.</p>
 <div class="section" id="complete-tutorial-code">
 <h2>Complete Tutorial Code<a class="headerlink" href="#complete-tutorial-code" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">munchlax</span> <span class="kn">import</span> <span class="n">Bot</span>
+<span class="kn">from</span> <span class="nn">munchlax.bot</span> <span class="kn">import</span> <span class="n">Bot</span>
 
 <span class="n">bot</span> <span class="o">=</span> <span class="n">Bot</span><span class="p">()</span>
 <span class="n">bot</span><span class="o">.</span><span class="n">set_token</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;SLACK_TOKEN&#39;</span><span class="p">])</span>
