@@ -12,12 +12,12 @@
         <script>
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'',
-            VERSION:'0.1.3',
+            VERSION:'0.1.4',
             LANGUAGE:'None',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,
-            SOURCELINK_SUFFIX: '.txt'
+            SOURCELINK_SUFFIX: ''
         };
         </script>
         <script src="_static/jquery.js"></script>
@@ -38,6 +38,7 @@
                 </h1>
                 <nav>
                     <a href="py-modindex.html">Module Index</a>
+                    <a href="changelog.html">Changelog</a>
                     <a href="search.html">Search</a>
                     <a href="https://github.com/wildandrewlee/Munchlax">GitHub</a>
                 </nav>
@@ -109,10 +110,10 @@ the group&#8217;s message history. Refer to <code class="docutils literal"><span
 for more information. This is mostly a convenience method so
 you can directly fetch a group&#8217;s message history.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of <code class="docutils literal"><span class="pre">Message</span></code> objects.
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>list</strong> &#8211; A list of <code class="docutils literal"><span class="pre">Message</span></code> objects.
 bool: Whether or not there are more messages in the group&#8217;s history.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list (<a class="reference internal" href="munchlax.lib.message.html#munchlax.lib.message.Message" title="munchlax.lib.message.Message">Message</a>)</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="munchlax.lib.message.html#munchlax.lib.message.Message" title="munchlax.lib.message.Message">Message</a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
 </tr>
@@ -130,9 +131,9 @@ bool: Whether or not there are more messages in the group&#8217;s history.</td>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ts</strong> &#8211; The timestamp of the parent message to look for.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of <cite>Message</cite> objects representing a message thread.</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>list</strong> &#8211;     A list of <cite>Message</cite> objects representing a message thread.</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list (<a class="reference internal" href="munchlax.lib.message.html#munchlax.lib.message.Message" title="munchlax.lib.message.Message">Message</a>)</td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="munchlax.lib.message.html#munchlax.lib.message.Message" title="munchlax.lib.message.Message">Message</a></td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
 </tr>
@@ -194,9 +195,9 @@ bool: Whether or not there are more messages in the group&#8217;s history.</td>
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">All members in the group.</td>
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>list</strong> &#8211; All members in the group.</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list (Member)</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">Member</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
 </tr>

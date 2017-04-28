@@ -1,0 +1,8 @@
+Munchlax Changelog
+==================
+
+.. toctree::
+   :maxdepth: 2
+   :caption: Contents:
+
+Nothing yet...
