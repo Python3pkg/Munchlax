@@ -1,4 +1,4 @@
-# Slack Bot
+# Munchlax
 
 A Python-based Slack bot written with concurrency in mind.
 
