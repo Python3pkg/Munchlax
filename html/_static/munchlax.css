@@ -9,7 +9,6 @@ body {
     margin: 0px auto;
     padding: 40px 0px;
     font-family: 'Source Sans Pro';
-    font-size: 14px;
     color: #314954;
     -webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
@@ -19,6 +18,7 @@ body {
 h1, h2, h3 {
     font-family: 'Oxygen';
     font-size: 1.5rem;
+    font-weight: 400;
 }
 
 h1:hover .headerlink, h2:hover .headerlink, h3:hover .headerlink, .method:hover .headerlink {
