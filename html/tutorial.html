@@ -48,7 +48,7 @@
 <div class="section" id="munchlax-tutorial">
 <h1>Munchlax Tutorial<a class="headerlink" href="#munchlax-tutorial" title="Permalink to this headline">¶</a></h1>
 <p>Using Munchlax is fairly straightfoward. First you&#8217;ll need to get a Slack token. Once
-you have one, you&#8217;ll need to decide on a command prefix. A command prefix is basically something
+you have one you&#8217;ll need to decide on a command prefix. A command prefix is basically something
 that designates a Slack message as a possible command for your bot. For example, using <code class="docutils literal"><span class="pre">~</span></code> as
 your prefix means all messages prefixed with <code class="docutils literal"><span class="pre">~</span></code> will be processed as a possible command.</p>
 <p>For simplicity, let&#8217;s use <code class="docutils literal"><span class="pre">~</span></code> as our bot prefix.</p>
@@ -62,6 +62,13 @@ your prefix means all messages prefixed with <code class="docutils literal"><spa
 </div>
 <p>Now we can add some bot commands. Bot commands are functions with decorators over them.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="nd">@bot.command</span><span class="p">()</span>
+<span class="n">async</span> <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+    <span class="n">await</span> <span class="n">message</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="s1">&#39;hi!&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Bot commands use the same names as their methods by default. If you want to specify a
+specific command for a method you can pass <cite>cmd</cite> to <cite>Bot#command</cite>.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="nd">@bot.command</span><span class="p">(</span><span class="n">cmd</span><span class="o">=</span><span class="s1">&#39;alternative&#39;</span><span class="p">)</span>
 <span class="n">async</span> <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
     <span class="n">await</span> <span class="n">message</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="s1">&#39;hi!&#39;</span><span class="p">)</span>
 </pre></div>
@@ -88,7 +95,7 @@ is passed.</p>
     <span class="n">await</span> <span class="n">message</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">number</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
 </pre></div>
 </div>
-<p>Once you have some commands specified, you can start your bot with <code class="docutils literal"><span class="pre">bot#start</span></code>.</p>
+<p>Once you have some commands specified you can start your bot with <code class="docutils literal"><span class="pre">bot#start</span></code>.</p>
 <div class="section" id="complete-tutorial-code">
 <h2>Complete Tutorial Code<a class="headerlink" href="#complete-tutorial-code" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
