@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='munchlax',
-    version='0.12',
+    version='0.13',
     description='Asynchronous Slack library for Python 3.4+',
     url='https://github.com/WildAndrewLee/Munchlax',
     author='reticence',
