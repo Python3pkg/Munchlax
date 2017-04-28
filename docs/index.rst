@@ -55,7 +55,7 @@ is passed.
 
 .. code-block:: python
 
-    def is_even(x):
+    async def is_even(x):
         arg = x.split(' ')[1]
 
         if not arg.isnumeric():
@@ -89,7 +89,7 @@ Complete Tutorial Code
     async def hello(message):
         await message.reply('hi!')
 
-    def is_even(x):
+    async def is_even(x):
         arg = x.split(' ')[1]
 
         if not arg.isnumeric():
