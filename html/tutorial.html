@@ -67,7 +67,7 @@ your prefix means all messages prefixed with <code class="docutils literal"><spa
 </pre></div>
 </div>
 <p>Bot commands use the same names as their methods by default. If you want to specify a
-specific command for a method you can pass <cite>cmd</cite> to <cite>Bot#command</cite>.</p>
+specific command for a method you can pass <code class="docutils literal"><span class="pre">cmd</span></code> to <code class="docutils literal"><span class="pre">Bot#command</span></code>.</p>
 <div class="highlight-python"><div class="highlight"><pre><span></span><span class="nd">@bot.command</span><span class="p">(</span><span class="n">cmd</span><span class="o">=</span><span class="s1">&#39;alternative&#39;</span><span class="p">)</span>
 <span class="n">async</span> <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
     <span class="n">await</span> <span class="n">message</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="s1">&#39;hi!&#39;</span><span class="p">)</span>

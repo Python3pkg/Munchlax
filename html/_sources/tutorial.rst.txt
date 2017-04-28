@@ -29,7 +29,7 @@ Now we can add some bot commands. Bot commands are functions with decorators ove
         await message.reply('hi!')
 
 Bot commands use the same names as their methods by default. If you want to specify a
-specific command for a method you can pass `cmd` to `Bot#command`.
+specific command for a method you can pass ``cmd`` to ``Bot#command``.
 
 .. code-block:: python
 
