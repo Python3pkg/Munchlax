@@ -17,7 +17,5 @@ slackclient==1.0.5
 snowballstemmer==1.2.1
 Sphinx==1.5.5
 sphinx-paramlinks==0.3.2
-sphinx-rtd-theme==0.2.4
-SQLAlchemy==1.1.9
 twine==1.8.1
 websocket-client==0.40.0
