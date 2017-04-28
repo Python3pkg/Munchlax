@@ -121,7 +121,7 @@ class Bot(Slack):
         Raises:
             SlackError: Raised in the event that Slack does not return ``ok``.
         """
-        self.set_token(token)
+        Slack.set_token(self, token)
 
     def start(self):
         """

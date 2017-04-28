@@ -2041,7 +2041,7 @@ class Slack(object):
         self._loop = asyncio.get_event_loop()
         self.me = await self.whoami()
 
-        print('Using user "{}" with ID {}.'.format(me.user, me.user_id))
+        print('Using user "{}" with ID {}.'.format(self.me.user, self.me.user_id))
 
         if not self._client.rtm_connect():
             print('Failed to connect to Slack RTM.')

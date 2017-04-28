@@ -32,7 +32,7 @@ For simplicity, let's use ``~`` as our bot prefix.
 .. code-block:: python
 
     import os
-    from munchlax import Bot
+    from munchlax.bot import Bot
 
     bot = Bot()
     bot.set_token(os.environ['SLACK_TOKEN'])
@@ -79,7 +79,7 @@ Complete Tutorial Code
 .. code-block:: python
 
     import os
-    from munchlax import Bot
+    from munchlax.bot import Bot
 
     bot = Bot()
     bot.set_token(os.environ['SLACK_TOKEN'])
