@@ -65,12 +65,8 @@ class File(Object):
         Fetches and returns the comments for the file.
 
         Args:
-            count (int): The number of comments per page to return.
-
-                Defaults to 100.
-            page (int): The comments page number to use.
-
-                Defaults to 1
+            count (int): The number of comments per page to return. Defaults to 100.
+            page (int): The comments page number to use. Defaults to 1
 
         Returns:
             list (Comment): A list of ``Comment`` objects for the query.
@@ -102,7 +98,6 @@ class File(Object):
 
         Args:
             name (str): The name of the reaction to add.
-
                 A list of standard Slack reactions/emoji can be found at
                 https://www.webpagefx.com/tools/emoji-cheat-sheet/
                 

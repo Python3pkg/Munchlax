@@ -20,14 +20,13 @@ class Message(Object):
             text (str): The text of the message.
             **kwargs: Additional options to use when sending the
                 message. Refer to ``Slack#raw_write`` for more information.
-
                 In most cases, you will only need to specify ``text`` if you
                 only want to send a text message.
             
         Returns:
             Message: A ``Message`` object representing the newly sent message.
 
-        Raise:
+        Raises:
             SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.raw_write(text=text, channel=self.channel, **kwargs)
@@ -36,7 +35,7 @@ class Message(Object):
         """
         Deletes the message.
 
-        Raise:
+        Raises:
             SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.delete(self)

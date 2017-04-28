@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="_static/munchlax.css" type="text/css" />
+        <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Oxygen|Source+Sans+Pro" rel="stylesheet">
+        <link re="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css" />
+        <script>
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'',
+            VERSION:'0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+        </script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/websupport.js"></script>
+        <script src="_static/searchtools.js"></script>
+        <script type="text/javascript">
+            jQuery(function() { Search.loadIndex("searchindex.js"); });
+        </script>
+    </head>
+    <body>
+            <header id="pageheader">
+                <h1>
+                    <a href="index.html ">
+                        <img id="logo" src="_static/munchlax.png" />
+                    </a>
+                </h1>
+                <nav>
+                    <a href="py-modindex.html">Module Index</a>
+                    <a href="search.html">Search</a>
+                </nav>
+            </header>
+        
+  <div class="section" id="module-munchlax.lib.file">
+<span id="munchlax-lib-file-module"></span><h1>munchlax.lib.file module<a class="headerlink" href="#module-munchlax.lib.file" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="munchlax.lib.file.File">
+<em class="property">class </em><code class="descclassname">munchlax.lib.file.</code><code class="descname">File</code><span class="sig-paren">(</span><em>slack</em>, <em>file</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.file.File" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="munchlax.lib.object.html#munchlax.lib.object.Object" title="munchlax.lib.object.Object"><code class="xref py py-class docutils literal"><span class="pre">munchlax.lib.object.Object</span></code></a></p>
+<p>Represents a Slack file.</p>
+<dl class="method">
+<dt id="munchlax.lib.file.File.add_reaction">
+<code class="descname">add_reaction</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.file.File.add_reaction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a reaction to the file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<em>str</em>) &#8211; The name of the reaction to add.
+A list of standard Slack reactions/emoji can be found at
+<a class="reference external" href="https://www.webpagefx.com/tools/emoji-cheat-sheet/">https://www.webpagefx.com/tools/emoji-cheat-sheet/</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.file.File.comment">
+<code class="descname">comment</code><span class="sig-paren">(</span><em>comment</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.file.File.comment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a comment to the file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>comment</strong> (<em>str</em>) &#8211; The comment string.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <code class="docutils literal"><span class="pre">Comment</span></code> object representing the new comment.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="munchlax.lib.comment.html#munchlax.lib.comment.Comment" title="munchlax.lib.comment.Comment">Comment</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.file.File.delete">
+<code class="descname">delete</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.file.File.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes the file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.file.File.get_channels">
+<code class="descname">get_channels</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.file.File.get_channels" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetches and returns all channels this file has been shared in.</p>
+<p>This method is a generator.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Yields:</th><td class="field-body"><em>Channel</em> &#8211; A channel within which the file has been shared.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.file.File.get_comments">
+<code class="descname">get_comments</code><span class="sig-paren">(</span><em>count=100</em>, <em>page=1</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.file.File.get_comments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetches and returns the comments for the file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>count</strong> (<em>int</em>) &#8211; The number of comments per page to return. Defaults to 100.</li>
+<li><strong>page</strong> (<em>int</em>) &#8211; The comments page number to use. Defaults to 1</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A list of <code class="docutils literal"><span class="pre">Comment</span></code> objects for the query.
+object: A generic object containing paging information.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">list (<a class="reference internal" href="munchlax.lib.comment.html#munchlax.lib.comment.Comment" title="munchlax.lib.comment.Comment">Comment</a>)</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.file.File.get_reactions">
+<code class="descname">get_reactions</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.file.File.get_reactions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetches and returns a list of all reactions for the file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of generic objects with reaction data.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list (<a class="reference internal" href="munchlax.lib.object.html#munchlax.lib.object.Object" title="munchlax.lib.object.Object">Object</a>)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.file.File.remove_reaction">
+<code class="descname">remove_reaction</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.file.File.remove_reaction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Removes a reaction from the file.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>name</strong> (<em>str</em>) &#8211; The name of the reaction to remove.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.file.File.revoke">
+<code class="descname">revoke</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.file.File.revoke" title="Permalink to this definition">¶</a></dt>
+<dd><p>Revokes the file from being shared publicly.</p>
+<p>This will cause the current <code class="docutils literal"><span class="pre">File</span></code> object to become stale.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">An updated <code class="docutils literal"><span class="pre">File</span></code> object without the public URL for the file.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#munchlax.lib.file.File" title="munchlax.lib.file.File">File</a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.file.File.share">
+<code class="descname">share</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.file.File.share" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a public URL for the file.</p>
+<p>This will cause the current <code class="docutils literal"><span class="pre">File</span></code> object to become stale.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">An updated <code class="docutils literal"><span class="pre">File</span></code> object with the public URL for the file.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#munchlax.lib.file.File" title="munchlax.lib.file.File">File</a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.file.File.update">
+<code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.file.File.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the current <code class="docutils literal"><span class="pre">File</span></code> object.</p>
+<p>There isn&#8217;t much benefit to using this and it&#8217;s here
+if you don&#8217;t want to replace your current <code class="docutils literal"><span class="pre">File</span></code> object
+or can&#8217;t.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+    </body>
+</html>

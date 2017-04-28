@@ -169,8 +169,8 @@ class Slack(object):
             name (str): The name of the new channel.
             validate (bool): Whether or not Slack should return an error
                 if `name` is invalid instead of modifying it to be valid.
-
-                https://api.slack.com/methods/channels.create
+                For more information, refer to 
+                https://api.slack.com/methods/channels.create.
 
         Returns:
             Channel: A ``Channel`` object representing the newly created channel.
@@ -200,9 +200,8 @@ class Slack(object):
             name (str): The name of the new group channel.
             validate (bool): Whether or not Slack should return an error
                 if `name` is invalid instead of modifying it to be valid.
-
-                https://api.slack.com/methods/channels.create
-
+                For more information, refer to 
+                https://api.slack.com/methods/channels.create.
                 Defaults to False.
 
         Returns:
@@ -232,7 +231,6 @@ class Slack(object):
         Args:
             exclude_archived (bool): Whether or not to exclude
                 archived channels from the list.
-
                 Defaults to False.
 
         Returns:
@@ -261,7 +259,6 @@ class Slack(object):
         Args:
             exclude_archived (bool): Whether or not to exclude
                 archived channels from the list.
-
                 Defaults to False.
 
         Returns:
@@ -332,7 +329,6 @@ class Slack(object):
         Args:
             presence (bool): Whether or not to include presence
                 data when returning the list of users.
-
                 Defaults to True.
 
         Returns:
@@ -364,19 +360,15 @@ class Slack(object):
             channel (Channel): If this is passed then only files shared
                 to this channel will be returned.
             ts_from (float): All filters before this timestamp will be filtered out.
-
                 Defaults to 0.
             ts_to (float | ``now``): All filters after this timestamp will be filtered out.
                 It should be noted that ``now`` can be specified to fetch all files
                 up to the current time.
-
                 Defaults to ``now``.
             types (string): Specific filetypes to filter by. This should be
                 a comma-delimited string. Alternatively, you can pass "all"
                 to not filter by filetype.
-
-                https://api.slack.com/types/file
-
+                For more information, refer to https://api.slack.com/types/file.
                 Defaults to "all".
             count (int): The number of files to return per page.
             page (int): The page number to show files for.
@@ -595,17 +587,13 @@ class Slack(object):
             latest (float | ``now``): The end of time range of messages to include.
                 This can be a float or ``now``. If ``now`` is specified then the current
                 time is used.
-
                 Defaults to ``now``.
             oldest (float): The start of time range of messages to include.
-
                 Defaults to 0.
             inclusive (bool): Whether or not to include messages with latest of
                 oldest timestamps.
-
                 Defaults to True.
             count (int): The number of messages to return, between 1 and 1000.
-                
                 Defaults to 100.
 
         Returns:
@@ -687,13 +675,12 @@ class Slack(object):
                 must not be private.
 
         Returns:
-            Channel: 
-                If the user has not yet joined this channel
+            Channel: If the user has not yet joined this channel
                 then a ``Channel`` object representing the newly
                 joined channel will be returned.
 
-            If the channel to join has already been joined,
-            then True will be returned instead.
+                If the channel to join has already been joined,
+                then True will be returned instead.
 
         Raises:
             SlackError: Raised in the event that Slack does not return ``ok``.
@@ -793,7 +780,6 @@ class Slack(object):
             name (str): The new name for the channel.
             validate (bool): Whether or not to return an error instead
                 of changing the new name to be valid.
-
                 Defaults to False.
 
         Returns:
@@ -1004,17 +990,13 @@ class Slack(object):
             latest (float | ``now``): The end of time range of messages to include.
                 This can be a float or ``now``. If ``now`` is specified then the current
                 time is used.
-
                 Defaults to ``now``.
             oldest (float): The start of time range of messages to include.
-
                 Defaults to 0.
             inclusive (bool): Whether or not to include messages with latest of
                 oldest timestamps.
-
                 Defaults to True.
             count (int): The number of messages to return, between 1 and 1000.
-                
                 Defaults to 100.
 
         Returns:
@@ -1138,7 +1120,7 @@ class Slack(object):
         Args:
             group (Group): The group to open.
 
-        Raise:
+        Raises:
             SlackError: Raised in the vent that Slack does not return ``ok``.
         """
         resp = await async_wrapper(
@@ -1165,7 +1147,6 @@ class Slack(object):
             name (str): The new name for the group.
             validate (bool): Whether or not to return an error instead
                 of changing the new name to be valid.
-
                 Defaults to False.
 
         Returns:
@@ -1330,17 +1311,14 @@ class Slack(object):
             latest (float | ``now``): The end of time range of messages to include.
                 This can be a float or ``now``. If ``now`` is specified then the current
                 time is used.
-
                 Defaults to ``now``.
             oldest (float): The start of time range of messages to include.
 
                 Defaults to 0.
             inclusive (bool): Whether or not to include messages with latest of
                 oldest timestamps.
-
                 Defaults to True.
             count (int): The number of messages to return, between 1 and 1000.
-                
                 Defaults to 100.
 
         Returns:
@@ -1474,17 +1452,13 @@ class Slack(object):
             latest (float | ``now``): The end of time range of messages to include.
                 This can be a float or ``now``. If ``now`` is specified then the current
                 time is used.
-
                 Defaults to ``now``.
             oldest (float): The start of time range of messages to include.
-
                 Defaults to 0.
             inclusive (bool): Whether or not to include messages with latest of
                 oldest timestamps.
-
                 Defaults to True.
             count (int): The number of messages to return, between 1 and 1000.
-                
                 Defaults to 100.
 
         Raises:
@@ -1540,17 +1514,13 @@ class Slack(object):
             latest (float | ``now``): The end of time range of messages to include.
                 This can be a float or ``now`.` If ``now`` is specified then the current
                 time is used.
-
                 Defaults to ``now``.
             oldest (float): The start of time range of messages to include.
-
                 Defaults to 0.
             inclusive (bool): Whether or not to include messages with latest of
                 oldest timestamps.
-
                 Defaults to True.
             count (int): The number of messages to return, between 1 and 1000.
-                
                 Defaults to 100.
 
         Returns:
@@ -1637,9 +1607,8 @@ class Slack(object):
         Args:
             message (Message): The message to add a reaction to.
             name (str): The name of the reaction to add.
-
                 A list of standard Slack reactions/emoji can be found at
-                https://www.webpagefx.com/tools/emoji-cheat-sheet/
+                https://www.webpagefx.com/tools/emoji-cheat-sheet/.
                 
         Raises:
             SlackError: Raised in the event that Slack does not return ``ok``.
@@ -1713,9 +1682,8 @@ class Slack(object):
         Args:
             file (File): The file to add a reaction to.
             name (str): The name of the reaction to add.
-
                 A list of standard Slack reactions/emoji can be found at
-                https://www.webpagefx.com/tools/emoji-cheat-sheet/
+                https://www.webpagefx.com/tools/emoji-cheat-sheet/.
                 
         Raises:
             SlackError: Raised in the event that Slack does not return ``ok``.
@@ -1885,10 +1853,8 @@ class Slack(object):
         Args:
             file (File): The file to fetch comments for.
             count (int): The number of comments per page to return.
-
                 Defaults to 100.
             page (int): The comments page number to use.
-
                 Defaults to 1
 
         Returns:
@@ -2073,6 +2039,7 @@ class Slack(object):
         Initializes a connection to Slack RTM.
         """
         self._loop = asyncio.get_event_loop()
+        self.me = await self.whoami()
 
         print('Using user "{}" with ID {}.'.format(me.user, me.user_id))
 
@@ -2103,18 +2070,14 @@ class Slack(object):
                     for fn in self._listeners[line.type]:
                         await fn(line)
 
-    async def set_token(self, token):
+    def set_token(self, token):
         """
-        Sets the current Slack token and updates the current user information.
+        Sets the current Slack token.
 
         Args:
             token (str): The Slack token to use.
-
-        Raise:
-            SlackError: Raised in the event that Slack does not return ``ok``.
         """
         self._client = SlackClient(token)
-        self.me = await self.whoami()        
 
     def start(self):
         """

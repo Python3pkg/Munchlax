@@ -16,14 +16,13 @@ class Group(Object):
             text (str): The text of the message.
             **kwargs: Additional options to use when sending the
                 message. Refer to ``Slack#raw_write`` for more information.
-
                 In most cases, you will only need to specify ``text`` if you
                 only want to send a text message.
             
         Returns:
             Message: A ``Message`` object representing the newly sent message.
 
-        Raise:
+        Raises:
             SlackError: Raised in the event that Slack does not return ``ok``.
         """
         return await self._slack.raw_write(channel=self.id, text=text, **kwargs)
@@ -35,7 +34,6 @@ class Group(Object):
         Args:
             **kwargs: Arbitrary options to use when uploading
                 the file. Refer to ``Slack#upload_file`` for more information.
-
                 This is mostly a convenience method so you can directly
                 upload files through a ``Group`` object.
 
@@ -55,10 +53,8 @@ class Group(Object):
             **kwargs:
                 Arbitrary options to use when fetching
                 the group's message history. Refer to ``Slack#get_group_history``
-                for more information.
-
-                This is mostly a convenience method so you can directly fetch
-                a group's message history.
+                for more information. This is mostly a convenience method so
+                you can directly fetch a group's message history.
 
         Returns:
             list (Message): A list of ``Message`` objects.
@@ -143,9 +139,7 @@ class Group(Object):
         Args:
             name (str): The new name for the group.
             validate (bool): Whether or not to return an error instead
-                of changing the new name to be valid.
-
-                Defaults to ``False``.
+                of changing the new name to be valid. Defaults to ``False``.
 
         Returns:
             str: The new name for the group.
@@ -231,7 +225,7 @@ class Group(Object):
         """
         Opens the group channel.
 
-        Raise:
+        Raises:
             SlackError: Raised in the vent that Slack does not return ``ok``.
         """
         return await self._slack.open_group(self)

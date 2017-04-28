@@ -25,17 +25,13 @@ class MPIM(Object):
             latest (float | ``now``): The end of time range of messages to include.
                 This can be a float or ``now`` If ``now`` is specified then the current
                 time is used.
-
                 Defaults to ``now``.
             oldest (float): The start of time range of messages to include.
-
                 Defaults to 0.
             inclusive (bool): Whether or not to include messages with latest of
                 oldest timestamps.
-
                 Defaults to True.
             count (int): The number of messages to return, between 1 and 1000.
-                
                 Defaults to 100.
 
         Returns:

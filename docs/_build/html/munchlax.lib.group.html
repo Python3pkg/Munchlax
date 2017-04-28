@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="_static/munchlax.css" type="text/css" />
+        <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Oxygen|Source+Sans+Pro" rel="stylesheet">
+        <link re="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css" />
+        <script>
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'',
+            VERSION:'0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+        </script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/websupport.js"></script>
+        <script src="_static/searchtools.js"></script>
+        <script type="text/javascript">
+            jQuery(function() { Search.loadIndex("searchindex.js"); });
+        </script>
+    </head>
+    <body>
+            <header id="pageheader">
+                <h1>
+                    <a href="index.html ">
+                        <img id="logo" src="_static/munchlax.png" />
+                    </a>
+                </h1>
+                <nav>
+                    <a href="py-modindex.html">Module Index</a>
+                    <a href="search.html">Search</a>
+                </nav>
+            </header>
+        
+  <div class="section" id="module-munchlax.lib.group">
+<span id="munchlax-lib-group-module"></span><h1>munchlax.lib.group module<a class="headerlink" href="#module-munchlax.lib.group" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="munchlax.lib.group.Group">
+<em class="property">class </em><code class="descclassname">munchlax.lib.group.</code><code class="descname">Group</code><span class="sig-paren">(</span><em>slack</em>, <em>group</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.group.Group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="munchlax.lib.object.html#munchlax.lib.object.Object" title="munchlax.lib.object.Object"><code class="xref py py-class docutils literal"><span class="pre">munchlax.lib.object.Object</span></code></a></p>
+<p>Represents a Slack private channel or group.</p>
+<dl class="method">
+<dt id="munchlax.lib.group.Group.archive">
+<code class="descname">archive</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.group.Group.archive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Archives the group.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.group.Group.close">
+<code class="descname">close</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.group.Group.close" title="Permalink to this definition">¶</a></dt>
+<dd><p>Closes the group.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.group.Group.create_child">
+<code class="descname">create_child</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.group.Group.create_child" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clones the group and then archives the original.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A <code class="docutils literal"><span class="pre">Group</span></code> object that is a clone of the original group.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#munchlax.lib.group.Group" title="munchlax.lib.group.Group">Group</a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.group.Group.get_history">
+<code class="descname">get_history</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.group.Group.get_history" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetches and returns the message history for the group.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>**kwargs</strong> &#8211; Arbitrary options to use when fetching
+the group&#8217;s message history. Refer to <code class="docutils literal"><span class="pre">Slack#get_group_history</span></code>
+for more information. This is mostly a convenience method so
+you can directly fetch a group&#8217;s message history.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of <code class="docutils literal"><span class="pre">Message</span></code> objects.
+bool: Whether or not there are more messages in the group&#8217;s history.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list (<a class="reference internal" href="munchlax.lib.message.html#munchlax.lib.message.Message" title="munchlax.lib.message.Message">Message</a>)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.group.Group.get_replies">
+<code class="descname">get_replies</code><span class="sig-paren">(</span><em>ts</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.group.Group.get_replies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetches and returns all replies to a message within the group.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ts</strong> &#8211; The timestamp of the parent message to look for.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of <cite>Message</cite> objects representing a message thread.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list (<a class="reference internal" href="munchlax.lib.message.html#munchlax.lib.message.Message" title="munchlax.lib.message.Message">Message</a>)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.group.Group.invite_user">
+<code class="descname">invite_user</code><span class="sig-paren">(</span><em>user</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.group.Group.invite_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Invites a user to the group.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user</strong> (<a class="reference internal" href="munchlax.lib.user.html#munchlax.lib.user.User" title="munchlax.lib.user.User"><em>User</em></a>) &#8211; The user to invite to the group.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.group.Group.kick_user">
+<code class="descname">kick_user</code><span class="sig-paren">(</span><em>user</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.group.Group.kick_user" title="Permalink to this definition">¶</a></dt>
+<dd><p>Kicks a user from the group.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>user</strong> (<a class="reference internal" href="munchlax.lib.user.html#munchlax.lib.user.User" title="munchlax.lib.user.User"><em>User</em></a>) &#8211; The user to kick from the group.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.group.Group.leave">
+<code class="descname">leave</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.group.Group.leave" title="Permalink to this definition">¶</a></dt>
+<dd><p>Leaves the group.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.group.Group.list_members">
+<code class="descname">list_members</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.group.Group.list_members" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetches and returns a list of all group members.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">All members in the group.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list (Member)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.group.Group.mark">
+<code class="descname">mark</code><span class="sig-paren">(</span><em>ts</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.group.Group.mark" title="Permalink to this definition">¶</a></dt>
+<dd><p>Changes the last-read indicator in the group
+for the current user.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ts</strong> (<em>float</em>) &#8211; The timestamp to use when changing the
+last-read indicator.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.group.Group.open">
+<code class="descname">open</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.group.Group.open" title="Permalink to this definition">¶</a></dt>
+<dd><p>Opens the group channel.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the vent that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.group.Group.rename">
+<code class="descname">rename</code><span class="sig-paren">(</span><em>name</em>, <em>validate=False</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.group.Group.rename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Renames the group to something else.</p>
+<p>This method causes the current <code class="docutils literal"><span class="pre">Group</span></code> object to become stale.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>name</strong> (<em>str</em>) &#8211; The new name for the group.</li>
+<li><strong>validate</strong> (<em>bool</em>) &#8211; Whether or not to return an error instead
+of changing the new name to be valid. Defaults to <code class="docutils literal"><span class="pre">False</span></code>.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">The new name for the group.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first">str</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.group.Group.set_purpose">
+<code class="descname">set_purpose</code><span class="sig-paren">(</span><em>purpose</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.group.Group.set_purpose" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the purpose for the group.</p>
+<p>This causes the <code class="docutils literal"><span class="pre">Group</span></code> object being worked on to become stale.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>purpose</strong> &#8211; The purpose to use when updating the group.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The new purpose of the group.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.group.Group.set_topic">
+<code class="descname">set_topic</code><span class="sig-paren">(</span><em>topic</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.group.Group.set_topic" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the topic for the group.</p>
+<p>This causes the <code class="docutils literal"><span class="pre">Group</span></code> object being worked on to become stale.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>topic</strong> &#8211; The topic to use when updating the group.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">The new topic of the group.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.group.Group.unarchive">
+<code class="descname">unarchive</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.group.Group.unarchive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Unarchives the group.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.group.Group.update">
+<code class="descname">update</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.group.Group.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the current <code class="docutils literal"><span class="pre">Group</span></code> object.
+There isn&#8217;t much benefit to using this and it&#8217;s here
+if you don&#8217;t want to replace your current <code class="docutils literal"><span class="pre">Group</span></code> object
+or can&#8217;t.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.group.Group.upload">
+<code class="descname">upload</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.group.Group.upload" title="Permalink to this definition">¶</a></dt>
+<dd><p>Uploads a file to the group.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>**kwargs</strong> &#8211; Arbitrary options to use when uploading
+the file. Refer to <code class="docutils literal"><span class="pre">Slack#upload_file</span></code> for more information.
+This is mostly a convenience method so you can directly
+upload files through a <code class="docutils literal"><span class="pre">Group</span></code> object.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A <code class="docutils literal"><span class="pre">File</span></code> object representing the newly uploaded file.</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="munchlax.lib.file.html#munchlax.lib.file.File" title="munchlax.lib.file.File">File</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.group.Group.write">
+<code class="descname">write</code><span class="sig-paren">(</span><em>text</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.group.Group.write" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a message to the group.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>text</strong> (<em>str</em>) &#8211; The text of the message.</li>
+<li><strong>**kwargs</strong> &#8211; Additional options to use when sending the
+message. Refer to <code class="docutils literal"><span class="pre">Slack#raw_write</span></code> for more information.
+In most cases, you will only need to specify <code class="docutils literal"><span class="pre">text</span></code> if you
+only want to send a text message.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <code class="docutils literal"><span class="pre">Message</span></code> object representing the newly sent message.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference internal" href="munchlax.lib.message.html#munchlax.lib.message.Message" title="munchlax.lib.message.Message">Message</a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+    </body>
+</html>
