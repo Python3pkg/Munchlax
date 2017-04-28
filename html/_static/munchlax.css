@@ -32,7 +32,6 @@ h1 .headerlink:after, h2 .headerlink:after, h3.headerlink:after, .method .header
     visibility: visible;
     content: '\f0c1';
     display: inline-block;
-    font-size: 0.85rem;
 }
 
 a {
