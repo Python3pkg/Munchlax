@@ -53,6 +53,17 @@ around Slack response objects. They have methods that allow you to more easily i
 <p>Munchlax data objects have attributes for all parts of a Slack response. If you want to get a message&#8217;s
 author&#8217;s user ID, just use <code class="docutils literal"><span class="pre">Message.user</span></code>. If you want to get the <code class="docutils literal"><span class="pre">User</span></code> object for a message&#8217;s author
 just call <code class="docutils literal"><span class="pre">Message#get_author</span></code>.</p>
+<div class="section" id="a-note-on-mutations">
+<h2>A Note On Mutations<a class="headerlink" href="#a-note-on-mutations" title="Permalink to this headline">¶</a></h2>
+<p>Mutations on objects like channels will not be reflected by Munchlax data objects. If you do something like
+<code class="docutils literal"><span class="pre">Channel#rename</span></code> the <code class="docutils literal"><span class="pre">Channel</span></code> object will not automatically be updated. You will need to call <code class="docutils literal"><span class="pre">Channel#update</span></code>.
+It should be noted that not all objects have update methods. Messages in particular do not have update objects.
+If you want to fetch an updated version of a message, you will need to do something like the following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="n">channel</span> <span class="o">=</span> <span class="n">await</span> <span class="n">message</span><span class="o">.</span><span class="n">get_channel</span><span class="p">()</span>
+<span class="n">updated_message</span> <span class="o">=</span> <span class="n">await</span> <span class="n">channel</span><span class="o">.</span><span class="n">get_history</span><span class="p">(</span><span class="n">latest</span><span class="o">=</span><span class="n">message</span><span class="o">.</span><span class="n">ts</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 

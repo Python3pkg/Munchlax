@@ -10,7 +10,8 @@ Welcome to Munchlax's documentation!
    :maxdepth: 2
    :caption: Contents:
 
-Munchlax is a Slack library for Python 3.4+.
+Munchlax is a Slack library for Python 3.4+. Munchlax is asynchronous so you'll
+be able to process lots of stuff at once.
 
 Installing Munchlax
 ===================
