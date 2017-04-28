@@ -1,9 +1,11 @@
 venv/*
 tags
-*.pyc
+**/*.pyc
 config.json
 **/__pycache__/*
 dist/*
 munchlax.egg-info/*
 .vscode/*
 doc/_build/doctrees
+build/*
+dist/*
