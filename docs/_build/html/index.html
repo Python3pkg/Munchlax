@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="_static/munchlax.css" type="text/css" />
+        <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Oxygen|Source+Sans+Pro" rel="stylesheet">
+        <link re="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css" />
+        <script>
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'',
+            VERSION:'0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+        </script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/websupport.js"></script>
+        <script src="_static/searchtools.js"></script>
+        <script type="text/javascript">
+            jQuery(function() { Search.loadIndex("searchindex.js"); });
+        </script>
+    </head>
+    <body>
+            <header id="pageheader">
+                <h1>
+                    <a href="# ">
+                        <img id="logo" src="_static/munchlax.png" />
+                    </a>
+                </h1>
+                <nav>
+                    <a href="py-modindex.html">Module Index</a>
+                    <a href="search.html">Search</a>
+                </nav>
+            </header>
+        
+  <div class="section" id="welcome-to-munchlax-s-documentation">
+<h1>Welcome to Munchlax&#8217;s documentation!<a class="headerlink" href="#welcome-to-munchlax-s-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+</div>
+<p>Munchlax is a Slack library for Python 3.4+.</p>
+</div>
+<div class="section" id="installing-munchlax">
+<h1>Installing Munchlax<a class="headerlink" href="#installing-munchlax" title="Permalink to this headline">¶</a></h1>
+<p>To install munchlax use the following.</p>
+<div class="highlight-bash"><div class="highlight"><pre><span></span>pip install munchlax
+</pre></div>
+</div>
+</div>
+<div class="section" id="using-munchlax">
+<h1>Using Munchlax<a class="headerlink" href="#using-munchlax" title="Permalink to this headline">¶</a></h1>
+<p>Using Munchlax is fairly straightfoward. First you&#8217;ll need to get a Slack token. Once
+you have one, you&#8217;ll need to decide on a command prefix. A command prefix is basically something
+that designates a Slack message as a possible command for your bot. For example, using <code class="docutils literal"><span class="pre">~</span></code> as
+your prefix means all messages prefixed with <code class="docutils literal"><span class="pre">~</span></code> will be processed as a possible command.</p>
+<p>For simplicity, let&#8217;s use <code class="docutils literal"><span class="pre">~</span></code> as our bot prefix.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">munchlax</span> <span class="kn">import</span> <span class="n">Bot</span>
+
+<span class="n">bot</span> <span class="o">=</span> <span class="n">Bot</span><span class="p">()</span>
+<span class="n">bot</span><span class="o">.</span><span class="n">set_token</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;SLACK_TOKEN&#39;</span><span class="p">])</span>
+<span class="n">bot</span><span class="o">.</span><span class="n">set_prefix</span><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Now we can add some bot commands. Bot commands are functions with decorators over them.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="nd">@bot.command</span><span class="p">()</span>
+<span class="n">async</span> <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+    <span class="n">await</span> <span class="n">message</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="s1">&#39;hi!&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Bot command functions are passed <code class="docutils literal"><span class="pre">Message</span></code> objects. You can then interact with these
+messages however you want. Remember that bot command functions should be async functions.</p>
+<p>We can also specify message requirements that must pass before our command functions are run.
+The following is a function that divides an even number by 2 and will only run if an even number
+is passed.</p>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">is_even</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">arg</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">arg</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
+        <span class="k">return</span> <span class="bp">False</span>
+
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+
+<span class="nd">@bot.command</span><span class="p">(</span><span class="n">requires</span><span class="o">=</span><span class="p">[</span><span class="k">lambda</span> <span class="n">message</span><span class="p">:</span> <span class="n">is_even</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="p">)])</span>
+<span class="n">async</span> <span class="k">def</span> <span class="nf">divide_even</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A command that responds to ``~divide_even 10.6``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">number</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">await</span> <span class="n">message</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">number</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Once you have some commands specified, you can start your bot with <code class="docutils literal"><span class="pre">bot#start</span></code>.</p>
+<div class="section" id="complete-tutorial-code">
+<h2>Complete Tutorial Code<a class="headerlink" href="#complete-tutorial-code" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-python"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">munchlax</span> <span class="kn">import</span> <span class="n">Bot</span>
+
+<span class="n">bot</span> <span class="o">=</span> <span class="n">Bot</span><span class="p">()</span>
+<span class="n">bot</span><span class="o">.</span><span class="n">set_token</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;SLACK_TOKEN&#39;</span><span class="p">])</span>
+<span class="n">bot</span><span class="o">.</span><span class="n">set_prefix</span><span class="p">(</span><span class="s1">&#39;~&#39;</span><span class="p">)</span>
+
+<span class="nd">@bot.command</span><span class="p">()</span>
+<span class="n">async</span> <span class="k">def</span> <span class="nf">hello</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+    <span class="n">await</span> <span class="n">message</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="s1">&#39;hi!&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">is_even</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">arg</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">arg</span><span class="o">.</span><span class="n">isnumeric</span><span class="p">():</span>
+        <span class="k">return</span> <span class="bp">False</span>
+
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span>
+
+<span class="nd">@bot.command</span><span class="p">(</span><span class="n">requires</span><span class="o">=</span><span class="p">[</span><span class="k">lambda</span> <span class="n">message</span><span class="p">:</span> <span class="n">is_even</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="p">)])</span>
+<span class="n">async</span> <span class="k">def</span> <span class="nf">divide_even</span><span class="p">(</span><span class="n">message</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A command that responds to ``~divide_even 10.6``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">number</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">message</span><span class="o">.</span><span class="n">text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">await</span> <span class="n">message</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">number</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+
+<span class="n">bot</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+    </body>
+</html>

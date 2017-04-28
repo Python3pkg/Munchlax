@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="_static/munchlax.css" type="text/css" />
+        <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Oxygen|Source+Sans+Pro" rel="stylesheet">
+        <link re="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css" />
+        <script>
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'',
+            VERSION:'0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+        </script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/websupport.js"></script>
+        <script src="_static/searchtools.js"></script>
+        <script type="text/javascript">
+            jQuery(function() { Search.loadIndex("searchindex.js"); });
+        </script>
+    </head>
+    <body>
+            <header id="pageheader">
+                <h1>
+                    <a href="index.html ">
+                        <img id="logo" src="_static/munchlax.png" />
+                    </a>
+                </h1>
+                <nav>
+                    <a href="py-modindex.html">Module Index</a>
+                    <a href="search.html">Search</a>
+                </nav>
+            </header>
+        
+  <div class="section" id="module-munchlax.lib.message">
+<span id="munchlax-lib-message-module"></span><h1>munchlax.lib.message module<a class="headerlink" href="#module-munchlax.lib.message" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="munchlax.lib.message.Message">
+<em class="property">class </em><code class="descclassname">munchlax.lib.message.</code><code class="descname">Message</code><span class="sig-paren">(</span><em>slack</em>, <em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.message.Message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="munchlax.lib.object.html#munchlax.lib.object.Object" title="munchlax.lib.object.Object"><code class="xref py py-class docutils literal"><span class="pre">munchlax.lib.object.Object</span></code></a></p>
+<p>Represents a Slack channel.</p>
+<dl class="method">
+<dt id="munchlax.lib.message.Message.delete">
+<code class="descname">delete</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.message.Message.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes the message.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.message.Message.edit">
+<code class="descname">edit</code><span class="sig-paren">(</span><em>text</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.message.Message.edit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the message&#8217;s contents.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>text</strong> (<em>str</em>) &#8211; The new message contents.</li>
+<li><strong>**kwargs</strong> &#8211; Additional options to use when updating the message.
+Refer to <code class="docutils literal"><span class="pre">Slack#raw_edit</span></code> for more information.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.message.Message.get_author">
+<code class="descname">get_author</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.message.Message.get_author" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the author of the message as either a <code class="docutils literal"><span class="pre">User</span></code> or <code class="docutils literal"><span class="pre">Bot</span></code> object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The author of the message.<p>In the event that a message has no author, <code class="docutils literal"><span class="pre">None</span></code> will be returned.</p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="munchlax.lib.user.html#munchlax.lib.user.User" title="munchlax.lib.user.User">User</a> or <a class="reference internal" href="munchlax.bot.html#munchlax.bot.Bot" title="munchlax.bot.Bot">Bot</a> or None</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.message.Message.get_channel">
+<code class="descname">get_channel</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.message.Message.get_channel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the channel that contains the message.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">The channel that contains the message.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="munchlax.lib.channel.html#munchlax.lib.channel.Channel" title="munchlax.lib.channel.Channel">Channel</a></td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.message.Message.get_replies">
+<code class="descname">get_replies</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.message.Message.get_replies" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetches all replies to a message and returns them.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of <code class="docutils literal"><span class="pre">Message</span></code> objects representing a message thread.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list (<a class="reference internal" href="#munchlax.lib.message.Message" title="munchlax.lib.message.Message">Message</a>)</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.lib.message.Message.reply">
+<code class="descname">reply</code><span class="sig-paren">(</span><em>text</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.lib.message.Message.reply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Writes a reply to the message.</p>
+<p>This is basically a convenience function for:</p>
+<p><code class="docutils literal"><span class="pre">slack.raw_write(text=text,</span> <span class="pre">channel=message.channel)</span></code></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>text</strong> (<em>str</em>) &#8211; The text of the message.</li>
+<li><strong>**kwargs</strong> &#8211; Additional options to use when sending the
+message. Refer to <code class="docutils literal"><span class="pre">Slack#raw_write</span></code> for more information.
+In most cases, you will only need to specify <code class="docutils literal"><span class="pre">text</span></code> if you
+only want to send a text message.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A <code class="docutils literal"><span class="pre">Message</span></code> object representing the newly sent message.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference internal" href="#munchlax.lib.message.Message" title="munchlax.lib.message.Message">Message</a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+    </body>
+</html>

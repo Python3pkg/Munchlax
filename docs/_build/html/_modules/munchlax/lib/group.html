@@ -1,0 +1,366 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>munchlax.lib.group &#8212; Munchlax 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/munchlax.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/sphinx_paramlinks.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link href="https://fonts.googleapis.com/css?family=Oxygen|Source+Sans+Pro|Libre+Baskerville" rel="stylesheet">
+    <link re="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css" />
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  </head>
+  <body role="document">
+    <header id="pageheader">
+        <h1>
+            <a href="../../../index.html ">
+                <img id="logo" src="_static/munchlax.png" />
+            </a>
+        </h1>
+    </header>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Munchlax 0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for munchlax.lib.group</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">.object</span> <span class="k">import</span> <span class="n">Object</span>
+
+<div class="viewcode-block" id="Group"><a class="viewcode-back" href="../../../munchlax.lib.group.html#munchlax.lib.group.Group">[docs]</a><span class="k">class</span> <span class="nc">Group</span><span class="p">(</span><span class="n">Object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Represents a Slack private channel or group.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">slack</span><span class="p">,</span> <span class="n">group</span><span class="p">):</span>
+        <span class="n">Object</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span> <span class="o">=</span> <span class="n">slack</span>
+
+<div class="viewcode-block" id="Group.write"><a class="viewcode-back" href="../../../munchlax.lib.group.html#munchlax.lib.group.Group.write">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Writes a message to the group.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            text (str): The text of the message.</span>
+<span class="sd">            **kwargs: Additional options to use when sending the</span>
+<span class="sd">                message. Refer to ``Slack#raw_write`` for more information.</span>
+
+<span class="sd">                In most cases, you will only need to specify ``text`` if you</span>
+<span class="sd">                only want to send a text message.</span>
+<span class="sd">            </span>
+<span class="sd">        Returns:</span>
+<span class="sd">            Message: A ``Message`` object representing the newly sent message.</span>
+
+<span class="sd">        Raise:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return ``ok``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">raw_write</span><span class="p">(</span><span class="n">channel</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">,</span> <span class="n">text</span><span class="o">=</span><span class="n">text</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Group.upload"><a class="viewcode-back" href="../../../munchlax.lib.group.html#munchlax.lib.group.Group.upload">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">upload</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Uploads a file to the group.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            **kwargs: Arbitrary options to use when uploading</span>
+<span class="sd">                the file. Refer to ``Slack#upload_file`` for more information.</span>
+
+<span class="sd">                This is mostly a convenience method so you can directly</span>
+<span class="sd">                upload files through a ``Group`` object.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            File: A ``File`` object representing the newly uploaded file.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return ``ok``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">upload_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Group.get_history"><a class="viewcode-back" href="../../../munchlax.lib.group.html#munchlax.lib.group.Group.get_history">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">get_history</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fetches and returns the message history for the group.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            **kwargs:</span>
+<span class="sd">                Arbitrary options to use when fetching</span>
+<span class="sd">                the group&#39;s message history. Refer to ``Slack#get_group_history``</span>
+<span class="sd">                for more information.</span>
+
+<span class="sd">                This is mostly a convenience method so you can directly fetch</span>
+<span class="sd">                a group&#39;s message history.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list (Message): A list of ``Message`` objects.</span>
+<span class="sd">            bool: Whether or not there are more messages in the group&#39;s history.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return ``ok``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">get_group_history</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Group.archive"><a class="viewcode-back" href="../../../munchlax.lib.group.html#munchlax.lib.group.Group.archive">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">archive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Archives the group.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return ``ok``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">archive_group</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Group.unarchive"><a class="viewcode-back" href="../../../munchlax.lib.group.html#munchlax.lib.group.Group.unarchive">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">unarchive</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Unarchives the group.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return ``ok``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">unarchive_group</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Group.invite_user"><a class="viewcode-back" href="../../../munchlax.lib.group.html#munchlax.lib.group.Group.invite_user">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">invite_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Invites a user to the group.</span>
+<span class="sd">        </span>
+<span class="sd">        Args:</span>
+<span class="sd">            user (User): The user to invite to the group.</span>
+<span class="sd">        </span>
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return ``ok``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">archive_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Group.kick_user"><a class="viewcode-back" href="../../../munchlax.lib.group.html#munchlax.lib.group.Group.kick_user">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">kick_user</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Kicks a user from the group.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            user (User): The user to kick from the group.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return ``ok``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">group_kick</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">user</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Group.leave"><a class="viewcode-back" href="../../../munchlax.lib.group.html#munchlax.lib.group.Group.leave">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">leave</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Leaves the group.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return ``ok``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">leave_group</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Group.mark"><a class="viewcode-back" href="../../../munchlax.lib.group.html#munchlax.lib.group.Group.mark">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">mark</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ts</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Changes the last-read indicator in the group</span>
+<span class="sd">        for the current user.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ts (float): The timestamp to use when changing the</span>
+<span class="sd">                last-read indicator.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return ``ok``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">mark_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ts</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Group.rename"><a class="viewcode-back" href="../../../munchlax.lib.group.html#munchlax.lib.group.Group.rename">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">rename</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Renames the group to something else.</span>
+
+<span class="sd">        This method causes the current ``Group`` object to become stale.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name (str): The new name for the group.</span>
+<span class="sd">            validate (bool): Whether or not to return an error instead</span>
+<span class="sd">                of changing the new name to be valid.</span>
+
+<span class="sd">                Defaults to ``False``.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            str: The new name for the group.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return ``ok``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">rename_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="n">validate</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Group.get_replies"><a class="viewcode-back" href="../../../munchlax.lib.group.html#munchlax.lib.group.Group.get_replies">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">get_replies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ts</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fetches and returns all replies to a message within the group.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ts: The timestamp of the parent message to look for.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list (Message):</span>
+<span class="sd">                A list of `Message` objects representing a message thread.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return ``ok``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">get_group_replies</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ts</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Group.set_purpose"><a class="viewcode-back" href="../../../munchlax.lib.group.html#munchlax.lib.group.Group.set_purpose">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">set_purpose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">purpose</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the purpose for the group.</span>
+
+<span class="sd">        This causes the ``Group`` object being worked on to become stale.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            purpose: The purpose to use when updating the group.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The new purpose of the group.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return ``ok``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">set_group_purpose</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">purpose</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Group.set_topic"><a class="viewcode-back" href="../../../munchlax.lib.group.html#munchlax.lib.group.Group.set_topic">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">set_topic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sets the topic for the group.</span>
+
+<span class="sd">        This causes the ``Group`` object being worked on to become stale.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            topic: The topic to use when updating the group.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The new topic of the group.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return ``ok``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">set_group_topic</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">topic</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Group.close"><a class="viewcode-back" href="../../../munchlax.lib.group.html#munchlax.lib.group.Group.close">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Closes the group.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return ``ok``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">close_group</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Group.create_child"><a class="viewcode-back" href="../../../munchlax.lib.group.html#munchlax.lib.group.Group.create_child">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">create_child</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Clones the group and then archives the original.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Group:</span>
+<span class="sd">                A ``Group`` object that is a clone of the original group.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return ``ok``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">create_group_child</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Group.open"><a class="viewcode-back" href="../../../munchlax.lib.group.html#munchlax.lib.group.Group.open">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Opens the group channel.</span>
+
+<span class="sd">        Raise:</span>
+<span class="sd">            SlackError: Raised in the vent that Slack does not return ``ok``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">open_group</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Group.list_members"><a class="viewcode-back" href="../../../munchlax.lib.group.html#munchlax.lib.group.Group.list_members">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">list_members</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Fetches and returns a list of all group members.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list (Member): All members in the group.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return ``ok``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">all_users</span> <span class="o">=</span> <span class="k">await</span> <span class="bp">self</span><span class="o">.</span><span class="n">_client</span><span class="o">.</span><span class="n">list_users</span><span class="p">()</span>
+        <span class="n">all_users</span> <span class="o">=</span> <span class="p">[</span><span class="n">User</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">all_users</span><span class="p">]</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">all_users</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">members</span><span class="p">]</span> </div>
+
+<div class="viewcode-block" id="Group.update"><a class="viewcode-back" href="../../../munchlax.lib.group.html#munchlax.lib.group.Group.update">[docs]</a>    <span class="k">async</span> <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Updates the current ``Group`` object.</span>
+<span class="sd">        There isn&#39;t much benefit to using this and it&#39;s here</span>
+<span class="sd">        if you don&#39;t want to replace your current ``Group`` object</span>
+<span class="sd">        or can&#39;t.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            SlackError: Raised in the event that Slack does not return ``ok``.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">updated_copy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_slack</span><span class="o">.</span><span class="n">group_by_id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">updated_copy</span><span class="o">.</span><span class="vm">__dict__</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">Munchlax 0.1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2017, Reticence.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.5.
+    </div>
+  </body>
+</html>

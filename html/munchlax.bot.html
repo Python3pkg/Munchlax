@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="_static/munchlax.css" type="text/css" />
+        <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Oxygen|Source+Sans+Pro" rel="stylesheet">
+        <link re="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/6.0.0/normalize.min.css" />
+        <script>
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'',
+            VERSION:'0.1',
+            LANGUAGE:'None',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+        </script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/websupport.js"></script>
+        <script src="_static/searchtools.js"></script>
+        <script type="text/javascript">
+            jQuery(function() { Search.loadIndex("searchindex.js"); });
+        </script>
+    </head>
+    <body>
+            <header id="pageheader">
+                <h1>
+                    <a href="index.html ">
+                        <img id="logo" src="_static/munchlax.png" />
+                    </a>
+                </h1>
+                <nav>
+                    <a href="py-modindex.html">Module Index</a>
+                    <a href="search.html">Search</a>
+                </nav>
+            </header>
+        
+  <div class="section" id="module-munchlax.bot">
+<span id="munchlax-bot-module"></span><h1>munchlax.bot module<a class="headerlink" href="#module-munchlax.bot" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="munchlax.bot.Bot">
+<em class="property">class </em><code class="descclassname">munchlax.bot.</code><code class="descname">Bot</code><a class="headerlink" href="#munchlax.bot.Bot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="munchlax.slack.html#munchlax.slack.Slack" title="munchlax.slack.Slack"><code class="xref py py-class docutils literal"><span class="pre">munchlax.slack.Slack</span></code></a></p>
+<dl class="method">
+<dt id="munchlax.bot.Bot.command">
+<code class="descname">command</code><span class="sig-paren">(</span><em>cmd=None</em>, <em>requires=[]</em>, <em>transforms=[]</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.bot.Bot.command" title="Permalink to this definition">¶</a></dt>
+<dd><p>A decorator function for creating Slack commands.</p>
+<p>This decorator is expected to be used with async functions.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cmd</strong> (<em>string</em>) &#8211; The desired command string. If this is kept
+as <code class="docutils literal"><span class="pre">None</span></code> then the function&#8217;s name will be used as
+the command string.</li>
+<li><strong>requires</strong> (<em>list</em><em> (</em><em>Function</em><em>)</em><em></em>) &#8211; A list of functions that must
+pass in order for the command execution function to run.
+All functions should be asynchronous functions. Functions
+will be run like so: <code class="docutils literal"><span class="pre">await</span> <span class="pre">required_func(message)</span></code>.</li>
+<li><strong>transforms</strong> (<em>list</em><em> (</em><em>Function</em><em>)</em><em></em>) &#8211; A list of transformation functions
+to be run on the message before it is passed to the require
+functions. Transform functions should not be async functions.
+Transformation functions are run like so: <code class="docutils literal"><span class="pre">message</span> <span class="pre">=</span> <span class="pre">transform(message)</span></code>
+Note that transformation functions are run in the order that
+they are specified.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">A decorator that takes a function.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">Decorator</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.bot.Bot.set_prefix">
+<code class="descname">set_prefix</code><span class="sig-paren">(</span><em>prefix=None</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.bot.Bot.set_prefix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the bot&#8217;s prefix.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>prefix</strong> (<em>str</em>) &#8211; The prefix to use for the bot.  If <code class="docutils literal"><span class="pre">None</span></code> is specified
+then a user mention will be used as the prefix. Defaults to
+<code class="docutils literal"><span class="pre">None</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.bot.Bot.set_token">
+<code class="descname">set_token</code><span class="sig-paren">(</span><em>token</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.bot.Bot.set_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the token to be used by the bot
+when connecting to Slack.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>token</strong> (<em>str</em>) &#8211; The token to use for Slack.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><code class="xref py py-exc docutils literal"><span class="pre">SlackError</span></code> &#8211; Raised in the event that Slack does not return <code class="docutils literal"><span class="pre">ok</span></code>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="munchlax.bot.Bot.start">
+<code class="descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.bot.Bot.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts the bot.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="munchlax.bot.Command">
+<em class="property">class </em><code class="descclassname">munchlax.bot.</code><code class="descname">Command</code><span class="sig-paren">(</span><em>cmd</em>, <em>func</em>, <em>requires</em>, <em>transforms</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.bot.Command" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="munchlax.bot.Command.try_run">
+<code class="descname">try_run</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="headerlink" href="#munchlax.bot.Command.try_run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+    </body>
+</html>

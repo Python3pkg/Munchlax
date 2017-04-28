@@ -1,0 +1,109 @@
+html {
+    margin: 0px;
+    padding: 0px;
+    background: #FFF;
+}
+
+body {
+    max-width: 760px;
+    margin: 0px auto;
+    padding: 40px 0px;
+    font-family: 'Source Sans Pro';
+    font-size: 14px;
+    color: #314954;
+    -webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+    line-height: 24px;
+}
+
+h1, h2, h3 {
+    font-family: 'Oxygen';
+    font-size: 1.5rem;
+}
+
+h1:hover .headerlink, h2:hover .headerlink, h3:hover .headerlink, .method:hover .headerlink {
+    display: inline-block;
+    border-bottom: none;
+    visibility: hidden;
+}
+
+h1 .headerlink:after, h2 .headerlink:after, h3.headerlink:after, .method .headerlink:after {
+    font-family: 'FontAwesome';
+    visibility: visible;
+    content: '\f0c1';
+    display: inline-block;
+}
+
+a {
+    color: #46708D;
+}
+
+a:hover {
+    color: #335267;
+}
+
+#pageheader {
+    text-align: center;
+}
+
+.sphinxsidebar {
+    display: none;
+}
+
+.highlight {
+    padding: 1px 20px;
+}
+
+.headerlink {
+    display: none;
+}
+
+#logo {
+    height: 100px;
+}
+
+th.field-name {
+    text-align: left;
+    width: 100px;
+}
+
+ul, .field-body .first {
+    margin: 0px;
+}
+
+ul li {
+    list-style: square;
+}
+
+.docutils.literal {
+    border: 1px solid #CCD8DF;
+    font-size: 0.75rem;
+    padding: 0.125rem;
+    font-family: 'Consolas';
+    color: #CC4747;
+}
+
+.method .descname, .sig-paren {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+nav a {
+    margin-left: 10px;
+}
+
+.highlighted {
+    background: #BBCBD5;
+}
+
+dl:not(.docutils) .property {
+    margin-right: 4px;
+}
+
+.class > dd > p > a.reference.internal {
+    text-decoration: none;
+}
+
+.class > dt > .sig-paren {
+    font-weight: 400;
+}
