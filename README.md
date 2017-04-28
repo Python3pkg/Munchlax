@@ -2,6 +2,8 @@
 
 A Python-based Slack bot written with concurrency in mind.
 
+https://wildandrewlee.github.io/Munchlax/
+
 ## Features
 
 - Easily extensible through an easy to use `command` decorator
