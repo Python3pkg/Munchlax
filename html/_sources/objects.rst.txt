@@ -19,7 +19,7 @@ A Note On Mutations
 
 Mutations on objects like channels will not be reflected by Munchlax data objects. If you do something like
 ``Channel#rename`` the ``Channel`` object will not automatically be updated. You will need to call ``Channel#update``.
-It should be noted that not all objects have update methods. Messages in particular do not have update objects.
+It should be noted that not all objects have update methods. Messages in particular do not have update methods.
 If you want to fetch an updated version of a message, you will need to do something like the following:
 
 .. code-block:: python
